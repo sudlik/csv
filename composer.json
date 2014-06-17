@@ -1,0 +1,22 @@
+{
+    "name": "smsapi/csv",
+    "description": "CSV files builder",
+    "license": "MIT",
+    "require": {
+        "nicolopignatelli/valueobjects": "2.0.*"
+    },
+    "require-dev": {
+        "mikey179/vfsStream": "1.2.*",
+        "phpunit/phpunit": "4.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Csv\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Csv\\": "tests/"
+        }
+    }
+}
