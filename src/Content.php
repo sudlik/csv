@@ -2,7 +2,7 @@
 
 namespace Csv;
 
-use Exception;
+use Csv\Exception\InvalidContentValueException;
 
 class Content
 {
@@ -13,7 +13,7 @@ class Content
         if ($this->isValid($value)) {
             $this->value = $value;
         } else {
-            throw new Exception;
+            throw new InvalidContentValueException;
         }
     }
 
@@ -27,7 +27,7 @@ class Content
         if ($this->isValid($value)) {
             $this->value = $value;
         } else {
-            throw new Exception;
+            throw new InvalidContentValueException;
         }
 
         return $this;
@@ -35,6 +35,6 @@ class Content
 
     private function isValid($value)
     {
-        return is_scalar($value) || is_null($value);
+        return is_scalar($value) or is_null($value);
     }
 }

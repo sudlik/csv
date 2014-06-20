@@ -2,7 +2,7 @@
 
 namespace Csv\Value;
 
-use Exception;
+use Csv\Exception\InvalidVisibleNamesValueException;
 
 class VisibleNames
 {
@@ -13,7 +13,7 @@ class VisibleNames
         if (is_bool($value)) {
             $this->value = $value;
         } else {
-            throw new Exception;
+            throw new InvalidVisibleNamesValueException;
         }
     }
 

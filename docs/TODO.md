@@ -6,3 +6,5 @@
     * configurable escape
     * configurable row end
     * mutable elements
+    * better name for `visibleNames`
+    * better name for `withBom`

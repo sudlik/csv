@@ -2,7 +2,7 @@
 
 namespace Csv\Value;
 
-use Exception;
+use Csv\Exception\InvalidWithBomValueException;
 
 class WithBom
 {
@@ -13,7 +13,7 @@ class WithBom
         if (is_bool($value)) {
             $this->value = $value;
         } else {
-            throw new Exception;
+            throw new InvalidWithBomValueException;
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace Csv;
 
-use Exception;
+use Csv\Exception\InvalidPositionValueException;
 
 class Position
 {
@@ -13,7 +13,7 @@ class Position
         if (is_scalar($value)) {
             $this->value = $value;
         } else {
-            throw new Exception;
+            throw new InvalidPositionValueException;
         }
     }
 
