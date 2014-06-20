@@ -99,6 +99,18 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      * @test
      * @depends getFileConfig
      */
+    public function setFileCharset()
+    {
+        $this->assertEquals(
+            Charset::UTF8,
+            $this->object->charset(Charset::UTF8)->getDocument()->getFileConfig()->getCharset()->getValue()
+        );
+    }
+
+    /**
+     * @test
+     * @depends getFileConfig
+     */
     public function getWithBom()
     {
         $this->assertNotNull($this->object->getDocument()->getFileConfig()->getWithBom());

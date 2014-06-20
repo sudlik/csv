@@ -1,5 +1,5 @@
 {
-    "name": "smsapi/csv",
+    "name": "vendors/csv",
     "description": "CSV files builder",
     "license": "MIT",
     "require": {

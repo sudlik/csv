@@ -88,6 +88,13 @@ class DocumentBuilder
         $this->withBom = new WithBom(true);
     }
 
+    public function charset($charset)
+    {
+        $this->charset = Charset::get($charset);
+
+        return $this;
+    }
+
     public function delimiter($delimiter)
     {
         $this->delimiter = Delimiter::get($delimiter);
