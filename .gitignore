@@ -1,6 +1,10 @@
 /*.sublime-project
 /*.sublime-workspace
+/cache.properties
 /composer.phar
+/build/api
+/build/coverage
 /build/logs
 /build/pdepend
+/build/phpdox
 /vendor

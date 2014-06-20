@@ -1,0 +1,4 @@
+<ruleset name="Custom standard">
+    <description>Custom coding standard</description>
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+</ruleset>
