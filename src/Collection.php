@@ -3,6 +3,7 @@
 namespace Csv;
 
 use ArrayObject;
+use Csv\Value\Position;
 
 class Collection
 {
@@ -36,5 +37,23 @@ class Collection
     public function get($index)
     {
         return $this->getArrayObject()->offsetExists($index) ? $this->getArrayObject()->offsetGet($index) : null;
+    }
+
+    public function exists(Position $position)
+    {
+        return $this->getArrayObject()->offsetExists($position->getValue());
+    }
+
+    public function size()
+    {
+        if ($this->count()) {
+            $array = $this->getArrayObject();
+
+            end($array);
+
+            return key($array) + 1;
+        } else {
+            return 0;
+        }
     }
 }

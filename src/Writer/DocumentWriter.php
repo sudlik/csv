@@ -2,10 +2,12 @@
 
 namespace Csv\Writer;
 
+use Csv\Cell;
+use Csv\Collection\Row;
 use Csv\Enum\Charset;
-use Csv\Row;
 use Csv\Value\CsvConfig;
 use Csv\Value\FileConfig;
+use Csv\Value\Position;
 use SplFileObject;
 
 class DocumentWriter
@@ -31,8 +33,7 @@ class DocumentWriter
             }
 
             if ($bom) {
-                $content = $row->first()->getContent();
-                $content->setValue($bom . $content->getValue());
+                $row->set(new Cell($bom . $row->first()->getValue()), new Position(0));
             }
         }
 

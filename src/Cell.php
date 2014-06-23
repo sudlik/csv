@@ -2,22 +2,33 @@
 
 namespace Csv;
 
+use Csv\Exception\InvalidCellValueException;
+
 class Cell
 {
-    private $content;
+    private $value;
     
-    public function __construct(Content $content)
+    public function __construct($value = null)
     {
-        $this->content = $content;
+        if ($this->isValid($value)) {
+            $this->value = $value;
+        } else {
+            throw new InvalidCellValueException;
+        }
     }
 
-    public function getContent()
+    public function getValue()
     {
-        return $this->content;
+        return $this->value;
     }
 
     public function __toString()
     {
-        return (string)$this->content->getValue();
+        return (string)$this->value;
+    }
+
+    private function isValid($value)
+    {
+        return is_scalar($value) or is_null($value);
     }
 }

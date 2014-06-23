@@ -2,7 +2,7 @@
 
 namespace Csv;
 
-use Csv\Row;
+use Csv\Collection\Row;
 use Csv\Collection\RowCollection;
 use Csv\Value\CsvConfig;
 use Csv\Value\FileConfig;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Csv;
+namespace Csv\Value;
 
 use Csv\Exception\InvalidPositionValueException;
 

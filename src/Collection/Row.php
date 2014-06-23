@@ -1,7 +1,15 @@
 <?php
 
-namespace Csv;
+namespace Csv\Collection;
 
+use Csv\Cell;
+use Csv\Collection;
+use Csv\Value\Position;
+
+/** Row
+ * Cell collection
+ * @package Csv
+ */
 class Row extends Collection
 {
     public function add(Cell $cell)
@@ -25,11 +33,15 @@ class Row extends Collection
 
     public function asArray()
     {
-        return array_map(
+        $array = array_map(
             function (Cell $cell) {
-                return $cell->getContent()->getValue();
+                return $cell->getValue();
             },
             $this->getArrayObject()->getArrayCopy()
         );
+
+        ksort($array);
+
+        return $array;
     }
 }

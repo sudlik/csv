@@ -139,6 +139,25 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @depends setWithBom
+     */
+    public function writeBom()
+    {
+        $this->object
+            ->withBom(true)
+            ->name()
+            ->getDocument()
+            ->write();
+
+        $this->assertEquals(
+            chr(0xef) . chr(0xbb) . chr(0xbf) . PHP_EOL,
+            file_get_contents($this->path),
+            'BOM and EOL expected'
+        );
+    }
+
+    /**
+     * @test
      * @depends getDocumentInstance
      */
     public function writeDocumentToCsvFile()
@@ -216,39 +235,6 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @depends getDocumentInstance
-     */
-    public function addEmptyNameToDocument()
-    {
-        $this->assertEquals('', (string)$this->object->name()->getDocument()->getNames()->first());
-    }
-
-    /**
-     * @test
-     * @depends getDocumentInstance
-     */
-    public function addName()
-    {
-        $this->assertEquals('Index', (string)$this->object->name('Index')->getDocument()->getNames()->first());
-    }
-
-    /**
-     * @test
-     * @depends getDocumentInstance
-     */
-    public function addMultipleNames()
-    {
-        $row = $this->object
-            ->name(['Index', 'Name'])
-            ->getDocument()
-            ->getNames();
-
-        $this->assertEquals('Index', (string)$row->get(0));
-        $this->assertEquals('Name', (string)$row->get(1));
-    }
-
-    /**
-     * @test
      * @depends setWithBom
      * @depends writeDocumentToCsvFile
      * @depends setCsvEnclosure
@@ -266,41 +252,168 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @depends writeDocumentToCsvFile
+     * @depends getDocumentInstance
      */
-    public function addEmptyRow()
+    public function addEmptyName()
     {
-        $this->assertEquals('', (string)$this->object->row()->getDocument()->getRowCollection()->first()->first());
+        $this->assertEquals('', $this->object->name()->getDocument()->getNames()->first()->getValue());
     }
 
     /**
      * @test
-     * @depends setWithBom
-     * @depends writeDocumentToCsvFile
+     * @depends addEmptyName
      */
-    public function addRowWithCell()
+    public function addName()
     {
         $this->assertEquals(
-            'Test',
-            (string)$this->object
-                ->row(['Test'])
+            'Index',
+            $this->object
+                ->name('Index')
                 ->getDocument()
-                ->getRowCollection()
+                ->getNames()
                 ->first()
-                ->first()
+                ->getValue()
         );
     }
 
     /**
      * @test
      * @depends addName
-     * @depends writeDocumentToCsvFile
+     */
+    public function addMultipleNames()
+    {
+        $row = $this->object
+            ->names(['Index', 'Name'])
+            ->getDocument()
+            ->getNames();
+
+        $this->assertEquals('Index', $row->get(0)->getValue());
+        $this->assertEquals('Name', $row->get(1)->getValue());
+    }
+
+    /**
+     * @test
+     * @depends getDocumentInstance
+     */
+    public function setNewName()
+    {
+        $row = $this->object->name('Index', 1)->getDocument()->getNames();
+
+        $this->assertEquals('', $row->get(0)->getValue());
+        $this->assertEquals('Index', $row->get(1)->getValue());
+    }
+
+    /**
+     * @test
+     * @depends addName
+     * @depends setNewName
+     */
+    public function overwriteName()
+    {
+        $documentBuilder = $this->object->name('Index');
+
+        $this->assertEquals('Index', $documentBuilder->getDocument()->getNames()->first()->getValue());
+
+        $documentBuilder->name('Name', 0);
+
+        $this->assertEquals('Name', $documentBuilder->getDocument()->getNames()->first()->getValue());
+    }
+
+    /**
+     * @test
+     * @depends setNewName
+     */
+    public function setMultipleNames()
+    {
+        $row = $this->object->names([['Index', 1]])->getDocument()->getNames();
+
+        $this->assertEquals('', $row->get(0)->getValue());
+        $this->assertEquals('Index', $row->get(1)->getValue());
+    }
+
+    /**
+     * @test
+     * @depends getDocumentInstance
+     */
+    public function addEmptyRow()
+    {
+        $this->assertEquals(
+            '',
+            $this->object
+                ->row()
+                ->getDocument()
+                ->getRowCollection()
+                ->first()
+                ->first()
+                ->getValue()
+        );
+    }
+
+    /**
+     * @test
+     * @depends addEmptyRow
+     */
+    public function addRowWithCells()
+    {
+        $row = $this->object->row(['A', 'B'])->getDocument()->getRowCollection()->first();
+
+        $this->assertEquals('A', $row->get(0)->getValue());
+        $this->assertEquals('B', $row->get(1)->getValue());
+    }
+
+    /**
+     * @test
+     * @depends addRowWithCells
      */
     public function addMultipleRows()
     {
         $row = $this->object->row(['A', 'B'])->getDocument()->getRowCollection()->first();
 
-        $this->assertEquals('A', (string)$row->get(0));
-        $this->assertEquals('B', (string)$row->get(1));
+        $this->assertEquals('A', $row->get(0)->getValue());
+        $this->assertEquals('B', $row->get(1)->getValue());
+    }
+
+    /**
+     * @test
+     * @depends getDocumentInstance
+     */
+    public function setNewRow()
+    {
+        $rows = $this->object->row(['Test'], 1)->getDocument()->getRowCollection();
+
+        $this->assertEquals('', $rows->get(0)->first()->getValue());
+        $this->assertEquals('Test', $rows->get(1)->first()->getValue());
+    }
+
+    /**
+     * @test
+     * @depends addEmptyRow
+     * @depends setNewRow
+     */
+    public function overwriteRow()
+    {
+        $documentBuilder = $this->object->row(['A']);
+
+        $this->assertEquals(
+            'A',
+            $documentBuilder
+                ->getDocument()
+                ->getRowCollection()
+                ->get(0)
+                ->first()
+                ->getValue()
+        );
+
+        $documentBuilder->row(['B'], 0);
+
+        $this->assertEquals(
+            'B',
+            $documentBuilder
+                ->getDocument()
+                ->getRowCollection()
+                ->get(0)
+                ->first()
+                ->getValue()
+        );
     }
 }

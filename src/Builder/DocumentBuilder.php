@@ -3,13 +3,13 @@
 namespace Csv\Builder;
 
 use Csv\Cell;
+use Csv\Collection\Row;
 use Csv\Collection\RowCollection;
-use Csv\Content;
 use Csv\Document;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Row;
+use Csv\Value\Position;
 use Csv\Value\CsvConfig;
 use Csv\Value\DirectoryPath;
 use Csv\Value\FileConfig;
@@ -123,71 +123,53 @@ class DocumentBuilder
         return $this;
     }
 
-    public function name($name = null)
+    public function name($name = null, $position = null)
     {
-        if (is_array($name)) {
-            foreach ($name as $v) {
-                $this->names->add(new Cell(new Content($v)));
-            }
+        if (is_null($position)) {
+            $this->names->add(new Cell($name));
         } else {
-            $this->names->add(new Cell(new Content($name)));
+            $this->names->set(new Cell($name), new Position($position));
         }
 
-        $count = $this->names->count();
-        $this->rowSize = max($this->rowSize, $count);
-
-        if ($count < $this->rowSize) {
-            for ($i = 0, $l = $this->rowSize - $count; $i < $l; $i++) {
-                $this->names->add(new Cell(new Content));
-            }
-        }
-
-        foreach ($this->rowCollection->all() as $row) {
-            $rowCount = $row->count();
-            for ($i = 0, $l = $this->rowSize - $rowCount; $i < $l; $i++) {
-                $row->add(new Cell(new Content));
-            }
-        }
+        $this->update();
 
         return $this;
     }
 
-    public function row(array $cells = null)
+    public function names($names)
+    {
+        foreach ($names as $name) {
+            if (is_array($name)) {
+                $this->names->set(new Cell($name[0]), new Position($name[1]));
+            } else {
+                $this->names->add(new Cell($name));
+            }
+        }
+
+        $this->update();
+
+        return $this;
+    }
+
+    public function row(array $cells = null, $position = null)
     {
         $row = new Row;
 
         if ($cells) {
-            $count = count($cells);
-            $this->rowSize = max($this->rowSize, $count);
-
             foreach ($cells as $cell) {
-                $row->add(new Cell(new Content($cell)));
-            }
-
-            for ($i = 0, $l = $this->rowSize - $count; $i < $l; $i++) {
-                $row->add(new Cell(new Content));
+                $row->add(new Cell($cell));
             }
         } else {
-            $row->add(new Cell(new Content));
-
-            for ($i = 1, $l = $this->rowSize; $i < $l; $i++) {
-                $row->add(new Cell(new Content));
-            }
+            $row->add(new Cell);
         }
 
-        $this->rowCollection->add($row);
-
-        $namesCount = $this->names->count();
-        for ($i = 0, $l = $this->rowSize - $namesCount; $i < $l; $i++) {
-            $this->names->add(new Cell(new Content));
+        if (is_null($position)) {
+            $this->rowCollection->add($row);
+        } else {
+            $this->rowCollection->set($row, new Position($position));
         }
 
-        foreach ($this->rowCollection->all() as $row) {
-            $rowCount = $row->count();
-            for ($i = 0, $l = $this->rowSize - $rowCount; $i < $l; $i++) {
-                $row->add(new Cell(new Content));
-            }
-        }
+        $this->update();
 
         return $this;
     }
@@ -204,5 +186,40 @@ class DocumentBuilder
             $this->names,
             $this->rowCollection
         );
+    }
+
+    private function update()
+    {
+        $this->rowSize = max($this->rowSize, $this->names->size());
+
+        foreach ($this->rowCollection->all() as $row) {
+            $this->rowSize = max($this->rowSize, $row->size());
+        }
+
+        for ($i = 0; $i < $this->rowSize; $i++) {
+            $pos = new Position($i);
+
+            if (!$this->names->exists($pos)) {
+                $this->names->set(new Cell, $pos);
+            }
+        }
+
+        for ($i = 0; $i < $this->rowCollection->size(); $i++) {
+            $pos = new Position($i);
+
+            if (!$this->rowCollection->exists($pos)) {
+                $this->rowCollection->set(new Row, $pos);
+            }
+        }
+
+        foreach ($this->rowCollection->all() as $row) {
+            for ($i = 0; $i < $this->rowSize; $i++) {
+                $pos = new Position($i);
+
+                if (!$row->exists($pos)) {
+                    $row->set(new Cell, $pos);
+                }
+            }
+        }
     }
 }

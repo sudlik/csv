@@ -3,10 +3,12 @@
 namespace Csv\Collection;
 
 use Csv\Collection;
-use Csv\Row;
+use Csv\Value\Position;
 
 class RowCollection extends Collection
 {
+    private $freezed;
+
     public function add(Row $row)
     {
         $this->getArrayObject()->append($row);
@@ -28,11 +30,27 @@ class RowCollection extends Collection
     
     public function asArray()
     {
-        return array_map(
-            function (Row $cell) {
-                return $cell->getValue();
+        $array = array_map(
+            function (Row $row) {
+                return $row->asArray();
             },
             $this->getArrayObject()->getArrayCopy()
         );
+
+        ksort($array);
+
+        return $array;
+    }
+
+    public function freeze()
+    {
+        $this->freezed = true;
+
+        return $this;
+    }
+
+    public function isFreezed()
+    {
+        return $this->freezed;
     }
 }
