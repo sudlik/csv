@@ -25,7 +25,9 @@ class DocumentWriter
 
     public function write(Row $row, $first = false)
     {
-        if ($this->fileConfig->getWithBom()->getValue() && $first && $row->first()) {
+        $data = $row->asArray();
+
+        if ($this->fileConfig->getWithBom()->getValue() && $first && $data) {
             if ($this->fileConfig->getCharset()->sameValueAs(Charset::get(Charset::UTF8))) {
                 $bom = chr(0xef) . chr(0xbb) . chr(0xbf);
             } else {
@@ -33,14 +35,13 @@ class DocumentWriter
             }
 
             if ($bom) {
-                $row->set(new Cell($bom . $row->first()->getValue()), new Position(0));
+                reset($data);
+                
+                $key = key($data);
+                $data[$key] = $bom . $data[$key];
             }
         }
 
-        return $this->splFileObject->fputcsv(
-            $row->asArray(),
-            $this->csvConfig->getDelimiter(),
-            $this->csvConfig->getEnclosure()
-        );
+        return $this->splFileObject->fputcsv($data, $this->csvConfig->getDelimiter(), $this->csvConfig->getEnclosure());
     }
 }

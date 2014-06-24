@@ -2,6 +2,7 @@
 
 namespace Csv\Builder;
 
+use Csv\Collection\Row;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
@@ -415,5 +416,15 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
                 ->first()
                 ->getValue()
         );
+    }
+
+    /**
+     * @test
+     * @depends addEmptyRow
+     * @expectedException Csv\Exception\CollectionIsFrozenException
+     */
+    public function setFrozen()
+    {
+        $this->object->row()->getDocument()->getRowCollection()->add(new Row);
     }
 }

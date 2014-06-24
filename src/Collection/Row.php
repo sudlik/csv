@@ -4,6 +4,7 @@ namespace Csv\Collection;
 
 use Csv\Cell;
 use Csv\Collection;
+use Csv\Exception\CollectionIsFrozenException;
 use Csv\Value\Position;
 
 /** Row
@@ -14,14 +15,22 @@ class Row extends Collection
 {
     public function add(Cell $cell)
     {
-        $this->getArrayObject()->append($cell);
+        if ($this->isFrozen()) {
+            throw new CollectionIsFrozenException;
+        } else {
+            $this->getArrayObject()->append($cell);
+        }
 
         return $this;
     }
 
     public function set(Cell $cell, Position $position)
     {
-        $this->getArrayObject()->offsetSet($position->getValue(), $cell);
+        if ($this->isFrozen()) {
+            throw new CollectionIsFrozenException;
+        } else {
+            $this->getArrayObject()->offsetSet($position->getValue(), $cell);
+        }
 
         return $this;
     }

@@ -180,11 +180,20 @@ class DocumentBuilder
      */
     public function getDocument()
     {
+        $names = clone $this->names;
+        $names->freeze();
+        $rowCollection = clone $this->rowCollection;
+        $rowCollection->freeze();
+
+        foreach ($this->rowCollection->all() as $row) {
+            $row->freeze();
+        }
+
         return new Document(
             new CsvConfig($this->delimiter, $this->enclosure, $this->visibleNames),
             new FileConfig($this->charset, $this->directoryPath, $this->filename, $this->withBom),
-            $this->names,
-            $this->rowCollection
+            $names,
+            $rowCollection
         );
     }
 

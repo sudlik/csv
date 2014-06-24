@@ -8,10 +8,16 @@ use Csv\Value\Position;
 class Collection
 {
     private $arrayObject;
+    private $frozen = false;
 
     public function __construct()
     {
         $this->arrayObject = new ArrayObject;
+    }
+
+    public function __clone()
+    {
+        $this->frozen = false;
     }
 
     protected function getArrayObject()
@@ -55,5 +61,17 @@ class Collection
         } else {
             return 0;
         }
+    }
+
+    public function freeze()
+    {
+        $this->frozen = true;
+
+        return $this;
+    }
+
+    public function isFrozen()
+    {
+        return $this->frozen;
     }
 }

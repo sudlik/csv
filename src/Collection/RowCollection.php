@@ -3,22 +3,29 @@
 namespace Csv\Collection;
 
 use Csv\Collection;
+use Csv\Exception\CollectionIsFrozenException;
 use Csv\Value\Position;
 
 class RowCollection extends Collection
 {
-    private $freezed;
-
     public function add(Row $row)
     {
-        $this->getArrayObject()->append($row);
+        if ($this->isFrozen()) {
+            throw new CollectionIsFrozenException;
+        } else {
+            $this->getArrayObject()->append($row);
+        }
 
         return $this;
     }
 
     public function set(Row $row, Position $position)
     {
-        $this->getArrayObject()->offsetSet($position->getValue(), $row);
+        if ($this->isFrozen()) {
+            throw new CollectionIsFrozenException;
+        } else {
+            $this->getArrayObject()->offsetSet($position->getValue(), $row);
+        }
 
         return $this;
     }
@@ -40,17 +47,5 @@ class RowCollection extends Collection
         ksort($array);
 
         return $array;
-    }
-
-    public function freeze()
-    {
-        $this->freezed = true;
-
-        return $this;
-    }
-
-    public function isFreezed()
-    {
-        return $this->freezed;
     }
 }
