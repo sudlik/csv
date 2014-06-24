@@ -56,12 +56,12 @@
 ```
 
 ## TODO
-    * add cells to DocumentBuilder
+    * add cell methods to DocumentBuilder
     * pointers
     * writer adapters
     * configurable escape
     * configurable row end
-    * mutable elements
     * better name for `visibleNames`
     * better name for `withBom`
-    * add columns
+    * add column methods to DocumentBuilder
+    * add data methods to DocumentBuilder

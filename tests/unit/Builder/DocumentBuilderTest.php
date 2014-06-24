@@ -6,8 +6,6 @@ use Csv\Collection\Row;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Value\VisibleNames;
-use Csv\Value\WithBom;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit_Framework_TestCase;
 
@@ -104,7 +102,12 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             Charset::UTF8,
-            $this->object->charset(Charset::UTF8)->getDocument()->getFileConfig()->getCharset()->getValue()
+            $this->object
+                ->charset(Charset::UTF8)
+                ->getDocument()
+                ->getFileConfig()
+                ->getCharset()
+                ->getValue()
         );
     }
 
@@ -123,7 +126,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function defaultWithBom()
     {
-        $this->assertEquals(new WithBom(true), $this->object->getDocument()->getFileConfig()->getWithBom());
+        $this->assertEquals(true, $this->object->getDocument()->getFileConfig()->getWithBom()->getValue());
     }
 
     /**
@@ -133,39 +136,14 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     public function setWithBom()
     {
         $this->assertEquals(
-            new WithBom(false),
-            $this->object->withBom(false)->getDocument()->getFileConfig()->getWithBom()
+            false,
+            $this->object
+                ->withBom(false)
+                ->getDocument()
+                ->getFileConfig()
+                ->getWithBom()
+                ->getValue()
         );
-    }
-
-    /**
-     * @test
-     * @depends setWithBom
-     */
-    public function writeBom()
-    {
-        $this->object
-            ->withBom(true)
-            ->name()
-            ->getDocument()
-            ->write();
-
-        $this->assertEquals(
-            chr(0xef) . chr(0xbb) . chr(0xbf) . PHP_EOL,
-            file_get_contents($this->path),
-            'BOM and EOL expected'
-        );
-    }
-
-    /**
-     * @test
-     * @depends getDocumentInstance
-     */
-    public function writeDocumentToCsvFile()
-    {
-        $this->object->getDocument()->write();
-
-        $this->assertFileExists($this->path);
     }
 
     /**
@@ -183,7 +161,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function defaultNamesVisible()
     {
-        $this->assertEquals(new VisibleNames(true), $this->object->getDocument()->getCsvConfig()->getVisibleNames());
+        $this->assertEquals(true, $this->object->getDocument()->getCsvConfig()->getVisibleNames()->getValue());
     }
 
     /**
@@ -193,12 +171,13 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     public function setVisibleNames()
     {
         $this->assertEquals(
-            new VisibleNames(false),
+            false,
             $this->object
                 ->visibleNames(false)
                 ->getDocument()
                 ->getCsvConfig()
                 ->getVisibleNames()
+                ->getValue()
         );
     }
 
@@ -209,12 +188,13 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     public function setCsvDelimiter()
     {
         $this->assertEquals(
-            Delimiter::get(Delimiter::SEMICOLON),
+            Delimiter::SEMICOLON,
             $this->object
                 ->delimiter(';')
                 ->getDocument()
                 ->getCsvConfig()
                 ->getDelimiter()
+                ->getValue()
         );
     }
 
@@ -225,30 +205,14 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     public function setCsvEnclosure()
     {
         $this->assertEquals(
-            Enclosure::get(Enclosure::DOUBLE_QUOTES),
+            Enclosure::DOUBLE_QUOTES,
             $this->object
                 ->enclosure('"')
                 ->getDocument()
                 ->getCsvConfig()
                 ->getEnclosure()
+                ->getValue()
         );
-    }
-
-    /**
-     * @test
-     * @depends setWithBom
-     * @depends writeDocumentToCsvFile
-     * @depends setCsvEnclosure
-     */
-    public function enclosureStringWithWhiteSpace()
-    {
-        $this->object
-            ->withBom(false)
-            ->name('String with white spaces')
-            ->getDocument()
-            ->write();
-
-        $this->assertEquals('"String with white spaces"' . PHP_EOL, file_get_contents($this->path));
     }
 
     /**
@@ -266,15 +230,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function addName()
     {
-        $this->assertEquals(
-            'Index',
-            $this->object
-                ->name('Index')
-                ->getDocument()
-                ->getNames()
-                ->first()
-                ->getValue()
-        );
+        $this->assertEquals('Index', $this->object->name('Index')->getDocument()->getNames()->first()->getValue());
     }
 
     /**
@@ -298,7 +254,10 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function setNewName()
     {
-        $row = $this->object->name('Index', 1)->getDocument()->getNames();
+        $row = $this->object
+            ->name('Index', 1)
+            ->getDocument()
+            ->getNames();
 
         $this->assertEquals('', $row->get(0)->getValue());
         $this->assertEquals('Index', $row->get(1)->getValue());
@@ -326,7 +285,10 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function setMultipleNames()
     {
-        $row = $this->object->names([['Index', 1]])->getDocument()->getNames();
+        $row = $this->object
+            ->names([['Index', 1]])
+            ->getDocument()
+            ->getNames();
 
         $this->assertEquals('', $row->get(0)->getValue());
         $this->assertEquals('Index', $row->get(1)->getValue());
@@ -338,16 +300,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function addEmptyRow()
     {
-        $this->assertEquals(
-            '',
-            $this->object
-                ->row()
-                ->getDocument()
-                ->getRowCollection()
-                ->first()
-                ->first()
-                ->getValue()
-        );
+        $this->assertEquals('', $this->object->row()->getDocument()->getData()->first()->first()->getValue());
     }
 
     /**
@@ -356,7 +309,11 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function addRowWithCells()
     {
-        $row = $this->object->row(['A', 'B'])->getDocument()->getRowCollection()->first();
+        $row = $this->object
+            ->row(['A', 'B'])
+            ->getDocument()
+            ->getData()
+            ->first();
 
         $this->assertEquals('A', $row->get(0)->getValue());
         $this->assertEquals('B', $row->get(1)->getValue());
@@ -368,7 +325,11 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function addMultipleRows()
     {
-        $row = $this->object->row(['A', 'B'])->getDocument()->getRowCollection()->first();
+        $row = $this->object
+            ->row(['A', 'B'])
+            ->getDocument()
+            ->getData()
+            ->first();
 
         $this->assertEquals('A', $row->get(0)->getValue());
         $this->assertEquals('B', $row->get(1)->getValue());
@@ -380,7 +341,10 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function setNewRow()
     {
-        $rows = $this->object->row(['Test'], 1)->getDocument()->getRowCollection();
+        $rows = $this->object
+            ->row(['Test'], 1)
+            ->getDocument()
+            ->getData();
 
         $this->assertEquals('', $rows->get(0)->first()->getValue());
         $this->assertEquals('Test', $rows->get(1)->first()->getValue());
@@ -395,27 +359,11 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     {
         $documentBuilder = $this->object->row(['A']);
 
-        $this->assertEquals(
-            'A',
-            $documentBuilder
-                ->getDocument()
-                ->getRowCollection()
-                ->get(0)
-                ->first()
-                ->getValue()
-        );
+        $this->assertEquals('A', $documentBuilder->getDocument()->getData()->get(0)->first()->getValue());
 
         $documentBuilder->row(['B'], 0);
 
-        $this->assertEquals(
-            'B',
-            $documentBuilder
-                ->getDocument()
-                ->getRowCollection()
-                ->get(0)
-                ->first()
-                ->getValue()
-        );
+        $this->assertEquals('B', $documentBuilder->getDocument()->getData()->get(0)->first()->getValue());
     }
 
     /**
@@ -425,6 +373,6 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function setFrozen()
     {
-        $this->object->row()->getDocument()->getRowCollection()->add(new Row);
+        $this->object->row()->getDocument()->getData()->add(new Row);
     }
 }

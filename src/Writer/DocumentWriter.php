@@ -2,8 +2,8 @@
 
 namespace Csv\Writer;
 
-use Csv\Cell;
 use Csv\Collection\Row;
+use Csv\Document;
 use Csv\Enum\Charset;
 use Csv\Value\CsvConfig;
 use Csv\Value\FileConfig;
@@ -12,23 +12,34 @@ use SplFileObject;
 
 class DocumentWriter
 {
-    private $csvConfig;
-    private $fileConfig;
+    private $document;
     private $splFileObject;
 
-    public function __construct(CsvConfig $csvConfig, FileConfig $fileConfig)
+    public function __construct(Document $document)
     {
-        $this->csvConfig = $csvConfig;
-        $this->fileConfig = $fileConfig;
-        $this->splFileObject = new SplFileObject($fileConfig->getPath(), 'w');
+        $this->document = $document;
+        $this->splFileObject = new SplFileObject($this->document->getFileConfig()->getPath(), 'w');
     }
 
-    public function write(Row $row, $first = false)
+    public function write()
+    {
+        $visibleNames = $this->document->getCsvConfig()->getVisibleNames()->getValue();
+
+        if ($visibleNames) {
+            $this->writeRow($this->document->getNames(), true);
+        }
+
+        foreach ($this->document->getData()->all() as $k => $row) {
+            $this->writeRow($row, !$visibleNames and $k === 0);
+        }
+    }
+
+    private function writeRow(Row $row, $first = false)
     {
         $data = $row->asArray();
 
-        if ($this->fileConfig->getWithBom()->getValue() && $first && $data) {
-            if ($this->fileConfig->getCharset()->sameValueAs(Charset::get(Charset::UTF8))) {
+        if ($this->document->getFileConfig()->getWithBom()->getValue() && $first && $data) {
+            if ($this->document->getFileConfig()->getCharset()->sameValueAs(Charset::get(Charset::UTF8))) {
                 $bom = chr(0xef) . chr(0xbb) . chr(0xbf);
             } else {
                 $bom = null;
@@ -36,12 +47,16 @@ class DocumentWriter
 
             if ($bom) {
                 reset($data);
-                
+
                 $key = key($data);
                 $data[$key] = $bom . $data[$key];
             }
         }
 
-        return $this->splFileObject->fputcsv($data, $this->csvConfig->getDelimiter(), $this->csvConfig->getEnclosure());
+        return $this->splFileObject->fputcsv(
+            $data,
+            $this->document->getCsvConfig()->getDelimiter(),
+            $this->document->getCsvConfig()->getEnclosure()
+        );
     }
 }

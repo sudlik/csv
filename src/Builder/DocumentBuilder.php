@@ -82,7 +82,7 @@ class DocumentBuilder
         $this->charset = Charset::get(Charset::UTF8);
         $this->delimiter = Delimiter::get(Delimiter::SEMICOLON);
         $this->enclosure = Enclosure::get(Enclosure::DOUBLE_QUOTES);
-        $this->rowCollection = new RowCollection;
+        $this->data = new RowCollection;
         $this->names = new Row;
         $this->visibleNames = new VisibleNames(true);
         $this->withBom = new WithBom(true);
@@ -164,9 +164,9 @@ class DocumentBuilder
         }
 
         if (is_null($position)) {
-            $this->rowCollection->add($row);
+            $this->data->add($row);
         } else {
-            $this->rowCollection->set($row, new Position($position));
+            $this->data->set($row, new Position($position));
         }
 
         $this->update();
@@ -180,20 +180,11 @@ class DocumentBuilder
      */
     public function getDocument()
     {
-        $names = clone $this->names;
-        $names->freeze();
-        $rowCollection = clone $this->rowCollection;
-        $rowCollection->freeze();
-
-        foreach ($this->rowCollection->all() as $row) {
-            $row->freeze();
-        }
-
         return new Document(
             new CsvConfig($this->delimiter, $this->enclosure, $this->visibleNames),
             new FileConfig($this->charset, $this->directoryPath, $this->filename, $this->withBom),
-            $names,
-            $rowCollection
+            $this->names,
+            $this->data
         );
     }
 
@@ -201,7 +192,7 @@ class DocumentBuilder
     {
         $this->rowSize = max($this->rowSize, $this->names->size());
 
-        foreach ($this->rowCollection->all() as $row) {
+        foreach ($this->data->all() as $row) {
             $this->rowSize = max($this->rowSize, $row->size());
         }
 
@@ -213,15 +204,15 @@ class DocumentBuilder
             }
         }
 
-        for ($i = 0; $i < $this->rowCollection->size(); $i++) {
+        for ($i = 0; $i < $this->data->size(); $i++) {
             $pos = new Position($i);
 
-            if (!$this->rowCollection->exists($pos)) {
-                $this->rowCollection->set(new Row, $pos);
+            if (!$this->data->exists($pos)) {
+                $this->data->set(new Row, $pos);
             }
         }
 
-        foreach ($this->rowCollection->all() as $row) {
+        foreach ($this->data->all() as $row) {
             for ($i = 0; $i < $this->rowSize; $i++) {
                 $pos = new Position($i);
 

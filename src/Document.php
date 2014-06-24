@@ -6,27 +6,27 @@ use Csv\Collection\Row;
 use Csv\Collection\RowCollection;
 use Csv\Value\CsvConfig;
 use Csv\Value\FileConfig;
-use Csv\Writer\DocumentWriter;
 
 class Document
 {
     private $csvConfig;
-    private $documentWriter;
     private $fileConfig;
     private $names;
-    private $rowCollection;
+    private $data;
     
-    public function __construct(
-        CsvConfig $csvConfig,
-        FileConfig $fileConfig,
-        Row $names,
-        RowCollection $rowCollection
-    ) {
+    public function __construct(CsvConfig $csvConfig, FileConfig $fileConfig, Row $names, RowCollection $data)
+    {
         $this->csvConfig = $csvConfig;
         $this->fileConfig = $fileConfig;
-        $this->names = $names;
-        $this->rowCollection = $rowCollection;
-        $this->documentWriter = new DocumentWriter($csvConfig, $fileConfig);
+        $this->names = clone $names;
+        $this->data = clone $data;
+
+        $this->names->freeze();
+        $this->data->freeze();
+
+        foreach ($this->data->all() as $row) {
+            $row->freeze();
+        }
     }
     
     public function getCsvConfig()
@@ -39,31 +39,13 @@ class Document
         return $this->fileConfig;
     }
     
-    public function getDocumentWriter()
-    {
-        return $this->fileConfig;
-    }
-    
     public function getNames()
     {
         return $this->names;
     }
     
-    public function getRowCollection()
+    public function getData()
     {
-        return $this->rowCollection;
-    }
-
-    public function write()
-    {
-        $visibleNames = $this->getCsvConfig()->getVisibleNames()->getValue();
-
-        if ($visibleNames) {
-            $this->documentWriter->write($this->names, true);
-        }
-
-        foreach ($this->rowCollection->all() as $k => $row) {
-            $this->documentWriter->write($row, $visibleNames and $k === 0);
-        }
+        return $this->data;
     }
 }
