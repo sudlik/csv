@@ -29,7 +29,7 @@ class Row extends Collection
         if ($this->isFrozen()) {
             throw new CollectionIsFrozenException;
         } else {
-            $this->getArrayObject()->offsetSet($position->toNative(), $cell);
+            $this->getArrayObject()->offsetSet($position->getValue(), $cell);
         }
 
         return $this;
@@ -44,7 +44,7 @@ class Row extends Collection
     {
         $array = array_map(
             function (Cell $cell) {
-                return $cell->toNative();
+                return $cell->getValue();
             },
             $this->getArrayObject()->getArrayCopy()
         );

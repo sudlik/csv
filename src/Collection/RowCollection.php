@@ -24,7 +24,7 @@ class RowCollection extends Collection
         if ($this->isFrozen()) {
             throw new CollectionIsFrozenException;
         } else {
-            $this->getArrayObject()->offsetSet($position->toNative(), $row);
+            $this->getArrayObject()->offsetSet($position->getValue(), $row);
         }
 
         return $this;

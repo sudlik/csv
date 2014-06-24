@@ -34,8 +34,8 @@ class Value implements ValueObjectInterface
         return $this->value === $object->getValue();
     }
 
-    public function toNative()
+    public function getValue()
     {
-        return (string)$this->value;
+        return $this->value;
     }
 }
