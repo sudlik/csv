@@ -3,11 +3,12 @@
 namespace Csv\Value;
 
 use Csv\Enum\Charset;
+use Csv\Value;
 use Csv\Value\DirectoryPath;
 use Csv\Value\Filename;
 use ValueObjects\ValueObjectInterface;
 
-class FileConfig implements ValueObjectInterface
+class FileConfig extends Value
 {
     /**
      * @var Csv\Enum\Charset
@@ -65,16 +66,6 @@ class FileConfig implements ValueObjectInterface
             and $this->getDirectoryPath() === $object->getDirectoryPath()
             and $this->getFilename() === $object->getFilename()
             and $this->getWithBom() === $object->getWithBom();
-    }
-
-    /**
-     * Returns a string representation of the object
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getPath();
     }
 
     public function getCharset()

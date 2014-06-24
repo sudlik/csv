@@ -56,7 +56,7 @@ class Document
 
     public function write()
     {
-        $visibleNames = $this->getCsvConfig()->getVisibleNames()->getValue();
+        $visibleNames = $this->getCsvConfig()->getVisibleNames()->toNative();
 
         if ($visibleNames) {
             $this->documentWriter->write($this->names, true);

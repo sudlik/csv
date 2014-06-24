@@ -2,9 +2,9 @@
 
 namespace Csv\Collection;
 
-use Csv\Cell;
 use Csv\Collection;
 use Csv\Exception\CollectionIsFrozenException;
+use Csv\Value\Cell;
 use Csv\Value\Position;
 
 /** Row
@@ -29,7 +29,7 @@ class Row extends Collection
         if ($this->isFrozen()) {
             throw new CollectionIsFrozenException;
         } else {
-            $this->getArrayObject()->offsetSet($position->getValue(), $cell);
+            $this->getArrayObject()->offsetSet($position->toNative(), $cell);
         }
 
         return $this;
@@ -44,7 +44,7 @@ class Row extends Collection
     {
         $array = array_map(
             function (Cell $cell) {
-                return $cell->getValue();
+                return $cell->toNative();
             },
             $this->getArrayObject()->getArrayCopy()
         );

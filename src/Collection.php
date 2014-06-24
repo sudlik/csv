@@ -47,7 +47,7 @@ class Collection
 
     public function exists(Position $position)
     {
-        return $this->getArrayObject()->offsetExists($position->getValue());
+        return $this->getArrayObject()->offsetExists($position->toNative());
     }
 
     public function size()

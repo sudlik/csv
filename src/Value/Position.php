@@ -3,22 +3,16 @@
 namespace Csv\Value;
 
 use Csv\Exception\InvalidPositionValueException;
+use Csv\Value;
 
-class Position
+class Position extends Value
 {
-    private $value;
-    
     public function __construct($value)
     {
-        if (is_scalar($value)) {
+        if (is_int($value)) {
             $this->value = $value;
         } else {
             throw new InvalidPositionValueException;
         }
-    }
-
-    public function getValue()
-    {
-        return $this->value;
     }
 }

@@ -3,11 +3,10 @@
 namespace Csv\Value;
 
 use Csv\Exception\InvalidWithBomValueException;
+use Csv\Value;
 
-class WithBom
+class WithBom extends Value
 {
-    private $value;
-    
     public function __construct($value)
     {
         if (is_bool($value)) {
@@ -15,10 +14,5 @@ class WithBom
         } else {
             throw new InvalidWithBomValueException;
         }
-    }
-
-    public function getValue()
-    {
-        return $this->value;
     }
 }

@@ -257,7 +257,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function addEmptyName()
     {
-        $this->assertEquals('', $this->object->name()->getDocument()->getNames()->first()->getValue());
+        $this->assertEquals('', $this->object->name()->getDocument()->getNames()->first()->toNative());
     }
 
     /**
@@ -273,7 +273,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
                 ->getDocument()
                 ->getNames()
                 ->first()
-                ->getValue()
+                ->toNative()
         );
     }
 
@@ -288,8 +288,8 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
             ->getDocument()
             ->getNames();
 
-        $this->assertEquals('Index', $row->get(0)->getValue());
-        $this->assertEquals('Name', $row->get(1)->getValue());
+        $this->assertEquals('Index', $row->get(0)->toNative());
+        $this->assertEquals('Name', $row->get(1)->toNative());
     }
 
     /**
@@ -300,8 +300,8 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     {
         $row = $this->object->name('Index', 1)->getDocument()->getNames();
 
-        $this->assertEquals('', $row->get(0)->getValue());
-        $this->assertEquals('Index', $row->get(1)->getValue());
+        $this->assertEquals('', $row->get(0)->toNative());
+        $this->assertEquals('Index', $row->get(1)->toNative());
     }
 
     /**
@@ -313,11 +313,11 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     {
         $documentBuilder = $this->object->name('Index');
 
-        $this->assertEquals('Index', $documentBuilder->getDocument()->getNames()->first()->getValue());
+        $this->assertEquals('Index', $documentBuilder->getDocument()->getNames()->first()->toNative());
 
         $documentBuilder->name('Name', 0);
 
-        $this->assertEquals('Name', $documentBuilder->getDocument()->getNames()->first()->getValue());
+        $this->assertEquals('Name', $documentBuilder->getDocument()->getNames()->first()->toNative());
     }
 
     /**
@@ -328,8 +328,8 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     {
         $row = $this->object->names([['Index', 1]])->getDocument()->getNames();
 
-        $this->assertEquals('', $row->get(0)->getValue());
-        $this->assertEquals('Index', $row->get(1)->getValue());
+        $this->assertEquals('', $row->get(0)->toNative());
+        $this->assertEquals('Index', $row->get(1)->toNative());
     }
 
     /**
@@ -346,7 +346,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
                 ->getRowCollection()
                 ->first()
                 ->first()
-                ->getValue()
+                ->toNative()
         );
     }
 
@@ -358,8 +358,8 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     {
         $row = $this->object->row(['A', 'B'])->getDocument()->getRowCollection()->first();
 
-        $this->assertEquals('A', $row->get(0)->getValue());
-        $this->assertEquals('B', $row->get(1)->getValue());
+        $this->assertEquals('A', $row->get(0)->toNative());
+        $this->assertEquals('B', $row->get(1)->toNative());
     }
 
     /**
@@ -370,8 +370,8 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     {
         $row = $this->object->row(['A', 'B'])->getDocument()->getRowCollection()->first();
 
-        $this->assertEquals('A', $row->get(0)->getValue());
-        $this->assertEquals('B', $row->get(1)->getValue());
+        $this->assertEquals('A', $row->get(0)->toNative());
+        $this->assertEquals('B', $row->get(1)->toNative());
     }
 
     /**
@@ -382,8 +382,8 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     {
         $rows = $this->object->row(['Test'], 1)->getDocument()->getRowCollection();
 
-        $this->assertEquals('', $rows->get(0)->first()->getValue());
-        $this->assertEquals('Test', $rows->get(1)->first()->getValue());
+        $this->assertEquals('', $rows->get(0)->first()->toNative());
+        $this->assertEquals('Test', $rows->get(1)->first()->toNative());
     }
 
     /**
@@ -402,7 +402,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
                 ->getRowCollection()
                 ->get(0)
                 ->first()
-                ->getValue()
+                ->toNative()
         );
 
         $documentBuilder->row(['B'], 0);
@@ -414,7 +414,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
                 ->getRowCollection()
                 ->get(0)
                 ->first()
-                ->getValue()
+                ->toNative()
         );
     }
 

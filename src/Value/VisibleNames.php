@@ -3,11 +3,10 @@
 namespace Csv\Value;
 
 use Csv\Exception\InvalidVisibleNamesValueException;
+use Csv\Value;
 
-class VisibleNames
+class VisibleNames extends Value
 {
-    private $value;
-    
     public function __construct($value)
     {
         if (is_bool($value)) {
@@ -15,10 +14,5 @@ class VisibleNames
         } else {
             throw new InvalidVisibleNamesValueException;
         }
-    }
-
-    public function getValue()
-    {
-        return $this->value;
     }
 }

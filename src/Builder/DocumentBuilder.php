@@ -2,13 +2,13 @@
 
 namespace Csv\Builder;
 
-use Csv\Cell;
 use Csv\Collection\Row;
 use Csv\Collection\RowCollection;
 use Csv\Document;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
+use Csv\Value\Cell;
 use Csv\Value\Position;
 use Csv\Value\CsvConfig;
 use Csv\Value\DirectoryPath;

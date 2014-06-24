@@ -27,7 +27,7 @@ class DocumentWriter
     {
         $data = $row->asArray();
 
-        if ($this->fileConfig->getWithBom()->getValue() && $first && $data) {
+        if ($this->fileConfig->getWithBom()->toNative() && $first && $data) {
             if ($this->fileConfig->getCharset()->sameValueAs(Charset::get(Charset::UTF8))) {
                 $bom = chr(0xef) . chr(0xbb) . chr(0xbf);
             } else {

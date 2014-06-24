@@ -4,10 +4,11 @@ namespace Csv\Value;
 
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
+use Csv\Value;
 use Csv\Value\VisibleNames;
 use ValueObjects\ValueObjectInterface;
 
-class CsvConfig implements ValueObjectInterface
+class CsvConfig extends Value
 {
     /**
      * @var Csv\Enum\Delimiter
@@ -55,19 +56,9 @@ class CsvConfig implements ValueObjectInterface
     public function sameValueAs(ValueObjectInterface $object)
     {
         return
-            $this->getDelimiter() === $object->getDelimiter() and
-            $this->getEnclosure() === $object->getEnclosure() and
-            $this->getVisibleNames() === $object->getVisibleNames();
-    }
-
-    /**
-     * Returns a string representation of the object
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return '';
+            $this->delimiter === $object->getDelimiter()
+            and $this->enclosure === $object->getEnclosure()
+            and $this->visibleNames === $object->getVisibleNames();
     }
 
     public function getDelimiter()
