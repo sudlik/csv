@@ -2,23 +2,33 @@
 
 namespace Csv\Writer;
 
+use Csv\Adapter\SplCsvWriterAdapter;
 use Csv\Collection\Row;
 use Csv\Document;
 use Csv\Enum\Charset;
-use Csv\Value\CsvConfig;
-use Csv\Value\FileConfig;
-use Csv\Value\Position;
 use SplFileObject;
 
 class DocumentWriter
 {
     private $document;
-    private $splFileObject;
+    private $writerAdapter;
 
     public function __construct(Document $document)
     {
         $this->document = $document;
-        $this->splFileObject = new SplFileObject($this->document->getFileConfig()->getPath(), 'w');
+
+        $this->writerAdapter = new SplCsvWriterAdapter(
+            new SplFileObject($this->document->getFileConfig()->getPath(), 'w'),
+            $this->document->getCsvConfig()->getDelimiter(),
+            $this->document->getCsvConfig()->getEnclosure()
+        );
+    }
+
+    public function setWriterAdapter(CsvWriterAdapterInterface $writerAdapter)
+    {
+        $this->writerAdapter = $writerAdapter;
+
+        return $this;
     }
 
     public function write()
@@ -53,10 +63,6 @@ class DocumentWriter
             }
         }
 
-        return $this->splFileObject->fputcsv(
-            $data,
-            $this->document->getCsvConfig()->getDelimiter(),
-            $this->document->getCsvConfig()->getEnclosure()
-        );
+        return $this->writerAdapter->write($data);
     }
 }

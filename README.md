@@ -58,10 +58,10 @@
 ## TODO
     * add cell methods to DocumentBuilder
     * pointers
-    * writer adapters
     * configurable escape
     * configurable row end
     * better name for `visibleNames`
     * better name for `withBom`
     * add column methods to DocumentBuilder
     * add data methods to DocumentBuilder
+    * move instianting to factories
