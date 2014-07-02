@@ -84,16 +84,8 @@
         </exec>
     </target>
     <target name="phpunit" description="Run unit tests with PHPUnit">
-        <exec executable="wget" failonerror="true">
-            <arg value="-nc" />
-            <arg value="https://phar.phpunit.de/phpunit.phar" />
-        </exec>
         <exec executable="php" failonerror="true">
-            <arg value="phpunit.phar" />
-            <arg value="--self-update" />
-        </exec>
-        <exec executable="php" failonerror="true">
-            <arg value="phpunit.phar" />
+            <arg value="${basedir}/vendor/bin/phpunit" />
             <arg value="--configuration" />
             <arg path="${basedir}/build/phpunit.xml" />
         </exec>
