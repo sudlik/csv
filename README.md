@@ -65,3 +65,7 @@
     * add column methods to DocumentBuilder
     * add data methods to DocumentBuilder
     * move instianting to factories
+    * allow edit existing document
+    * allow write single row
+    * allow add multiple rows
+    * move fileconfig from DocumentBuilder/Document to DocumentWriter
