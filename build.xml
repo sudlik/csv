@@ -6,6 +6,7 @@
         <delete dir="${basedir}/build/coverage"/>
         <delete dir="${basedir}/build/logs"/>
         <delete dir="${basedir}/build/pdepend"/>
+        <delete file="${basedir}/composer.phar"/>
     </target>
     <target name="prepare" depends="clean" description="Prepare for build">
         <mkdir dir="${basedir}/build/api"/>
@@ -14,7 +15,12 @@
         <mkdir dir="${basedir}/build/pdepend"/>
     </target>
     <target name="composer" description="Install dependencies">
-        <exec executable="composer" failonerror="true">
+        <exec executable="wget" failonerror="true">
+            <arg value="-nc" />
+            <arg value="http://getcomposer.org/composer.phar" />
+        </exec>
+        <exec executable="php" failonerror="true">
+            <arg value="composer.phar" />
             <arg value="install" />
             <arg value="--prefer-dist" />
             <arg value="--no-progress" />
