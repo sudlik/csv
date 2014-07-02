@@ -6,7 +6,6 @@
         <delete dir="${basedir}/build/coverage"/>
         <delete dir="${basedir}/build/logs"/>
         <delete dir="${basedir}/build/pdepend"/>
-        <delete file="${basedir}/composer.phar"/>
     </target>
     <target name="prepare" depends="clean" description="Prepare for build">
         <mkdir dir="${basedir}/build/api"/>
@@ -21,9 +20,11 @@
         </exec>
         <exec executable="php" failonerror="true">
             <arg value="composer.phar" />
+            <arg value="self-update" />
+        </exec>
+        <exec executable="php" failonerror="true">
+            <arg value="composer.phar" />
             <arg value="install" />
-            <arg value="--prefer-dist" />
-            <arg value="--no-progress" />
         </exec>
     </target>
     <target name="lint" description="Perform syntax check of sourcecode files">
@@ -83,7 +84,16 @@
         </exec>
     </target>
     <target name="phpunit" description="Run unit tests with PHPUnit">
-        <exec executable="phpunit" failonerror="true">
+        <exec executable="wget" failonerror="true">
+            <arg value="-nc" />
+            <arg value="https://phar.phpunit.de/phpunit.phar" />
+        </exec>
+        <exec executable="php" failonerror="true">
+            <arg value="phpunit.phar" />
+            <arg value="--self-update" />
+        </exec>
+        <exec executable="php" failonerror="true">
+            <arg value="phpunit.phar" />
             <arg value="--configuration" />
             <arg path="${basedir}/build/phpunit.xml" />
         </exec>

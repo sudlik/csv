@@ -7,4 +7,5 @@
 /build/logs
 /build/pdepend
 /build/phpdox
+/phpunit.phar
 /vendor
