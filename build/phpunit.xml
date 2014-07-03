@@ -23,7 +23,7 @@
     </testsuites>
     <filter>
         <blacklist>
-            <directory>vendor</directory>
+            <directory>../vendor</directory>
         </blacklist>
     </filter>
     <logging>

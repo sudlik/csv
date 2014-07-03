@@ -1,13 +1,19 @@
 {
     "name": "vendors/csv",
-    "description": "CSV files builder",
+    "description": "CSV builder",
     "license": "MIT",
     "require": {
         "nicolopignatelli/valueobjects": "2.0.*"
     },
     "require-dev": {
         "mikey179/vfsStream": "1.2.*",
-        "phpunit/phpunit": "4.1.*"
+        "phpunit/phpunit": "4.1.*",
+        "phploc/phploc": "2.0.*",
+        "pdepend/pdepend": "2.0.*",
+        "phpmd/phpmd": "2.0.*",
+        "squizlabs/php_codesniffer": "1.5.*",
+        "sebastian/phpcpd": "2.0.*",
+        "theseer/phpdox": "0.6.*"
     },
     "autoload": {
         "psr-4": {

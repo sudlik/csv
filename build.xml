@@ -6,12 +6,14 @@
         <delete dir="${basedir}/build/coverage"/>
         <delete dir="${basedir}/build/logs"/>
         <delete dir="${basedir}/build/pdepend"/>
+        <delete dir="${basedir}/build/phpdox"/>
     </target>
     <target name="prepare" depends="clean" description="Prepare for build">
         <mkdir dir="${basedir}/build/api"/>
         <mkdir dir="${basedir}/build/coverage"/>
         <mkdir dir="${basedir}/build/logs"/>
         <mkdir dir="${basedir}/build/pdepend"/>
+        <mkdir dir="${basedir}/build/phpdox"/>
     </target>
     <target name="composer" description="Install dependencies">
         <exec executable="wget" failonerror="true">
@@ -37,7 +39,8 @@
         </apply>
     </target>
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="phploc">
+        <exec executable="php" failonerror="true">
+            <arg value="${basedir}/vendor/bin/phploc" />
             <arg value="--count-tests" />
             <arg value="--log-csv" />
             <arg value="build/logs/phploc.csv" />
@@ -45,7 +48,8 @@
         </exec>
     </target>
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-        <exec executable="pdepend">
+        <exec executable="php" failonerror="true">
+            <arg value="${basedir}/vendor/bin/pdepend" />
             <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
             <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
             <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
@@ -53,11 +57,9 @@
             <arg path="${basedir}/src" />
         </exec>
     </target>
-    <target
-        name="phpmd"
-        description="Perform project mess detection using PHPMD creating a log file for the CI server"
-    >
-        <exec executable="phpmd">
+    <target name="phpmd" description="Perform project mess detection using PHPMD creating a log file">
+        <exec executable="php" failonerror="true">
+            <arg value="${basedir}/vendor/bin/phpmd" />
             <arg path="${basedir}/src" />
             <arg value="xml" />
             <arg value="${basedir}/build/phpmd.xml" />
@@ -65,19 +67,19 @@
             <arg value="${basedir}/build/logs/pmd.xml" />
         </exec>
     </target>
-    <target
-        name="phpcs"
-        description="Find coding standard violations using PHP_CodeSniffer creating a log file for the CI server"
-    >
-        <exec executable="phpcs" output="/dev/null">
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer creating a log file">
+        <exec executable="php" failonerror="true">
+            <arg value="${basedir}/vendor/bin/phpcs" />
+            <arg value="-p" />
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-            <arg value="--standard=${basedir}/build/phpcs.xml" />
+            <arg value="--standard=PSR2" />
             <arg path="${basedir}/src" />
         </exec>
     </target>
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec executable="phpcpd">
+        <exec executable="php" failonerror="true">
+            <arg value="${basedir}/vendor/bin/phpcpd" />
             <arg value="--log-pmd" />
             <arg value="${basedir}/build/logs/pmd-cpd.xml" />
             <arg path="${basedir}/src" />
@@ -91,7 +93,8 @@
         </exec>
     </target>
     <target name="phpdox" description="Generate API documentation using phpDox">
-        <exec executable="phpdox">
+        <exec executable="php" failonerror="true">
+            <arg value="${basedir}/vendor/bin/phpdox" />
             <arg value="--file" />
             <arg value="${basedir}/build/phpdox.xml" />
         </exec>
