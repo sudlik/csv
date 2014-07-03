@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6dffb56c403e0c5056463007c98cf0d9",
+    "hash": "8bb8cf7643d887dd55bfca38e98401a5",
     "packages": [
         {
             "name": "league/geotools",

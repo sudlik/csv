@@ -20,7 +20,7 @@
             <arg value="-nc" />
             <arg value="http://getcomposer.org/composer.phar" />
         </exec>
-        <exec executable="php" failonerror="true">
+        <exec executable="php">
             <arg value="composer.phar" />
             <arg value="self-update" />
         </exec>
@@ -39,7 +39,7 @@
         </apply>
     </target>
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="php" failonerror="true">
+        <exec executable="php">
             <arg value="${basedir}/vendor/bin/phploc" />
             <arg value="--count-tests" />
             <arg value="--log-csv" />
@@ -48,7 +48,7 @@
         </exec>
     </target>
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-        <exec executable="php" failonerror="true">
+        <exec executable="php">
             <arg value="${basedir}/vendor/bin/pdepend" />
             <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
             <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
@@ -58,7 +58,7 @@
         </exec>
     </target>
     <target name="phpmd" description="Perform project mess detection using PHPMD creating a log file">
-        <exec executable="php" failonerror="true">
+        <exec executable="php">
             <arg value="${basedir}/vendor/bin/phpmd" />
             <arg path="${basedir}/src" />
             <arg value="xml" />
@@ -68,7 +68,7 @@
         </exec>
     </target>
     <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer creating a log file">
-        <exec executable="php" failonerror="true">
+        <exec executable="php">
             <arg value="${basedir}/vendor/bin/phpcs" />
             <arg value="-p" />
             <arg value="--report=checkstyle" />
@@ -78,7 +78,7 @@
         </exec>
     </target>
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec executable="php" failonerror="true">
+        <exec executable="php">
             <arg value="${basedir}/vendor/bin/phpcpd" />
             <arg value="--log-pmd" />
             <arg value="${basedir}/build/logs/pmd-cpd.xml" />
@@ -86,14 +86,14 @@
         </exec>
     </target>
     <target name="phpunit" description="Run unit tests with PHPUnit">
-        <exec executable="php" failonerror="true">
+        <exec executable="php">
             <arg value="${basedir}/vendor/bin/phpunit" />
             <arg value="--configuration" />
             <arg path="${basedir}/build/phpunit.xml" />
         </exec>
     </target>
     <target name="phpdox" description="Generate API documentation using phpDox">
-        <exec executable="php" failonerror="true">
+        <exec executable="php">
             <arg value="${basedir}/vendor/bin/phpdox" />
             <arg value="--file" />
             <arg value="${basedir}/build/phpdox.xml" />
