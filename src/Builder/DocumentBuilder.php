@@ -75,7 +75,7 @@ class DocumentBuilder
      * @param string $directoryPath required
      * @param string $filename required
      */
-    public function __construct($directoryPath, $filename)
+    public function __construct($directoryPath, $filename = 'document.csv')
     {
         $this->directoryPath = new DirectoryPath($directoryPath);
         $this->filename = new Filename($filename);
