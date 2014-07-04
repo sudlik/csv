@@ -27,7 +27,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
      */
     public function writeDocumentToCsvFile()
     {
-        (new DocumentWriter($this->documentBuilder->getDocument()))->write();
+        (new DocumentWriter)->write($this->documentBuilder->getDocument());
 
         $this->assertFileExists($this->path);
     }
@@ -38,7 +38,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
      */
     public function writeBom()
     {
-        (new DocumentWriter($this->documentBuilder->withBom(true)->name()->getDocument()))->write();
+        (new DocumentWriter)->write($this->documentBuilder->withBom(true)->name()->getDocument());
 
         $this->assertEquals(
             chr(0xef) . chr(0xbb) . chr(0xbf) . PHP_EOL,
@@ -55,7 +55,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
     {
         $document = $this->documentBuilder->withBom(false)->name('String with white spaces')->getDocument();
 
-        (new DocumentWriter($document))->write();
+        (new DocumentWriter)->write($document);
 
         $this->assertEquals('"String with white spaces"' . PHP_EOL, file_get_contents($this->path));
     }

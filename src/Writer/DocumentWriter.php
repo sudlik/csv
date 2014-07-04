@@ -13,17 +13,6 @@ class DocumentWriter
     private $document;
     private $writerAdapter;
 
-    public function __construct(Document $document)
-    {
-        $this->document = $document;
-
-        $this->writerAdapter = new SplCsvWriterAdapter(
-            new SplFileObject($this->document->getFileConfig()->getPath(), 'w'),
-            $this->document->getCsvConfig()->getDelimiter(),
-            $this->document->getCsvConfig()->getEnclosure()
-        );
-    }
-
     public function setWriterAdapter(CsvWriterAdapterInterface $writerAdapter)
     {
         $this->writerAdapter = $writerAdapter;
@@ -31,8 +20,18 @@ class DocumentWriter
         return $this;
     }
 
-    public function write()
+    public function write(Document $document)
     {
+        $this->document = $document;
+
+        if (!$this->writerAdapter) {
+            $this->writerAdapter = new SplCsvWriterAdapter(
+                new SplFileObject($this->document->getFileConfig()->getPath(), 'w'),
+                $this->document->getCsvConfig()->getDelimiter(),
+                $this->document->getCsvConfig()->getEnclosure()
+            );
+        }
+
         $visibleNames = $this->document->getCsvConfig()->getVisibleNames()->getValue();
 
         if ($visibleNames) {
