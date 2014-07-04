@@ -54,7 +54,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
     public function enclosureStringWithWhiteSpace()
     {
         $document = $this->documentBuilder->withBom(false)->name('String with white spaces')->getDocument();
-        
+
         (new DocumentWriter($document))->write();
 
         $this->assertEquals('"String with white spaces"' . PHP_EOL, file_get_contents($this->path));

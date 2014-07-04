@@ -57,7 +57,7 @@ class SplCsvWriterAdapter implements CsvWriterAdapterInterface
     {
         if (is_array($row)) {
             foreach ($row as $cell) {
-                if(!is_scalar($cell) && !is_null($cell)) {
+                if (!is_scalar($cell) && !is_null($cell)) {
                     return false;
                 }
             }

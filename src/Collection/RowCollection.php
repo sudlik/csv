@@ -34,7 +34,7 @@ class RowCollection extends Collection
     {
         return (bool)in_array($row, $this->getArrayObject()->getArrayCopy());
     }
-    
+
     public function asArray()
     {
         $array = array_map(

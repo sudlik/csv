@@ -13,7 +13,7 @@ class Document
     private $fileConfig;
     private $names;
     private $data;
-    
+
     public function __construct(CsvConfig $csvConfig, FileConfig $fileConfig, Row $names, RowCollection $data)
     {
         $this->csvConfig = $csvConfig;
@@ -28,22 +28,22 @@ class Document
             $row->freeze();
         }
     }
-    
+
     public function getCsvConfig()
     {
         return $this->csvConfig;
     }
-    
+
     public function getFileConfig()
     {
         return $this->fileConfig;
     }
-    
+
     public function getNames()
     {
         return $this->names;
     }
-    
+
     public function getData()
     {
         return $this->data;

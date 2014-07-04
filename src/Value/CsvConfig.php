@@ -14,7 +14,7 @@ class CsvConfig extends Value
      * @var Csv\Enum\Delimiter
      */
     private $delimiter;
-    
+
     /**
      * @var Csv\Enum\Enclosure
      */
