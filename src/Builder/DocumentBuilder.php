@@ -8,12 +8,14 @@ use Csv\Document;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
+use Csv\Factory\FilenameFactory;
+use Csv\Factory\VisibleNamesFactory;
+use Csv\Factory\WithBomFactory;
 use Csv\Value\Cell;
-use Csv\Value\Position;
 use Csv\Value\CsvConfig;
 use Csv\Value\DirectoryPath;
 use Csv\Value\FileConfig;
-use Csv\Value\Filename;
+use Csv\Value\Position;
 use Csv\Value\VisibleNames;
 use Csv\Value\WithBom;
 
@@ -75,17 +77,23 @@ class DocumentBuilder
      * @param string $directoryPath required
      * @param string $filename required
      */
-    public function __construct($directoryPath, $filename = 'document.csv')
+    public function __construct($directoryPath, $filename = null)
     {
+        $filenameFactory = new FilenameFactory;
+        if (is_null($filename)) {
+            $this->filename = $filenameFactory->create();
+        } else {
+            $this->filename = $filenameFactory->create($filename);
+        }
+
         $this->directoryPath = new DirectoryPath($directoryPath);
-        $this->filename = new Filename($filename);
         $this->charset = Charset::get(Charset::UTF8);
         $this->delimiter = Delimiter::get(Delimiter::SEMICOLON);
         $this->enclosure = Enclosure::get(Enclosure::DOUBLE_QUOTES);
         $this->data = new RowCollection;
         $this->names = new Row;
-        $this->visibleNames = new VisibleNames(true);
-        $this->withBom = new WithBom(true);
+        $this->visibleNames = (new VisibleNamesFactory)->create();
+        $this->withBom = (new WithBomFactory)->create();
     }
 
     public function charset($charset)
