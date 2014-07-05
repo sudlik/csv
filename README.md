@@ -3,7 +3,12 @@
 ## EXAMPLE
 
 ``` php
-(new Csv\Builder\DocumentBuilder('example', 'test.csv'))
+use Csv\Builder\DocumentBuilder;
+use Csv\Writer\DocumentWriter;
+
+$documentBuilder = new DocumentBuilder('example', 'test.csv');
+
+$documentBuilder
     ->charset('UTF-8')
     ->delimiter(';')
     ->enclosure('"')
@@ -51,8 +56,7 @@
     //1,2,3
     //a,b,c
 
-    ->getDocument()
-    ->write();
+(new DocumentWriter)->write($documentBuilder->getDocument());
 ```
 
 ## TODO
