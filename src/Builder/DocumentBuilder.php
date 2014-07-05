@@ -4,17 +4,13 @@ namespace Csv\Builder;
 
 use Csv\Collection\Row;
 use Csv\Collection\RowCollection;
-use Csv\Document;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
+use Csv\Factory\DocumentFactory;
 use Csv\Factory\FilenameFactory;
-use Csv\Factory\VisibleNamesFactory;
-use Csv\Factory\WithBomFactory;
 use Csv\Value\Cell;
-use Csv\Value\CsvConfig;
 use Csv\Value\DirectoryPath;
-use Csv\Value\FileConfig;
 use Csv\Value\Position;
 use Csv\Value\VisibleNames;
 use Csv\Value\WithBom;
@@ -24,6 +20,12 @@ use Csv\Value\WithBom;
  */
 class DocumentBuilder
 {
+    /**
+     * Csv charset
+     * @var Csv\Enum\Charset
+     */
+    private $charset;
+
     /**
      * Csv delimiter
      * @var Csv\Enum\Delimiter
@@ -79,21 +81,16 @@ class DocumentBuilder
      */
     public function __construct($directoryPath, $filename = null)
     {
+        $this->data = new RowCollection;
+        $this->directoryPath = new DirectoryPath($directoryPath);
+        $this->names = new Row;
+
         $filenameFactory = new FilenameFactory;
         if (is_null($filename)) {
             $this->filename = $filenameFactory->create();
         } else {
             $this->filename = $filenameFactory->create($filename);
         }
-
-        $this->directoryPath = new DirectoryPath($directoryPath);
-        $this->charset = Charset::get(Charset::UTF8);
-        $this->delimiter = Delimiter::get(Delimiter::SEMICOLON);
-        $this->enclosure = Enclosure::get(Enclosure::DOUBLE_QUOTES);
-        $this->data = new RowCollection;
-        $this->names = new Row;
-        $this->visibleNames = (new VisibleNamesFactory)->create();
-        $this->withBom = (new WithBomFactory)->create();
     }
 
     public function charset($charset)
@@ -188,12 +185,25 @@ class DocumentBuilder
      */
     public function getDocument()
     {
-        return new Document(
-            new CsvConfig($this->delimiter, $this->enclosure, $this->visibleNames),
-            new FileConfig($this->charset, $this->directoryPath, $this->filename, $this->withBom),
-            $this->names,
-            $this->data
-        );
+        $documentFactory = new DocumentFactory($this->directoryPath, $this->filename);
+
+        if ($this->charset) {
+            $documentFactory->setCharset($this->charset);
+        }
+        if ($this->delimiter) {
+            $documentFactory->setDelimiter($this->delimiter);
+        }
+        if ($this->enclosure) {
+            $documentFactory->setEnclosure($this->enclosure);
+        }
+        if ($this->visibleNames) {
+            $documentFactory->setVisibleNames($this->visibleNames);
+        }
+        if ($this->withBom) {
+            $documentFactory->setWithBom($this->withBom);
+        }
+
+        return $documentFactory->create($this->names, $this->data);
     }
 
     private function update()

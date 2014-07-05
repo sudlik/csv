@@ -71,4 +71,4 @@ $documentBuilder
     * allow edit existing document
     * allow write single row
     * allow add multiple rows
-    * move fileconfig from DocumentBuilder/Document to DocumentWriter
+    * consider move FileConfig from DocumentBuilder and Document to DocumentWriter
