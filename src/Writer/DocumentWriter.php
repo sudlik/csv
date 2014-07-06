@@ -33,12 +33,13 @@ class DocumentWriter
         }
 
         $visibleNames = $this->document->getCsvConfig()->getVisibleNames()->getValue();
+        $table = $this->document->getTable();
 
         if ($visibleNames) {
-            $this->writeRow($this->document->getNames(), true);
+            $this->writeRow($table->getNames(), true);
         }
 
-        foreach ($this->document->getData()->all() as $k => $row) {
+        foreach ($table->getRows()->all() as $k => $row) {
             $this->writeRow($row, !$visibleNames and $k === 0);
         }
     }

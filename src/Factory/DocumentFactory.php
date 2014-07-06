@@ -8,8 +8,13 @@ use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
 use Csv\Factory\VisibleNamesFactory;
 use Csv\Factory\WithBomFactory;
+use Csv\Table;
 use Csv\Value\CsvConfig;
+use Csv\Value\DirectoryPath;
 use Csv\Value\FileConfig;
+use Csv\Value\Filename;
+use Csv\Value\VisibleNames;
+use Csv\Value\WithBom;
 
 class DocumentFactory
 {
@@ -21,7 +26,7 @@ class DocumentFactory
     private $visibleNames;
     private $withBom;
 
-    public function __construct($directoryPath, $filename)
+    public function __construct(DirectoryPath $directoryPath, Filename $filename)
     {
         $this->charset = Charset::get(Charset::UTF8);
         $this->delimiter = Delimiter::get(Delimiter::SEMICOLON);
@@ -32,48 +37,47 @@ class DocumentFactory
         $this->withBom = (new WithBomFactory)->create();
     }
 
-    public function setCharset($charset)
+    public function setCharset(Charset $charset)
     {
         $this->charset = $charset;
 
         return $this;
     }
 
-    public function setDelimiter($delimiter)
+    public function setDelimiter(Delimiter $delimiter)
     {
         $this->delimiter = $delimiter;
 
         return $this;
     }
 
-    public function setEnclosure($enclosure)
+    public function setEnclosure(Enclosure $enclosure)
     {
         $this->enclosure = $enclosure;
 
         return $this;
     }
 
-    public function setVisibleNames($visibleNames)
+    public function setVisibleNames(VisibleNames $visibleNames)
     {
         $this->visibleNames = $visibleNames;
 
         return $this;
     }
 
-    public function setWithBom($withBom)
+    public function setWithBom(WithBom $withBom)
     {
         $this->withBom = $withBom;
 
         return $this;
     }
 
-    public function create($names, $data)
+    public function create(Table $table)
     {
         return new Document(
             new CsvConfig($this->delimiter, $this->enclosure, $this->visibleNames),
             new FileConfig($this->charset, $this->directoryPath, $this->filename, $this->withBom),
-            $names,
-            $data
+            $table
         );
     }
 }

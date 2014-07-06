@@ -48,4 +48,13 @@ class RowCollection extends Collection
 
         return $array;
     }
+
+    public function freeze()
+    {
+        foreach ($this->getArrayObject() as $row) {
+            $row->freeze();
+        }
+
+        return parent::freeze();
+    }
 }

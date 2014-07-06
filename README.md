@@ -72,3 +72,5 @@ $documentBuilder
     * allow write single row
     * allow add multiple rows
     * consider move FileConfig from DocumentBuilder and Document to DocumentWriter
+    * consider rename Row (CellCollection, ...) and RowCollection (CellCollectionCollection, Table, ...)
+    * more tests

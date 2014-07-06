@@ -3,12 +3,12 @@
 namespace Csv\Builder;
 
 use Csv\Collection\Row;
-use Csv\Collection\RowCollection;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
 use Csv\Factory\DocumentFactory;
 use Csv\Factory\FilenameFactory;
+use Csv\Table;
 use Csv\Value\Cell;
 use Csv\Value\DirectoryPath;
 use Csv\Value\Position;
@@ -45,22 +45,16 @@ class DocumentBuilder
     private $enclosure;
 
     /**
-     * Filename
+     * Filename with extension but without directory path
      * @var Csv\Value\Filename
      */
     private $filename;
 
     /**
-     * Row size (cells count)
-     * @var int
+     * Row holder
+     * @var Csv\Table
      */
-    private $rowSize = 0;
-
-    /**
-     * Row with names
-     * @var Csv\Row
-     */
-    private $names;
+    private $table;
 
     /**
      * Names written in file
@@ -81,11 +75,10 @@ class DocumentBuilder
      */
     public function __construct($directoryPath, $filename = null)
     {
-        $this->data = new RowCollection;
         $this->directoryPath = new DirectoryPath($directoryPath);
-        $this->names = new Row;
-
         $filenameFactory = new FilenameFactory;
+        $this->table = new Table;
+
         if (is_null($filename)) {
             $this->filename = $filenameFactory->create();
         } else {
@@ -131,12 +124,10 @@ class DocumentBuilder
     public function name($name = null, $position = null)
     {
         if (is_null($position)) {
-            $this->names->add(new Cell($name));
+            $this->table->addName(new Cell($name));
         } else {
-            $this->names->set(new Cell($name), new Position($position));
+            $this->table->setName(new Cell($name), new Position($position));
         }
-
-        $this->update();
 
         return $this;
     }
@@ -145,13 +136,11 @@ class DocumentBuilder
     {
         foreach ($names as $name) {
             if (is_array($name)) {
-                $this->names->set(new Cell($name[0]), new Position($name[1]));
+                $this->table->setName(new Cell($name[0]), new Position($name[1]));
             } else {
-                $this->names->add(new Cell($name));
+                $this->table->addName(new Cell($name));
             }
         }
-
-        $this->update();
 
         return $this;
     }
@@ -169,12 +158,10 @@ class DocumentBuilder
         }
 
         if (is_null($position)) {
-            $this->data->add($row);
+            $this->table->addRow($row);
         } else {
-            $this->data->set($row, new Position($position));
+            $this->table->setRow($row, new Position($position));
         }
-
-        $this->update();
 
         return $this;
     }
@@ -203,41 +190,6 @@ class DocumentBuilder
             $documentFactory->setWithBom($this->withBom);
         }
 
-        return $documentFactory->create($this->names, $this->data);
-    }
-
-    private function update()
-    {
-        $this->rowSize = max($this->rowSize, $this->names->size());
-
-        foreach ($this->data->all() as $row) {
-            $this->rowSize = max($this->rowSize, $row->size());
-        }
-
-        for ($i = 0; $i < $this->rowSize; $i++) {
-            $pos = new Position($i);
-
-            if (!$this->names->exists($pos)) {
-                $this->names->set(new Cell, $pos);
-            }
-        }
-
-        for ($i = 0; $i < $this->data->size(); $i++) {
-            $pos = new Position($i);
-
-            if (!$this->data->exists($pos)) {
-                $this->data->set(new Row, $pos);
-            }
-        }
-
-        foreach ($this->data->all() as $row) {
-            for ($i = 0; $i < $this->rowSize; $i++) {
-                $pos = new Position($i);
-
-                if (!$row->exists($pos)) {
-                    $row->set(new Cell, $pos);
-                }
-            }
-        }
+        return $documentFactory->create($this->table);
     }
 }

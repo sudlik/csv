@@ -4,6 +4,7 @@ namespace Csv;
 
 use Csv\Collection\Row;
 use Csv\Collection\RowCollection;
+use Csv\Table;
 use Csv\Value\CsvConfig;
 use Csv\Value\FileConfig;
 
@@ -14,19 +15,13 @@ class Document
     private $names;
     private $data;
 
-    public function __construct(CsvConfig $csvConfig, FileConfig $fileConfig, Row $names, RowCollection $data)
+    public function __construct(CsvConfig $csvConfig, FileConfig $fileConfig, Table $table)
     {
         $this->csvConfig = $csvConfig;
         $this->fileConfig = $fileConfig;
-        $this->names = clone $names;
-        $this->data = clone $data;
+        $this->table = clone $table;
 
-        $this->names->freeze();
-        $this->data->freeze();
-
-        foreach ($this->data->all() as $row) {
-            $row->freeze();
-        }
+        $this->table->freeze();
     }
 
     public function getCsvConfig()
@@ -39,13 +34,8 @@ class Document
         return $this->fileConfig;
     }
 
-    public function getNames()
+    public function getTable()
     {
-        return $this->names;
-    }
-
-    public function getData()
-    {
-        return $this->data;
+        return $this->table;
     }
 }
