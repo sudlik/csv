@@ -60,17 +60,17 @@ $documentBuilder
 ```
 
 ## TODO
-    * add cell methods to DocumentBuilder
-    * pointers
-    * configurable escape
-    * configurable row end
-    * better name for `visibleNames`
-    * better name for `withBom`
-    * add column methods to DocumentBuilder
-    * add data methods to DocumentBuilder
-    * allow edit existing document
-    * allow write single row
-    * allow add multiple rows
-    * consider move FileConfig from DocumentBuilder and Document to DocumentWriter
-    * consider rename Row (CellCollection, ...) and RowCollection (CellCollectionCollection, Table, ...)
-    * more tests
+* add cell methods to DocumentBuilder
+* pointers
+* configurable escape
+* configurable row end
+* better name for `visibleNames`
+* better name for `withBom`
+* add column methods to DocumentBuilder
+* add data methods to DocumentBuilder
+* allow edit existing document
+* allow write single row
+* allow add multiple rows
+* consider move FileConfig from DocumentBuilder and Document to DocumentWriter
+* consider rename Row (CellCollection, ...) and RowCollection (CellCollectionCollection, Table, ...)
+* more tests
