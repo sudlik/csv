@@ -12,8 +12,7 @@ class Document
 {
     private $csvConfig;
     private $fileConfig;
-    private $names;
-    private $data;
+    private $table;
 
     public function __construct(CsvConfig $csvConfig, FileConfig $fileConfig, Table $table)
     {
