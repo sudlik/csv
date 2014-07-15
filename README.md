@@ -74,3 +74,5 @@ $documentBuilder
 * consider move FileConfig from DocumentBuilder and Document to DocumentWriter
 * consider rename Row (CellCollection, ...) and RowCollection (CellCollectionCollection, Table, ...)
 * more tests
+* annotations support
+* nameable columns
