@@ -48,18 +48,11 @@ class DocumentWriter
     {
         $data = $row->asArray();
 
-        if ($this->document->getFileConfig()->getWithBom()->getValue() && $first && $data) {
+        if ($this->document->getFileConfig()->getWithBom()->getValue() && $first) {
             if ($this->document->getFileConfig()->getCharset()->sameValueAs(Charset::get(Charset::UTF8))) {
-                $bom = chr(0xef) . chr(0xbb) . chr(0xbf);
+                $this->writerAdapter->writeBom(chr(0xef) . chr(0xbb) . chr(0xbf));
             } else {
                 $bom = null;
-            }
-
-            if ($bom) {
-                reset($data);
-
-                $key = key($data);
-                $data[$key] = $bom . $data[$key];
             }
         }
 

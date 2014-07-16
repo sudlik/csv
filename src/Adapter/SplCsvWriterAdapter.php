@@ -53,6 +53,13 @@ class SplCsvWriterAdapter implements CsvWriterAdapterInterface
         return $this;
     }
 
+    public function writeBom($bom)
+    {
+        $this->file->fwrite($bom);
+
+        return $this;
+    }
+
     private function isRow($row)
     {
         if (is_array($row)) {

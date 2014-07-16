@@ -12,4 +12,6 @@ interface CsvWriterAdapterInterface
      * @return self
      */
     public function write(array $row);
+
+    public function writeBom($bom);
 }
