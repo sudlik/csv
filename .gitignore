@@ -1,6 +1,7 @@
 /*.sublime-project
 /*.sublime-workspace
 /cache.properties
+/composer.lock
 /composer.phar
 /build/api
 /build/coverage
