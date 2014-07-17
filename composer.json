@@ -2,8 +2,14 @@
     "name": "vendors/csv",
     "description": "CSV builder",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "gitlab@gitlab.devsms.com:vendors/valueobjects.git"
+        }
+    ],
     "require": {
-        "nicolopignatelli/valueobjects": "2.0.*"
+        "smsapi/valueobjects": "master@dev"
     },
     "require-dev": {
         "mikey179/vfsStream": "1.2.*",
