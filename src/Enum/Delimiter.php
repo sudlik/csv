@@ -6,7 +6,9 @@ use ValueObjects\Enum\Enum;
 
 class Delimiter extends Enum
 {
-    const SEMICOLON = ';';
     const COLON = ':';
+    const COMMA = ',';
+    const PIPE = '|';
     const POINT = '.';
+    const SEMICOLON = ';';
 }

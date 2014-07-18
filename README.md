@@ -75,4 +75,4 @@ $documentBuilder
 * consider rename Row (CellCollection, ...) and RowCollection (CellCollectionCollection, Table, ...)
 * more tests
 * annotations support
-* nameable columns
+* nameable column index

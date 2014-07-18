@@ -2,9 +2,10 @@
 
 namespace Csv\Adapter;
 
-use Csv\Exception\InvalidCsvRowException;
+use Csv\Collection\Row;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
+use Csv\Exception\UnexpectedArgumentTypeException;
 use SplFileObject;
 
 /**
@@ -29,6 +30,8 @@ class SplCsvWriterAdapter implements CsvWriterAdapterInterface
 
      /**
       * @param SplFileObject $file required, adapted object
+      * @param Delimiter $delimiter required
+      * @param Enclosure $enclosure required
       */
     public function __construct(SplFileObject $file, Delimiter $delimiter, Enclosure $enclosure)
     {
@@ -38,40 +41,29 @@ class SplCsvWriterAdapter implements CsvWriterAdapterInterface
     }
 
     /**
-     * @param string $row
-     * @throws Csv\Exception\InvalidCsvRowException
+     * @param Row $row
      * @return self
      */
-    public function write(array $row)
+    public function writeRow(Row $row)
     {
-        if ($this->isRow($row)) {
-            $this->file->fputcsv($row, $this->delimiter->getValue(), $this->enclosure->getValue());
-        } else {
-            throw new InvalidCsvRowException;
-        }
+        $this->file->fputcsv($row->asArray(), $this->delimiter->getValue(), $this->enclosure->getValue());
 
         return $this;
     }
 
-    public function writeBom($bom)
+    /**
+     * @param string $string
+     * @throws Csv\Exception\UnexpectedArgumentTypeException if argument is not string
+     * @return self
+     */
+    public function writeString($string)
     {
-        $this->file->fwrite($bom);
+        if (is_string($string)) {
+            $this->file->fwrite($string);
+        } else {
+            throw new UnexpectedArgumentTypeException;
+        }
 
         return $this;
-    }
-
-    private function isRow($row)
-    {
-        if (is_array($row)) {
-            foreach ($row as $cell) {
-                if (!is_scalar($cell) && !is_null($cell)) {
-                    return false;
-                }
-            }
-
-            return true;
-        } else {
-            return false;
-        }
     }
 }
