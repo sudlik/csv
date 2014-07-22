@@ -3,9 +3,8 @@
 namespace Csv\Value;
 
 use Csv\Exception\InvalidCellValueException;
-use Csv\Value;
 
-class Cell extends Value
+final class Cell extends Value
 {
     public function __construct($value = null)
     {

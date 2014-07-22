@@ -3,9 +3,8 @@
 namespace Csv\Value;
 
 use Csv\Exception\InvalidPositionValueException;
-use Csv\Value;
 
-class Position extends Value
+final class Position extends Value
 {
     public function __construct($value)
     {

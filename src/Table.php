@@ -56,7 +56,7 @@ class Table
 
         return $this;
     }
-    
+
     public function addRow(Row $row)
     {
         $this->rows->add($row);

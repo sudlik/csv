@@ -2,60 +2,78 @@
 
 namespace Csv\Writer;
 
-use Csv\Adapter\SplCsvWriterAdapter;
 use Csv\Collection\Row;
 use Csv\Document;
 use Csv\Enum\Charset;
+use Csv\Enum\Delimiter;
+use Csv\Enum\Enclosure;
+use Csv\Factory\WriterAdapterFactory;
+use Csv\Value\VisibleNames;
+use Csv\Value\WithBom;
 use SplFileObject;
 
 class DocumentWriter
 {
-    private $document;
+    const FIRST_ROW_POSITION = 0;
+
+    private $bom;
+    private $charset;
     private $writerAdapter;
+    private $writerAdapterFactory;
+    private $utf8;
+    private $withBom;
 
-    public function setWriterAdapter(CsvWriterAdapterInterface $writerAdapter)
+    public function __construct(WriterAdapterFactory $writerAdapterFactory)
     {
-        $this->writerAdapter = $writerAdapter;
-
-        return $this;
+        $this->bom = chr(0xef) . chr(0xbb) . chr(0xbf);
+        $this->writerAdapterFactory = $writerAdapterFactory;
+        $this->utf8 = Charset::get(Charset::UTF8);
     }
 
     public function write(Document $document)
     {
-        $this->document = $document;
+        $csvConfig = $document->getCsvConfig();
+        $delimiter = $csvConfig->getDelimiter();
+        $enclosure = $csvConfig->getEnclosure();
+        $fileConfig = $document->getFileConfig();
+        $table = $document->getTable();
+        $visibleNames = $csvConfig->getVisibleNames()->getValue();
 
-        if (!$this->writerAdapter) {
-            $this->writerAdapter = new SplCsvWriterAdapter(
-                new SplFileObject($this->document->getFileConfig()->getPath(), 'w'),
-                $this->document->getCsvConfig()->getDelimiter(),
-                $this->document->getCsvConfig()->getEnclosure()
-            );
-        }
+        $this->charset = $fileConfig->getCharset();
+        $this->withBom = $fileConfig->getWithBom();
 
-        $visibleNames = $this->document->getCsvConfig()->getVisibleNames()->getValue();
-        $table = $this->document->getTable();
+        $this->writerAdapter = $this->writerAdapterFactory->create(
+            $fileConfig->getDirectoryPath(),
+            $fileConfig->getFilename()
+        );
 
         if ($visibleNames) {
-            $this->writeRow($table->getNames(), true);
+            $this->writeRow($table->getNames(), self::FIRST_ROW_POSITION, $delimiter, $enclosure);
         }
 
-        foreach ($table->getRows()->all() as $k => $row) {
-            $this->writeRow($row, !$visibleNames and $k === 0);
+        foreach ($table->getRows()->all() as $position => $row) {
+            if ($visibleNames) {
+                $position += 1;
+            }
+
+            $this->writeRow($row, $position, $delimiter, $enclosure);
         }
     }
 
-    private function writeRow(Row $row, $first = false)
+    private function writeRow(Row $row, $position, Delimiter $delimiter, Enclosure $enclosure)
     {
-        $data = $row->asArray();
-
-        if ($this->document->getFileConfig()->getWithBom()->getValue() && $first) {
-            if ($this->document->getFileConfig()->getCharset()->sameValueAs(Charset::get(Charset::UTF8))) {
-                $this->writerAdapter->writeBom(chr(0xef) . chr(0xbb) . chr(0xbf));
-            } else {
-                $bom = null;
-            }
+        if ($this->hasBom($position)) {
+            $this->writerAdapter->writeString($this->bom);
         }
 
-        return $this->writerAdapter->write($data);
+        return $this->writerAdapter->writeRow($delimiter, $enclosure, $row);
+    }
+
+    private function hasBom($position)
+    {
+        return
+            $position === self::FIRST_ROW_POSITION
+            and $this->charset->sameValueAs($this->utf8)
+            and $this->withBom->getValue();
     }
 }

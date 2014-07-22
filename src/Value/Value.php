@@ -1,10 +1,10 @@
 <?php
 
-namespace Csv;
+namespace Csv\Value;
 
 use ValueObjects\ValueObjectInterface;
 
-class Value implements ValueObjectInterface
+abstract class Value implements ValueObjectInterface
 {
     protected $value;
 

@@ -3,9 +3,8 @@
 namespace Csv\Value;
 
 use Csv\Exception\InvalidVisibleNamesValueException;
-use Csv\Value;
 
-class VisibleNames extends Value
+final class VisibleNames extends Value
 {
     public function __construct($value)
     {

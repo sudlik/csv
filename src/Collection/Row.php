@@ -2,7 +2,6 @@
 
 namespace Csv\Collection;
 
-use Csv\Collection;
 use Csv\Exception\CollectionIsFrozenException;
 use Csv\Value\Cell;
 use Csv\Value\Position;

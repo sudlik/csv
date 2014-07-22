@@ -4,11 +4,10 @@ namespace Csv\Value;
 
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Value;
 use Csv\Value\VisibleNames;
 use ValueObjects\ValueObjectInterface;
 
-class CsvConfig extends Value
+final class CsvConfig extends Value
 {
     /**
      * @var Csv\Enum\Delimiter

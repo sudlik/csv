@@ -1,11 +1,11 @@
 <?php
 
-namespace Csv;
+namespace Csv\Collection;
 
 use ArrayObject;
 use Csv\Value\Position;
 
-class Collection
+abstract class Collection
 {
     private $arrayObject;
     private $frozen = false;

@@ -3,12 +3,11 @@
 namespace Csv\Value;
 
 use Csv\Enum\Charset;
-use Csv\Value;
 use Csv\Value\DirectoryPath;
 use Csv\Value\Filename;
 use ValueObjects\ValueObjectInterface;
 
-class FileConfig extends Value
+final class FileConfig extends Value
 {
     /**
      * @var Csv\Enum\Charset
@@ -86,10 +85,5 @@ class FileConfig extends Value
     public function getWithBom()
     {
         return $this->withBom;
-    }
-
-    public function getPath()
-    {
-        return $this->getDirectoryPath() . DIRECTORY_SEPARATOR . $this->getFilename();
     }
 }

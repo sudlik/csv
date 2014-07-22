@@ -3,9 +3,8 @@
 namespace Csv\Value;
 
 use Csv\Exception\InvalidWithBomValueException;
-use Csv\Value;
 
-class WithBom extends Value
+final class WithBom extends Value
 {
     public function __construct($value)
     {

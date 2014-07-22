@@ -3,17 +3,20 @@
 namespace Csv\Adapter;
 
 use Csv\Collection\Row;
+use Csv\Enum\Delimiter;
+use Csv\Enum\Enclosure;
+use SplFileObject;
 
 /**
  * @package Csv
  */
-interface CsvWriterAdapterInterface
+interface WriterAdapter
 {
     /**
      * @param Row $row
      * @return self
      */
-    public function writeRow(Row $row);
+    public function writeRow(Delimiter $delimiter, Enclosure $enclosure, Row $row);
 
     /**
      * @param string $string

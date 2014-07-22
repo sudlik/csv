@@ -3,9 +3,8 @@
 namespace Csv\Value;
 
 use Csv\Exception\DirectoryDoesNotExistsException;
-use Csv\Value;
 
-class DirectoryPath extends Value
+final class DirectoryPath extends Value
 {
     public function __construct($value)
     {

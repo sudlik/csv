@@ -2,7 +2,6 @@
 
 namespace Csv\Builder;
 
-use Csv\Collection\Row;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
@@ -11,7 +10,10 @@ use PHPUnit_Framework_TestCase;
 
 class DocumentBuilderTest extends PHPUnit_Framework_TestCase
 {
+    private $dirPath;
+    private $fileName;
     private $object;
+    private $path;
 
     protected function setUp()
     {
@@ -46,7 +48,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      * @test
      * @depends getFileConfig
      */
-    public function getFileDirectory()
+    public function getDirectoryPath()
     {
         $this->assertEquals(
             $this->dirPath,
@@ -65,15 +67,6 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     public function getFilename()
     {
         $this->assertEquals($this->fileName, $this->object->getDocument()->getFileConfig()->getFilename()->getValue());
-    }
-
-    /**
-     * @test
-     * @depends getFileConfig
-     */
-    public function getFilePath()
-    {
-        $this->assertEquals($this->path, $this->object->getDocument()->getFileConfig()->getPath());
     }
 
     /**
@@ -188,9 +181,9 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     public function setCsvDelimiter()
     {
         $this->assertEquals(
-            Delimiter::SEMICOLON,
+            Delimiter::COMMA,
             $this->object
-                ->delimiter(';')
+                ->delimiter(Delimiter::COMMA)
                 ->getDocument()
                 ->getCsvConfig()
                 ->getDelimiter()
@@ -207,7 +200,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             Enclosure::DOUBLE_QUOTES,
             $this->object
-                ->enclosure('"')
+                ->enclosure(Enclosure::DOUBLE_QUOTES)
                 ->getDocument()
                 ->getCsvConfig()
                 ->getEnclosure()
