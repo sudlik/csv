@@ -10,6 +10,7 @@ use Csv\Value\Cell;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit_Framework_TestCase;
 use SplFileObject;
+use StdClass;
 
 class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
 {
@@ -31,9 +32,65 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      */
     public function createFile()
     {
-        $this->object->writeString('');
-
         $this->assertFileExists($this->path);
+    }
+
+    public function strings()
+    {
+        $value = 'string';
+
+        return [
+            [
+                $value,
+                $value,
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider strings
+     * @depends createFile
+     */
+    public function writeString($expected, $string)
+    {
+        $this->object->writeString($string);
+
+        $this->assertEquals($expected, file_get_contents($this->path));
+    }
+
+    public function notStrings()
+    {
+        $value = 'string';
+
+        return [
+            [
+                0.1,
+            ],
+            [
+                1,
+            ],
+            [
+                true,
+            ],
+            [
+                new StdClass,
+            ],
+            [
+                array(),
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider notStrings
+     * @depends writeString
+     * @expectedException Csv\Exception\UnexpectedArgumentTypeException
+     */
+    public function writeStringException($notString)
+    {
+        $this->object->writeString($notString);
     }
 
     public function rows()
