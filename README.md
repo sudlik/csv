@@ -75,3 +75,4 @@ $documentBuilder
 * nameable column index
 * fix phpdox
 * add integration tests
+* increase code coverage
