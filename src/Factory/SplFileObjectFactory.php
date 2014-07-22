@@ -2,7 +2,7 @@
 
 namespace Csv\Factory;
 
-use Csv\Value\OpenFileMode;
+use Csv\Enum\OpenFileMode;
 use SplFileObject;
 
 class SplFileObjectFactory
