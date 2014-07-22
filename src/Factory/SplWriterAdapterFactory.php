@@ -21,7 +21,7 @@ class SplWriterAdapterFactory implements WriterAdapterFactory
             $this->splFileObjectFactory->create(
                 $directoryPath->getValue()
                 . DIRECTORY_SEPARATOR
-                . $filename->getPath()
+                . $filename->getValue()
             )
         );
     }
