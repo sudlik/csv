@@ -42,8 +42,8 @@ class Table
     public function setName(Cell $cell, Position $position)
     {
         $this->names->set($cell, $position);
-        $this->update();
         $this->executeNamesUpdateCallbacks();
+        $this->update();
 
         return $this;
     }
@@ -51,8 +51,8 @@ class Table
     public function addName(Cell $cell)
     {
         $this->names->add($cell);
-        $this->update();
         $this->executeNamesUpdateCallbacks();
+        $this->update();
 
         return $this;
     }
@@ -60,8 +60,8 @@ class Table
     public function setRow(Row $row, Position $position)
     {
         $this->rows->set($row, $position);
-        $this->update();
         $this->executeRowUpdateCallbacks($row, $position);
+        $this->update();
 
         return $this;
     }
@@ -69,8 +69,8 @@ class Table
     public function addRow(Row $row)
     {
         $this->rows->add($row);
-        $this->update();
         $this->executeRowCreateCallbacks($row);
+        $this->update();
 
         return $this;
     }
@@ -91,6 +91,21 @@ class Table
         $this->rows->freeze();
 
         return $this;
+    }
+
+    public function registerNamesUpdateCallback(callable $callback)
+    {
+        $this->namesUpdateCallbacks[] = $callback;
+    }
+
+    public function registerRowCreateCallback(callable $callback)
+    {
+        $this->rowCreateCallbacks[] = $callback;
+    }
+
+    public function registerRowUpdateCallback(callable $callback)
+    {
+        $this->rowUpdateCallbacks[] = $callback;
     }
 
     private function update()
@@ -149,36 +164,21 @@ class Table
         }
     }
 
-    public function registerNamesUpdateCallback(callable $callback)
-    {
-        $this->namesUpdateCallbacks[] = $callback;
-    }
-
-    public function executeNamesUpdateCallbacks()
+    private function executeNamesUpdateCallbacks()
     {
         foreach ($this->namesUpdateCallbacks as $callback) {
             $callback($this->getNames());
         }
     }
 
-    public function registerRowCreateCallback(callable $callback)
-    {
-        $this->rowCreateCallbacks[] = $callback;
-    }
-
-    public function executeRowCreateCallbacks(Row $row, Position $position)
+    private function executeRowCreateCallbacks(Row $row, Position $position)
     {
         foreach ($this->rowCreateCallbacks as $callback) {
             $callback($row, $position);
         }
     }
 
-    public function registerRowUpdateCallback(callable $callback)
-    {
-        $this->rowUpdateCallbacks[] = $callback;
-    }
-
-    public function executeRowUpdateCallbacks(Row $row, Position $position)
+    private function executeRowUpdateCallbacks(Row $row, Position $position)
     {
         foreach ($this->rowUpdateCallbacks as $callback) {
             $callback($row, $position);
