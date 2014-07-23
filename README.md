@@ -95,7 +95,6 @@ $documentBuilder->row(['a']);
 * fix `phpdox`
 * add integration tests
 * increase code coverage
-* lock file in `RowWrite`
 * move updates from `Table` to separate class
 * move callbacks from `Table` to separate class
 * consider use events or AOP instead of callbacks

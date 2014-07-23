@@ -18,6 +18,13 @@ class SplWriterAdapter implements WriterAdapter
     public function __construct(SplFileObject $splFileObject)
     {
         $this->splFileObject = $splFileObject;
+
+        $this->splFileObject->flock(LOCK_EX);
+    }
+
+    public function __destruct()
+    {
+        $this->splFileObject->flock(LOCK_UN);
     }
 
     /**
@@ -29,6 +36,7 @@ class SplWriterAdapter implements WriterAdapter
     {
         if (is_string($string)) {
             $this->splFileObject->fwrite($string);
+            $this->splFileObject->fflush();
         } else {
             throw new UnexpectedArgumentTypeException;
         }
@@ -45,6 +53,7 @@ class SplWriterAdapter implements WriterAdapter
     public function writeRow(Delimiter $delimiter, Enclosure $enclosure, Row $row)
     {
         $this->splFileObject->fputcsv($row->asArray(), $delimiter->getValue(), $enclosure->getValue());
+        $this->splFileObject->fflush();
 
         return $this;
     }
@@ -60,6 +69,7 @@ class SplWriterAdapter implements WriterAdapter
     {
         $this->splFileObject->fseek($position);
         $this->splFileObject->fputcsv($row->asArray(), $delimiter->getValue(), $enclosure->getValue());
+        $this->splFileObject->fflush();
 
         return $this;
     }
