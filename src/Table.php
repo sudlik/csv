@@ -39,6 +39,12 @@ class Table
         $this->rows = new RowCollection;
     }
 
+    public function __clone()
+    {
+        $this->names = clone $this->names;
+        $this->rows = clone $this->rows;
+    }
+
     public function setName(Cell $cell, Position $position)
     {
         $this->names->set($cell, $position);
