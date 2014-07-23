@@ -52,7 +52,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
             ->method('getFileConfig')
             ->willReturn(
                 new FileConfig(
-                    Charset::get(CHARSET::UTF8),
+                    Charset::get(Charset::UTF8),
                     new DirectoryPath(vfsStream::url($dirPath)),
                     new Filename('test.csv'),
                     new WithBom(true)

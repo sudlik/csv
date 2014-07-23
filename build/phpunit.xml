@@ -18,18 +18,17 @@
 >
     <testsuites>
         <testsuite name="csv">
-            <directory>../tests</directory>
+            <directory phpVersion="5.4.0">../tests</directory>
         </testsuite>
     </testsuites>
     <filter>
-        <blacklist>
-            <directory>../src/Collection</directory>
-            <directory>../src/Enum</directory>
-            <directory>../src/Exception</directory>
-            <directory>../src/Factory</directory>
-            <directory>../src/Value</directory>
-            <directory>../vendor</directory>
-        </blacklist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../src/Adapter</directory>
+            <directory suffix=".php">../src/Builder</directory>
+            <directory suffix=".php">../src/Writer</directory>
+            <file>../src/Document.php</file>
+            <file>../src/Table.php</file>
+        </whitelist>
     </filter>
     <logging>
         <log type="coverage-html" target="coverage"/>
