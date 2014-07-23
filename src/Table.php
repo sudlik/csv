@@ -171,10 +171,10 @@ class Table
         }
     }
 
-    private function executeRowCreateCallbacks(Row $row, Position $position)
+    private function executeRowCreateCallbacks(Row $row)
     {
         foreach ($this->rowCreateCallbacks as $callback) {
-            $callback($row, $position);
+            $callback($row);
         }
     }
 

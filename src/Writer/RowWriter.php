@@ -50,14 +50,14 @@ class RowWriter
         );
 
         $table->registerRowCreateCallback(
-            function (Row $row, Position $position) {
-                $p = $position->getValue();
+            function (Row $row) use ($document) {
+                $position = $document->count() - 1;
 
                 if ($this->visibleNames) {
-                    $p += 1;
+                    $position += 1;
                 }
 
-                $this->writeRow($row, $p, $this->delimiter, $this->enclosure);
+                $this->writeRow($row, $position, $this->delimiter, $this->enclosure);
             }
         );
 
