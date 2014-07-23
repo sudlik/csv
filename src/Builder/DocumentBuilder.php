@@ -195,6 +195,6 @@ class DocumentBuilder
 
     public function getTable()
     {
-        $this->table;
+        return $this->table;
     }
 }
