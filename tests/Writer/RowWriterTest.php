@@ -26,7 +26,7 @@ class RowWriterTest extends PHPUnit_Framework_TestCase
         $writerAdapterFactory = $this->getMock('Csv\Factory\WriterAdapterFactory');
 
         $writerAdapterFactory
-            ->method('create')
+            ->method('createWithWritePlus')
             ->willReturn($this->getMock('Csv\Adapter\WriterAdapter'));
 
         $documentWriter = new RowWriter($writerAdapterFactory);

@@ -26,7 +26,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
         $writerAdapterFactory = $this->getMock('Csv\Factory\WriterAdapterFactory');
 
         $writerAdapterFactory
-            ->method('create')
+            ->method('createWithWrite')
             ->willReturn($this->getMock('Csv\Adapter\WriterAdapter'));
 
         $documentWriter = new DocumentWriter($writerAdapterFactory);

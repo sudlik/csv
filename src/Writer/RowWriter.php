@@ -82,7 +82,7 @@ class RowWriter
         $this->charset = $fileConfig->getCharset();
         $this->withBom = $fileConfig->getWithBom();
 
-        $this->writerAdapter = $this->writerAdapterFactory->create(
+        $this->writerAdapter = $this->writerAdapterFactory->createWithWritePlus(
             $fileConfig->getDirectoryPath(),
             $fileConfig->getFilename()
         );

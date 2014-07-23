@@ -41,7 +41,7 @@ class DocumentWriter
         $this->charset = $fileConfig->getCharset();
         $this->withBom = $fileConfig->getWithBom();
 
-        $this->writerAdapter = $this->writerAdapterFactory->create(
+        $this->writerAdapter = $this->writerAdapterFactory->createWithWrite(
             $fileConfig->getDirectoryPath(),
             $fileConfig->getFilename()
         );
