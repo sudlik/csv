@@ -21,17 +21,6 @@ class SplWriterAdapter implements WriterAdapter
     }
 
     /**
-     * @param Row $row
-     * @return self
-     */
-    public function writeRow(Delimiter $delimiter, Enclosure $enclosure, Row $row)
-    {
-        $this->splFileObject->fputcsv($row->asArray(), $delimiter->getValue(), $enclosure->getValue());
-
-        return $this;
-    }
-
-    /**
      * @param string $string
      * @throws Csv\Exception\UnexpectedArgumentTypeException if argument is not string
      * @return self
@@ -43,6 +32,34 @@ class SplWriterAdapter implements WriterAdapter
         } else {
             throw new UnexpectedArgumentTypeException;
         }
+
+        return $this;
+    }
+
+    /**
+     * @param Delimiter $delimiter
+     * @param Enclosure $enclosure
+     * @param Row $row
+     * @return self
+     */
+    public function writeRow(Delimiter $delimiter, Enclosure $enclosure, Row $row)
+    {
+        $this->splFileObject->fputcsv($row->asArray(), $delimiter->getValue(), $enclosure->getValue());
+
+        return $this;
+    }
+
+    /**
+     * @param Delimiter $delimiter
+     * @param Enclosure $enclosure
+     * @param Row $row
+     * @param int $position
+     * @return self
+     */
+    public function overwriteRow(Delimiter $delimiter, Enclosure $enclosure, Row $row, $position)
+    {
+        $this->splFileObject->fseek($position);
+        $this->splFileObject->fputcsv($row->asArray(), $delimiter->getValue(), $enclosure->getValue());
 
         return $this;
     }

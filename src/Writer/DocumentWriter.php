@@ -10,7 +10,6 @@ use Csv\Enum\Enclosure;
 use Csv\Factory\WriterAdapterFactory;
 use Csv\Value\VisibleNames;
 use Csv\Value\WithBom;
-use SplFileObject;
 
 class DocumentWriter
 {
@@ -26,8 +25,8 @@ class DocumentWriter
     public function __construct(WriterAdapterFactory $writerAdapterFactory)
     {
         $this->bom = chr(0xef) . chr(0xbb) . chr(0xbf);
-        $this->writerAdapterFactory = $writerAdapterFactory;
         $this->utf8 = Charset::get(Charset::UTF8);
+        $this->writerAdapterFactory = $writerAdapterFactory;
     }
 
     public function write(Document $document)

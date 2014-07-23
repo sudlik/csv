@@ -27,6 +27,12 @@ class Table
      */
     private $rowSize = 0;
 
+    private $namesUpdateCallbacks = [];
+
+    private $rowCreateCallbacks = [];
+
+    private $rowUpdateCallbacks = [];
+
     public function __construct()
     {
         $this->names = new Row;
@@ -37,6 +43,7 @@ class Table
     {
         $this->names->set($cell, $position);
         $this->update();
+        $this->executeNamesUpdateCallbacks();
 
         return $this;
     }
@@ -45,6 +52,7 @@ class Table
     {
         $this->names->add($cell);
         $this->update();
+        $this->executeNamesUpdateCallbacks();
 
         return $this;
     }
@@ -53,6 +61,7 @@ class Table
     {
         $this->rows->set($row, $position);
         $this->update();
+        $this->executeRowUpdateCallbacks($row, $position);
 
         return $this;
     }
@@ -61,6 +70,7 @@ class Table
     {
         $this->rows->add($row);
         $this->update();
+        $this->executeRowCreateCallbacks($row);
 
         return $this;
     }
@@ -85,36 +95,93 @@ class Table
 
     private function update()
     {
+        $this->calculateRowSize();
+        $this->createMissingNames();
+        $this->createMissingRows();
+        $this->createMissingCells();
+    }
+
+    private function calculateRowSize()
+    {
         $this->rowSize = max($this->rowSize, $this->names->size());
 
         foreach ($this->rows->all() as $row) {
             $this->rowSize = max($this->rowSize, $row->size());
         }
+    }
 
-        for ($i = 0; $i < $this->rowSize; $i++) {
-            $pos = new Position($i);
+    private function createMissingNames()
+    {
+        for ($p = 0; $p < $this->rowSize; $p++) {
+            $position = new Position($p);
 
-            if (!$this->names->exists($pos)) {
-                $this->names->set(new Cell, $pos);
+            if (!$this->names->exists($position)) {
+                $this->names->set(new Cell, $position);
+                $this->executeNamesUpdateCallbacks();
             }
         }
+    }
 
-        for ($i = 0; $i < $this->rows->size(); $i++) {
-            $pos = new Position($i);
+    private function createMissingRows()
+    {
+        for ($p = 0; $p < $this->rows->size(); $p++) {
+            $position = new Position($p);
 
-            if (!$this->rows->exists($pos)) {
-                $this->rows->set(new Row, $pos);
+            if (!$this->rows->exists($position)) {
+                $row = new Row;
+                $this->rows->set($row, $position);
+                $this->executeRowUpdateCallbacks($row, $position);
             }
         }
+    }
 
+    private function createMissingCells()
+    {
         foreach ($this->rows->all() as $row) {
-            for ($i = 0; $i < $this->rowSize; $i++) {
-                $pos = new Position($i);
+            for ($p = 0; $p < $this->rowSize; $p++) {
+                $position = new Position($p);
 
-                if (!$row->exists($pos)) {
-                    $row->set(new Cell, $pos);
+                if (!$row->exists($position)) {
+                    $row->set(new Cell, $position);
+                    $this->executeRowUpdateCallbacks($row, $position);
                 }
             }
+        }
+    }
+
+    public function registerNamesUpdateCallback(callable $callback)
+    {
+        $this->namesUpdateCallbacks[] = $callback;
+    }
+
+    public function executeNamesUpdateCallbacks()
+    {
+        foreach ($this->namesUpdateCallbacks as $callback) {
+            $callback($this->getNames());
+        }
+    }
+
+    public function registerRowCreateCallback(callable $callback)
+    {
+        $this->rowCreateCallbacks[] = $callback;
+    }
+
+    public function executeRowCreateCallbacks(Row $row, Position $position)
+    {
+        foreach ($this->rowCreateCallbacks as $callback) {
+            $callback($row, $position);
+        }
+    }
+
+    public function registerRowUpdateCallback(callable $callback)
+    {
+        $this->rowUpdateCallbacks[] = $callback;
+    }
+
+    public function executeRowUpdateCallbacks(Row $row, Position $position)
+    {
+        foreach ($this->rowUpdateCallbacks as $callback) {
+            $callback($row, $position);
         }
     }
 }

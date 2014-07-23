@@ -16,7 +16,7 @@ use Csv\Value\WithBom;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit_Framework_TestCase;
 
-class DocumentWriterTest extends PHPUnit_Framework_TestCase
+class RowWriterTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -29,10 +29,28 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->willReturn($this->getMock('Csv\Adapter\WriterAdapter'));
 
-        $documentWriter = new DocumentWriter($writerAdapterFactory);
+        $documentWriter = new RowWriter($writerAdapterFactory);
         $dirPath = 'example';
 
         vfsStream::setup($dirPath);
+
+        $table = $this->getMockBuilder('Csv\Table')->getMock();
+
+        $table
+            ->method('getNames')
+            ->willReturn(new Row);
+
+        $table
+            ->method('getRows')
+            ->willReturn(new Row);
+
+        $documentBuilder = $this->getMockBuilder('Csv\Builder\DocumentBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $documentBuilder
+            ->method('getTable')
+            ->willReturn($table);
 
         $document = $this->getMockBuilder('Csv\Document')
             ->disableOriginalConstructor()
@@ -59,20 +77,14 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
                 )
             );
 
-        $table = $this->getMockBuilder('Csv\Table')->getMock();
-
-        $table
-            ->method('getNames')
-            ->willReturn(new Row);
-
-        $table
-            ->method('getRows')
-            ->willReturn(new Row);
-
         $document
             ->method('getTable')
             ->willReturn($table);
 
-        $this->assertNull($documentWriter->write($document));
+        $documentBuilder
+            ->method('getDocument')
+            ->willReturn($document);
+
+        $this->assertNull($documentWriter->write($documentBuilder));
     }
 }

@@ -13,15 +13,26 @@ use SplFileObject;
 interface WriterAdapter
 {
     /**
+     * @param string $string
+     * @throws Csv\Exception\UnexpectedArgumentTypeException if argument is not string
+     * @return self
+     */
+    public function writeString($string);
+
+    /**
+     * @param Delimiter $delimiter
+     * @param Enclosure $enclosure
      * @param Row $row
      * @return self
      */
     public function writeRow(Delimiter $delimiter, Enclosure $enclosure, Row $row);
 
     /**
-     * @param string $string
-     * @throws Csv\Exception\UnexpectedArgumentTypeException if argument is not string
+     * @param Delimiter $delimiter
+     * @param Enclosure $enclosure
+     * @param Row $row
+     * @param int $position
      * @return self
      */
-    public function writeString($string);
+    public function overwriteRow(Delimiter $delimiter, Enclosure $enclosure, Row $row, $position);
 }

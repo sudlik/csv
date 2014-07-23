@@ -192,4 +192,9 @@ class DocumentBuilder
 
         return $documentFactory->create($this->table);
     }
+
+    public function getTable()
+    {
+        $this->table;
+    }
 }
