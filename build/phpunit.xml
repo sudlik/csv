@@ -23,6 +23,11 @@
     </testsuites>
     <filter>
         <blacklist>
+            <directory>../src/Collection</directory>
+            <directory>../src/Enum</directory>
+            <directory>../src/Exception</directory>
+            <directory>../src/Factory</directory>
+            <directory>../src/Value</directory>
             <directory>../vendor</directory>
         </blacklist>
     </filter>

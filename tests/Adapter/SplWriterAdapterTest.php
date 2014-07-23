@@ -24,7 +24,7 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
         vfsStream::setup($dirPath);
 
         $this->path = vfsStream::url($dirPath . DIRECTORY_SEPARATOR . 'test.csv');
-        $this->object = new SplWriterAdapter(new SplFileObject($this->path, 'w'));
+        $this->object = new SplWriterAdapter(new SplFileObject($this->path, 'w+'));
     }
 
     /**
@@ -113,6 +113,37 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
     public function writeRow($expected, $row)
     {
         $this->object->writeRow(Delimiter::get(Delimiter::COMMA), Enclosure::get(Enclosure::DOUBLE_QUOTES), $row);
+
+        $this->assertEquals($expected, file_get_contents($this->path));
+    }
+
+    public function overwrittenRows()
+    {
+        $newValue = 'new-value';
+
+        return [
+            [
+                $newValue . PHP_EOL,
+                (new Row)->add(new Cell('old-value')),
+                (new Row)->add(new Cell($newValue)),
+                0,
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider overwrittenRows
+     * @depends writeRow
+     */
+    public function overwriteRow($expected, $oldRow, $newRow, $position)
+    {
+        $delimiter = Delimiter::get(Delimiter::COMMA);
+        $enclosure = Enclosure::get(Enclosure::DOUBLE_QUOTES);
+
+        $this->object
+            ->writeRow($delimiter, $enclosure, $oldRow)
+            ->overwriteRow($delimiter, $enclosure, $newRow, $position);
 
         $this->assertEquals($expected, file_get_contents($this->path));
     }
