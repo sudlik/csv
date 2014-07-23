@@ -40,6 +40,7 @@ class RowWriter
     {
         $document = $documentBuilder->getDocument();
         $table = $documentBuilder->getTable();
+        $rows = $table->getRows();
 
         $this->writeDocument($document->getCsvConfig(), $document->getFileConfig(), $table);
 
@@ -50,8 +51,8 @@ class RowWriter
         );
 
         $table->registerRowCreateCallback(
-            function (Row $row) use ($document) {
-                $position = $document->count() - 1;
+            function (Row $row) use ($rows) {
+                $position = $rows->count() - 1;
 
                 if ($this->visibleNames) {
                     $position += 1;
