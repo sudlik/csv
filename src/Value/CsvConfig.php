@@ -4,30 +4,33 @@ namespace Csv\Value;
 
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Value\VisibleNames;
 use ValueObjects\ValueObjectInterface;
 
+/**
+ * Class CsvConfig
+ * @package Csv
+ */
 final class CsvConfig extends Value
 {
     /**
-     * @var Csv\Enum\Delimiter
+     * @var Delimiter
      */
     private $delimiter;
 
     /**
-     * @var Csv\Enum\Enclosure
+     * @var Enclosure
      */
     private $enclosure;
 
     /**
-     * @var Csv\Value\VisibleNames
+     * @var VisibleNames
      */
     private $visibleNames;
 
     /**
-     * @param Csv\Enum\Delimiter $delimiter required
-     * @param Csv\Enum\Enclosure $enclosure required
-     * @param Csv\Value\VisibleNames $visibleNames required
+     * @param Delimiter $delimiter required
+     * @param Enclosure $enclosure required
+     * @param VisibleNames $visibleNames required
      */
     public function __construct(Delimiter $delimiter, Enclosure $enclosure, VisibleNames $visibleNames)
     {
@@ -49,7 +52,7 @@ final class CsvConfig extends Value
     /**
      * Compare two ValueObjectInterface and tells whether they can be considered equal
      *
-     * @param  ValueObjectInterface $object
+     * @param  self $object
      * @return bool
      */
     public function sameValueAs(ValueObjectInterface $object)
@@ -60,16 +63,25 @@ final class CsvConfig extends Value
             and $this->visibleNames === $object->getVisibleNames();
     }
 
+    /**
+     * @return Delimiter
+     */
     public function getDelimiter()
     {
         return $this->delimiter;
     }
 
+    /**
+     * @return Enclosure
+     */
     public function getEnclosure()
     {
         return $this->enclosure;
     }
 
+    /**
+     * @return VisibleNames
+     */
     public function getVisibleNames()
     {
         return $this->visibleNames;
