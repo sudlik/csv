@@ -4,6 +4,10 @@ namespace Csv\Exception;
 
 use InvalidArgumentException;
 
-class InvalidContentValueException extends InvalidArgumentException
+/**
+ * Class InvalidVisibleNamesValueException
+ * @package Csv
+ */
+class InvalidVisibleNamesValueException extends InvalidArgumentException
 {
 }
