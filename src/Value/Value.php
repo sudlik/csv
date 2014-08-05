@@ -4,10 +4,20 @@ namespace Csv\Value;
 
 use ValueObjects\ValueObjectInterface;
 
+/**
+ * Class Value
+ * @package Csv
+ */
 abstract class Value implements ValueObjectInterface
 {
+    /**
+     * @var mixed
+     */
     protected $value;
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return (string)$this->value;
@@ -20,13 +30,13 @@ abstract class Value implements ValueObjectInterface
      */
     public static function fromNative()
     {
-        return new self(func_get_arg(0));
+        return new static(func_get_arg(0));
     }
 
     /**
      * Compare two ValueObjectInterface and tells whether they can be considered equal
      *
-     * @param  ValueObjectInterface $object
+     * @param  self $object
      * @return bool
      */
     public function sameValueAs(ValueObjectInterface $object)
@@ -34,6 +44,9 @@ abstract class Value implements ValueObjectInterface
         return $this->value === $object->getValue();
     }
 
+    /**
+     * @return mixed
+     */
     public function getValue()
     {
         return $this->value;
