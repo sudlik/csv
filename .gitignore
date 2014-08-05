@@ -1,5 +1,5 @@
-/*.sublime-project
-/*.sublime-workspace
+/*.sublime-*
+/.idea
 /cache.properties
 /composer.lock
 /composer.phar
