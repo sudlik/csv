@@ -85,6 +85,6 @@ class RowWriterTest extends PHPUnit_Framework_TestCase
             ->method('getDocument')
             ->willReturn($document);
 
-        $this->assertNull($documentWriter->write($documentBuilder));
+        $documentWriter->write($documentBuilder);
     }
 }

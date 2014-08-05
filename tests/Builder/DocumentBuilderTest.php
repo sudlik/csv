@@ -12,7 +12,12 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
 {
     private $dirPath;
     private $fileName;
+
+    /**
+     * @var DocumentBuilder
+     */
     private $object;
+
     private $path;
 
     protected function setUp()

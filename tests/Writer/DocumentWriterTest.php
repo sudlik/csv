@@ -23,6 +23,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
      */
     public function writeDocument()
     {
+        /** @var \PHPUnit_Framework_MockObject_MockObject $writerAdapterFactory */
         $writerAdapterFactory = $this->getMock('Csv\Factory\WriterAdapterFactory');
 
         $writerAdapterFactory
@@ -73,6 +74,6 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
             ->method('getTable')
             ->willReturn($table);
 
-        $this->assertNull($documentWriter->write($document));
+        $documentWriter->write($document);
     }
 }

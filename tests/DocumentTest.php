@@ -16,6 +16,14 @@ use org\bovigo\vfs\vfsStream;
 
 class DocumentTest extends PHPUnit_Framework_TestCase
 {
+    private $csvConfig;
+    private $fileConfig;
+
+    /** @var Document */
+    private $object;
+
+    private $table;
+
     protected function setUp()
     {
         $this->table = $this->getMockBuilder('Csv\Table')->getMock();
