@@ -5,7 +5,6 @@ namespace Csv\Adapter;
 use Csv\Collection\Row;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Exception\UnexpectedArgumentTypeException;
 use Csv\Value\Cell;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit_Framework_TestCase;
@@ -14,6 +13,9 @@ use StdClass;
 
 class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var SplWriterAdapter
+     */
     private $object;
     private $path;
 
