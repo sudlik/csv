@@ -13,8 +13,14 @@ use SplFileObject;
  */
 class SplWriterAdapter implements WriterAdapter
 {
+    /**
+     * @var SplFileObject
+     */
     private $splFileObject;
 
+    /**
+     * @param SplFileObject $splFileObject
+     */
     public function __construct(SplFileObject $splFileObject)
     {
         $this->splFileObject = $splFileObject;

@@ -5,8 +5,17 @@ namespace Csv\Collection;
 use Csv\Exception\CollectionIsFrozenException;
 use Csv\Value\Position;
 
+/**
+ * Class RowCollection
+ * @package Csv
+ */
 class RowCollection extends Collection
 {
+    /**
+     * @param Row $row
+     * @return $this
+     * @throws CollectionIsFrozenException
+     */
     public function add(Row $row)
     {
         if ($this->isFrozen()) {
@@ -18,6 +27,12 @@ class RowCollection extends Collection
         return $this;
     }
 
+    /**
+     * @param Row $row
+     * @param Position $position
+     * @return $this
+     * @throws CollectionIsFrozenException
+     */
     public function set(Row $row, Position $position)
     {
         if ($this->isFrozen()) {
@@ -29,11 +44,18 @@ class RowCollection extends Collection
         return $this;
     }
 
+    /**
+     * @param Row $row
+     * @return bool
+     */
     public function has(Row $row)
     {
         return (bool)in_array($row, $this->getArrayObject()->getArrayCopy());
     }
 
+    /**
+     * @return array
+     */
     public function asArray()
     {
         $array = array_map(
@@ -48,6 +70,9 @@ class RowCollection extends Collection
         return $array;
     }
 
+    /**
+     * @return $this
+     */
     public function freeze()
     {
         foreach ($this->getArrayObject() as $row) {

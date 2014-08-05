@@ -3,29 +3,31 @@
 namespace Csv\Value;
 
 use Csv\Enum\Charset;
-use Csv\Value\DirectoryPath;
-use Csv\Value\Filename;
 use ValueObjects\ValueObjectInterface;
 
+/**
+ * Class FileConfig
+ * @package Csv
+ */
 final class FileConfig extends Value
 {
     /**
-     * @var Csv\Enum\Charset
+     * @var Charset
      */
     private $charset;
 
     /**
-     * @var Csv\Value\DirectoryPath
+     * @var DirectoryPath
      */
     private $directoryPath;
 
     /**
-     * @var Csv\Value\Filename
+     * @var Filename
      */
     private $filename;
 
     /**
-     * @var Csv\Value\WithBom
+     * @var WithBom
      */
     private $withBom;
 
@@ -55,7 +57,7 @@ final class FileConfig extends Value
     /**
      * Compare two ValueObjectInterface and tells whether they can be considered equal
      *
-     * @param  ValueObjectInterface $object
+     * @param  self $object
      * @return bool
      */
     public function sameValueAs(ValueObjectInterface $object)
@@ -67,21 +69,33 @@ final class FileConfig extends Value
             and $this->getWithBom() === $object->getWithBom();
     }
 
+    /**
+     * @return Charset
+     */
     public function getCharset()
     {
         return $this->charset;
     }
 
+    /**
+     * @return DirectoryPath
+     */
     public function getDirectoryPath()
     {
         return $this->directoryPath;
     }
 
+    /**
+     * @return Filename
+     */
     public function getFilename()
     {
         return $this->filename;
     }
 
+    /**
+     * @return WithBom
+     */
     public function getWithBom()
     {
         return $this->withBom;

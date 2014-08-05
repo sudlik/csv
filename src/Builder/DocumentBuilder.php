@@ -52,7 +52,7 @@ class DocumentBuilder
 
     /**
      * Row holder
-     * @var Csv\Table
+     * @var Table
      */
     private $table;
 
@@ -86,6 +86,10 @@ class DocumentBuilder
         }
     }
 
+    /**
+     * @param $charset
+     * @return $this
+     */
     public function charset($charset)
     {
         $this->charset = Charset::get($charset);
@@ -93,6 +97,10 @@ class DocumentBuilder
         return $this;
     }
 
+    /**
+     * @param $delimiter
+     * @return $this
+     */
     public function delimiter($delimiter)
     {
         $this->delimiter = Delimiter::get($delimiter);
@@ -100,6 +108,10 @@ class DocumentBuilder
         return $this;
     }
 
+    /**
+     * @param $enclosure
+     * @return $this
+     */
     public function enclosure($enclosure)
     {
         $this->enclosure = Enclosure::get($enclosure);
@@ -107,6 +119,10 @@ class DocumentBuilder
         return $this;
     }
 
+    /**
+     * @param $visibleNames
+     * @return $this
+     */
     public function visibleNames($visibleNames)
     {
         $this->visibleNames = new VisibleNames($visibleNames);
@@ -114,6 +130,10 @@ class DocumentBuilder
         return $this;
     }
 
+    /**
+     * @param $withBom
+     * @return $this
+     */
     public function withBom($withBom)
     {
         $this->withBom = new WithBom($withBom);
@@ -121,6 +141,11 @@ class DocumentBuilder
         return $this;
     }
 
+    /**
+     * @param null $name
+     * @param null $position
+     * @return $this
+     */
     public function name($name = null, $position = null)
     {
         if (is_null($position)) {
@@ -132,6 +157,10 @@ class DocumentBuilder
         return $this;
     }
 
+    /**
+     * @param $names
+     * @return $this
+     */
     public function names($names)
     {
         foreach ($names as $name) {
@@ -145,6 +174,11 @@ class DocumentBuilder
         return $this;
     }
 
+    /**
+     * @param array $cells
+     * @param null $position
+     * @return $this
+     */
     public function row(array $cells = null, $position = null)
     {
         $row = new Row;
@@ -193,6 +227,9 @@ class DocumentBuilder
         return $documentFactory->create($this->table);
     }
 
+    /**
+     * @return Table
+     */
     public function getTable()
     {
         return $this->table;

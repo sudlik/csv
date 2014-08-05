@@ -12,6 +12,11 @@ use Csv\Value\Position;
  */
 class Row extends Collection
 {
+    /**
+     * @param Cell $cell
+     * @return $this
+     * @throws CollectionIsFrozenException
+     */
     public function add(Cell $cell)
     {
         if ($this->isFrozen()) {
@@ -23,6 +28,12 @@ class Row extends Collection
         return $this;
     }
 
+    /**
+     * @param Cell $cell
+     * @param Position $position
+     * @return $this
+     * @throws CollectionIsFrozenException
+     */
     public function set(Cell $cell, Position $position)
     {
         if ($this->isFrozen()) {
@@ -34,11 +45,18 @@ class Row extends Collection
         return $this;
     }
 
+    /**
+     * @param Cell $cell
+     * @return bool
+     */
     public function has(Cell $cell)
     {
         return (bool)in_array($cell, $this->getArrayObject()->getArrayCopy());
     }
 
+    /**
+     * @return array
+     */
     public function asArray()
     {
         $array = array_map(

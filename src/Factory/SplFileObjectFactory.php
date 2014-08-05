@@ -7,8 +7,18 @@ use Csv\Value\DirectoryPath;
 use Csv\Value\Filename;
 use SplFileObject;
 
+/**
+ * Class SplFileObjectFactory
+ * @package Csv
+ */
 class SplFileObjectFactory
 {
+    /**
+     * @param DirectoryPath $directoryPath
+     * @param Filename $filename
+     * @param OpenFileMode $openFileMode
+     * @return SplFileObject
+     */
     public function create(DirectoryPath $directoryPath, Filename $filename, OpenFileMode $openFileMode = null)
     {
         if ($openFileMode) {
