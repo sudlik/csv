@@ -17,6 +17,7 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @var SplWriterAdapter
      */
     private $object;
+
     private $path;
 
     protected function setUp()
@@ -35,6 +36,14 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
     public function createFile()
     {
         $this->assertFileExists($this->path);
+    }
+
+    /**
+     * @test
+     */
+    public function lockFileOnConstructObject()
+    {
+        $this->assertFalse((new SplFileObject($this->path, 'w'))->flock(LOCK_EX|LOCK_NB, $isLocked));
     }
 
     public function strings()
@@ -63,8 +72,6 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
 
     public function notStrings()
     {
-        $value = 'string';
-
         return [
             [
                 0.1,
@@ -88,7 +95,7 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider notStrings
      * @depends writeString
-     * @expectedException Csv\Exception\UnexpectedArgumentTypeException
+     * @expectedException \Csv\Exception\UnexpectedArgumentTypeException
      */
     public function writeStringException($notString)
     {
