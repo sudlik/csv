@@ -231,4 +231,12 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
                 ->getValue()
         );
     }
+
+    /**
+     * @test
+     */
+    public function getTable()
+    {
+        $this->assertInstanceOf('Csv\Table', $this->object->getTable());
+    }
 }
