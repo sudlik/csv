@@ -202,7 +202,7 @@ class DocumentBuilder
 
     /**
      * Get document
-     * @return Csv\Document
+     * @return \Csv\Document
      */
     public function getDocument()
     {
