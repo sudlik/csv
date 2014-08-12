@@ -3,6 +3,7 @@
 namespace Csv\Writer;
 
 use Csv\Collection\Row;
+use Csv\Collection\RowCollection;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
@@ -68,7 +69,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
 
         $table
             ->method('getRows')
-            ->willReturn(new Row);
+            ->willReturn((new RowCollection)->add(new Row));
 
         $document
             ->method('getTable')
