@@ -28,11 +28,6 @@ class SplWriterAdapter implements WriterAdapter
         $this->splFileObject->flock(LOCK_EX);
     }
 
-    public function __destruct()
-    {
-        $this->splFileObject->flock(LOCK_UN);
-    }
-
     /**
      * @param string $string
      * @throws Csv\Exception\UnexpectedArgumentTypeException if argument is not string
