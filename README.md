@@ -98,3 +98,5 @@ $documentBuilder->row(['a']);
 * move updates from `Table` to separate class
 * move callbacks from `Table` to separate class
 * consider use events or AOP instead of callbacks
+* allow custom file extension
+* variable default filename
