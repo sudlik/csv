@@ -25,9 +25,9 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">../src/Adapter</directory>
             <directory suffix=".php">../src/Builder</directory>
+            <directory suffix=".php">../src/Table</directory>
             <directory suffix=".php">../src/Writer</directory>
             <file>../src/Document.php</file>
-            <file>../src/Table.php</file>
         </whitelist>
     </filter>
     <logging>
