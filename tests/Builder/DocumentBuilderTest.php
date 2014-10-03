@@ -237,6 +237,6 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function getTable()
     {
-        $this->assertInstanceOf('Csv\Table', $this->object->getTable());
+        $this->assertInstanceOf('Csv\Table\Table', $this->object->getTable());
     }
 }

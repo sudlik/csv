@@ -6,7 +6,7 @@ use Csv\Document;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Table;
+use Csv\Table\Table;
 use Csv\Value\CsvConfig;
 use Csv\Value\DirectoryPath;
 use Csv\Value\FileConfig;

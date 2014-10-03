@@ -8,7 +8,7 @@ use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
 use Csv\Factory\WriterAdapterFactory;
-use Csv\Table;
+use Csv\Table\Table;
 use Csv\Value\CsvConfig;
 use Csv\Value\FileConfig;
 use Csv\Value\Position;

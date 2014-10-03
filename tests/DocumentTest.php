@@ -26,7 +26,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->table = $this->getMockBuilder('Csv\Table')->getMock();
+        $this->table = $this->getMockBuilder('Csv\Table\Table')->getMock();
 
         $this->csvConfig = new CsvConfig(
             Delimiter::get(Delimiter::COMMA),

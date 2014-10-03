@@ -8,9 +8,12 @@ use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
 use Csv\Factory\DocumentFactory;
 use Csv\Factory\FilenameFactory;
-use Csv\Table;
+use Csv\Table\SafeTable;
+use Csv\Table\Table;
+use Csv\Table\UnsafeTable;
 use Csv\Value\Cell;
 use Csv\Value\DirectoryPath;
+use Csv\Value\Filename;
 use Csv\Value\Position;
 use Csv\Value\VisibleNames;
 use Csv\Value\WithBom;
@@ -22,31 +25,31 @@ class DocumentBuilder
 {
     /**
      * Csv charset
-     * @var Csv\Enum\Charset
+     * @var Charset
      */
     private $charset;
 
     /**
      * Csv delimiter
-     * @var Csv\Enum\Delimiter
+     * @var Delimiter
      */
     private $delimiter;
 
     /**
      * Directory path
-     * @var Csv\Value\DirectoryPath
+     * @var DirectoryPath
      */
     private $directoryPath;
 
     /**
      * Csv enclosure
-     * @var Csv\Enum\Enclosure
+     * @var Enclosure
      */
     private $enclosure;
 
     /**
      * Filename with extension but without directory path
-     * @var Csv\Value\Filename
+     * @var Filename
      */
     private $filename;
 
@@ -58,26 +61,32 @@ class DocumentBuilder
 
     /**
      * Names written in file
-     * @var Csv\Value\VisibleNames
+     * @var VisibleNames
      */
     private $visibleNames;
 
     /**
      * File with BOM
-     * @var Csv\Value\WithBom
+     * @var WithBom
      */
     private $withBom;
 
     /**
      * Create document builder
      * @param string $directoryPath required
-     * @param string $filename required
+     * @param string $filename optional
+     * @param bool $safeTable optional
      */
-    public function __construct($directoryPath, $filename = null)
+    public function __construct($directoryPath, $filename = null, $safeTable = true)
     {
         $this->directoryPath = new DirectoryPath($directoryPath);
         $filenameFactory = new FilenameFactory;
-        $this->table = new Table;
+
+        if ($safeTable) {
+            $this->table = new SafeTable;
+        } else {
+            $this->table = new UnsafeTable;
+        }
 
         if (is_null($filename)) {
             $this->filename = $filenameFactory->create();

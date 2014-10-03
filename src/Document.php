@@ -2,6 +2,7 @@
 
 namespace Csv;
 
+use Csv\Table\Table;
 use Csv\Value\CsvConfig;
 use Csv\Value\FileConfig;
 

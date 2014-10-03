@@ -1,21 +1,21 @@
 <?php
 
-namespace Csv;
+namespace Csv\Table;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class TableTest
+ * Class UnsafeTableTest
  * @package Csv
  */
-class TableTest extends PHPUnit_Framework_TestCase
+class UnsafeTableTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Table */
+    /** @var UnsafeTable */
     private $object;
 
     protected function setUp()
     {
-        $this->object = new Table;
+        $this->object = new UnsafeTable;
     }
 
     /**

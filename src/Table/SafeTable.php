@@ -1,6 +1,6 @@
 <?php
 
-namespace Csv;
+namespace Csv\Table;
 
 use Csv\Collection\Row;
 use Csv\Collection\RowCollection;
@@ -11,7 +11,7 @@ use Csv\Value\Position;
  * Class Table
  * @package Csv
  */
-class Table
+class SafeTable implements Table
 {
     /**
      * Row with names

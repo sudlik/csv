@@ -61,7 +61,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
                 )
             );
 
-        $table = $this->getMockBuilder('Csv\Table')->getMock();
+        $table = $this->getMockBuilder('Csv\Table\Table')->getMock();
 
         $table
             ->method('getNames')
