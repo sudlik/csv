@@ -4,22 +4,25 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "git",
-            "url": "gitlab@gitlab.devsms.com:vendors/valueobjects.git"
+            "type": "composer",
+            "url": "http://packages.devsms.com/packages.json"
         }
     ],
     "require": {
-        "smsapi/valueobjects": "master@dev"
+        "smsapi/valueobjects": "master@dev",
+        "rolebi/composer-dependencies-security-checker": "~1.0"
     },
     "require-dev": {
-        "mikey179/vfsStream": "1.2.*",
-        "phpunit/phpunit": "4.1.*",
-        "phploc/phploc": "2.0.*",
-        "pdepend/pdepend": "2.0.*",
-        "phpmd/phpmd": "2.0.*",
-        "squizlabs/php_codesniffer": "1.5.*",
-        "sebastian/phpcpd": "2.0.*",
-        "theseer/phpdox": "0.6.*"
+        "mikey179/vfsStream": "1.4.*",
+        "phpunit/phpunit": "4.3.*",
+        "phploc/phploc": "~2.0",
+        "pdepend/pdepend": "~2.0",
+        "phpmd/phpmd": "~2.1",
+        "squizlabs/php_codesniffer": "~1.5",
+        "sebastian/phpcpd": "~2.0",
+        "theseer/phpdox": "~0.7",
+        "johnkary/phpunit-speedtrap": "~1.0@dev",
+        "mybuilder/phpunit-accelerator": "~1.0"
     },
     "autoload": {
         "psr-4": {
@@ -30,5 +33,13 @@
         "psr-4": {
             "Csv\\": "tests/"
         }
+    },
+    "scripts": {
+        "post-update-cmd" : [
+            "Rolebi\\ComposerDependenciesSecurityChecker\\ScriptHandler::checkForSecurityIssues"
+        ],
+        "post-install-cmd" : [
+            "Rolebi\\ComposerDependenciesSecurityChecker\\ScriptHandler::checkForSecurityIssues"
+        ]
     }
 }

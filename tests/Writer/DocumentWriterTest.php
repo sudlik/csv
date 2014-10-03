@@ -21,6 +21,7 @@ class DocumentWriterTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @test
+     * @slowThreshold 100
      */
     public function writeDocument()
     {

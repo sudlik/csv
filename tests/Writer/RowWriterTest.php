@@ -20,6 +20,7 @@ class RowWriterTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @test
+     * @slowThreshold 130
      */
     public function writeDocument()
     {

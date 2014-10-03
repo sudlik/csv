@@ -13,9 +13,7 @@ use StdClass;
 
 class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var SplWriterAdapter
-     */
+    /** @var SplWriterAdapter */
     private $object;
 
     private $path;
@@ -86,7 +84,7 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
                 new StdClass,
             ],
             [
-                array(),
+                [],
             ],
         ];
     }
