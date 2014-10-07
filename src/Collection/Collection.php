@@ -14,12 +14,12 @@ abstract class Collection
     /**
      * @var ArrayObject
      */
-    private $arrayObject;
+    protected $arrayObject;
 
     /**
      * @var bool
      */
-    private $frozen = false;
+    protected $frozen = false;
 
     public function __construct()
     {
@@ -29,14 +29,6 @@ abstract class Collection
     public function __clone()
     {
         $this->frozen = false;
-    }
-
-    /**
-     * @return ArrayObject
-     */
-    protected function getArrayObject()
-    {
-        return $this->arrayObject;
     }
 
     /**
@@ -52,7 +44,7 @@ abstract class Collection
      */
     public function all()
     {
-        return $this->getArrayObject()->getArrayCopy();
+        return $this->arrayObject->getArrayCopy();
     }
 
     /**
@@ -60,7 +52,7 @@ abstract class Collection
      */
     public function count()
     {
-        return $this->getArrayObject()->count();
+        return $this->arrayObject->count();
     }
 
     /**
@@ -69,8 +61,8 @@ abstract class Collection
      */
     public function get($index)
     {
-        if ($this->getArrayObject()->offsetExists($index)) {
-            return $this->getArrayObject()->offsetGet($index);
+        if ($this->arrayObject->offsetExists($index)) {
+            return $this->arrayObject->offsetGet($index);
         } else {
             return null;
         }
@@ -82,7 +74,7 @@ abstract class Collection
      */
     public function exists(Position $position)
     {
-        return $this->getArrayObject()->offsetExists($position->getValue());
+        return $this->arrayObject->offsetExists($position->getValue());
     }
 
     /**
@@ -91,7 +83,7 @@ abstract class Collection
     public function size()
     {
         if ($this->count()) {
-            $array = $this->getArrayObject();
+            $array = $this->arrayObject;
 
             end($array);
 

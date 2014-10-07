@@ -18,10 +18,10 @@ class RowCollection extends Collection
      */
     public function add(Row $row)
     {
-        if ($this->isFrozen()) {
+        if ($this->frozen) {
             throw new CollectionIsFrozenException;
         } else {
-            $this->getArrayObject()->append($row);
+            $this->arrayObject->append($row);
         }
 
         return $this;
@@ -35,10 +35,10 @@ class RowCollection extends Collection
      */
     public function set(Row $row, Position $position)
     {
-        if ($this->isFrozen()) {
+        if ($this->frozen) {
             throw new CollectionIsFrozenException;
         } else {
-            $this->getArrayObject()->offsetSet($position->getValue(), $row);
+            $this->arrayObject->offsetSet($position->getValue(), $row);
         }
 
         return $this;
@@ -50,7 +50,7 @@ class RowCollection extends Collection
      */
     public function has(Row $row)
     {
-        return (bool)in_array($row, $this->getArrayObject()->getArrayCopy());
+        return (bool)in_array($row, $this->arrayObject->getArrayCopy());
     }
 
     /**
@@ -62,7 +62,7 @@ class RowCollection extends Collection
             function (Row $row) {
                 return $row->asArray();
             },
-            $this->getArrayObject()->getArrayCopy()
+            $this->arrayObject->getArrayCopy()
         );
 
         ksort($array);
@@ -75,7 +75,7 @@ class RowCollection extends Collection
      */
     public function freeze()
     {
-        foreach ($this->getArrayObject() as $row) {
+        foreach ($this->arrayObject as $row) {
             $row->freeze();
         }
 

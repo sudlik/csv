@@ -19,10 +19,10 @@ class Row extends Collection
      */
     public function add(Cell $cell)
     {
-        if ($this->isFrozen()) {
+        if ($this->frozen) {
             throw new CollectionIsFrozenException;
         } else {
-            $this->getArrayObject()->append($cell);
+            $this->arrayObject->append($cell);
         }
 
         return $this;
@@ -36,10 +36,10 @@ class Row extends Collection
      */
     public function set(Cell $cell, Position $position)
     {
-        if ($this->isFrozen()) {
+        if ($this->frozen) {
             throw new CollectionIsFrozenException;
         } else {
-            $this->getArrayObject()->offsetSet($position->getValue(), $cell);
+            $this->arrayObject->offsetSet($position->getValue(), $cell);
         }
 
         return $this;
@@ -51,7 +51,7 @@ class Row extends Collection
      */
     public function has(Cell $cell)
     {
-        return (bool)in_array($cell, $this->getArrayObject()->getArrayCopy());
+        return (bool)in_array($cell, $this->arrayObject->getArrayCopy());
     }
 
     /**
@@ -63,7 +63,7 @@ class Row extends Collection
             function (Cell $cell) {
                 return $cell->getValue();
             },
-            $this->getArrayObject()->getArrayCopy()
+            $this->arrayObject->getArrayCopy()
         );
 
         ksort($array);
