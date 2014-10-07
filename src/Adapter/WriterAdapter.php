@@ -35,4 +35,12 @@ interface WriterAdapter
      * @return self
      */
     public function overwriteRow(Delimiter $delimiter, Enclosure $enclosure, Row $row, $position);
+
+    /**
+     * @param Delimiter $delimiter
+     * @param Enclosure $enclosure
+     * @param array $array
+     * @return self
+     */
+    public function writeArray(Delimiter $delimiter, Enclosure $enclosure, array $array);
 }
