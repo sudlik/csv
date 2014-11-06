@@ -21,7 +21,7 @@ use Csv\Value\WithBom;
 /**
  * @package Csv
  */
-class DocumentBuilder
+class DocumentBuilder implements DocumentBuilderInterface
 {
     /**
      * Csv charset

@@ -3,6 +3,7 @@
 namespace Csv\Writer;
 
 use Csv\Builder\DocumentBuilder;
+use Csv\Builder\DocumentBuilderInterface;
 use Csv\Collection\Row;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
@@ -77,9 +78,9 @@ class RowWriter
     }
 
     /**
-     * @param DocumentBuilder $documentBuilder
+     * @param DocumentBuilderInterface $documentBuilder
      */
-    public function write(DocumentBuilder $documentBuilder)
+    public function write(DocumentBuilderInterface $documentBuilder)
     {
         /** @var \Csv\Document $document */
         $document = $documentBuilder->getDocument();
