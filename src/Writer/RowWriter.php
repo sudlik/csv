@@ -18,7 +18,7 @@ use Csv\Value\Position;
  * Class RowWriter
  * @package Csv
  */
-class RowWriter
+class RowWriter implements RowWriterInterface
 {
     const FIRST_ROW_POSITION = 0;
 
