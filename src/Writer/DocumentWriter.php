@@ -2,61 +2,18 @@
 
 namespace Csv\Writer;
 
+use Csv\Adapter\WriterAdapter;
 use Csv\Collection\Row;
 use Csv\Document;
-use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Factory\WriterAdapterFactory;
 
 /**
  * Class DocumentWriter
  * @package Csv
  */
-class DocumentWriter
+class DocumentWriter extends Writer
 {
-    const FIRST_ROW_POSITION = 0;
-
-    /**
-     * @var string
-     */
-    private $bom;
-
-    /**
-     * @var Charset
-     */
-    private $charset;
-
-    /**
-     * @var \Csv\Adapter\WriterAdapter
-     */
-    private $writerAdapter;
-
-    /**
-     * @var WriterAdapterFactory
-     */
-    private $writerAdapterFactory;
-
-    /**
-     * @var Charset
-     */
-    private $utf8;
-
-    /**
-     * @var \Csv\Value\WithBom
-     */
-    private $withBom;
-
-    /**
-     * @param WriterAdapterFactory $writerAdapterFactory
-     */
-    public function __construct(WriterAdapterFactory $writerAdapterFactory)
-    {
-        $this->bom = chr(0xef) . chr(0xbb) . chr(0xbf);
-        $this->utf8 = Charset::get(Charset::UTF8);
-        $this->writerAdapterFactory = $writerAdapterFactory;
-    }
-
     /**
      * @param Document $document
      */
@@ -95,7 +52,7 @@ class DocumentWriter
      * @param $position
      * @param Delimiter $delimiter
      * @param Enclosure $enclosure
-     * @return \Csv\Adapter\WriterAdapter
+     * @return WriterAdapter
      */
     private function writeRow(Row $row, $position, Delimiter $delimiter, Enclosure $enclosure)
     {

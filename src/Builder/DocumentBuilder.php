@@ -3,16 +3,21 @@
 namespace Csv\Builder;
 
 use Csv\Collection\Row;
+use Csv\Document;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
 use Csv\Factory\DocumentFactory;
 use Csv\Factory\FilenameFactory;
+use Csv\Factory\VisibleNamesFactory;
+use Csv\Factory\WithBomFactory;
 use Csv\Table\SafeTable;
 use Csv\Table\Table;
 use Csv\Table\UnsafeTable;
 use Csv\Value\Cell;
+use Csv\Value\CsvConfig;
 use Csv\Value\DirectoryPath;
+use Csv\Value\FileConfig;
 use Csv\Value\Filename;
 use Csv\Value\Position;
 use Csv\Value\VisibleNames;
@@ -80,7 +85,6 @@ class DocumentBuilder implements DocumentBuilderInterface
     public function __construct($directoryPath, $filename = null, $safeTable = true)
     {
         $this->directoryPath = new DirectoryPath($directoryPath);
-        $filenameFactory = new FilenameFactory;
 
         if ($safeTable) {
             $this->table = new SafeTable;
@@ -89,9 +93,9 @@ class DocumentBuilder implements DocumentBuilderInterface
         }
 
         if (is_null($filename)) {
-            $this->filename = $filenameFactory->create();
+            $this->filename = new Filename('document.csv');
         } else {
-            $this->filename = $filenameFactory->create($filename);
+            $this->filename = new Filename($filename);
         }
     }
 
@@ -215,25 +219,41 @@ class DocumentBuilder implements DocumentBuilderInterface
      */
     public function getDocument()
     {
-        $documentFactory = new DocumentFactory($this->directoryPath, $this->filename);
-
         if ($this->charset) {
-            $documentFactory->setCharset($this->charset);
-        }
-        if ($this->delimiter) {
-            $documentFactory->setDelimiter($this->delimiter);
-        }
-        if ($this->enclosure) {
-            $documentFactory->setEnclosure($this->enclosure);
-        }
-        if ($this->visibleNames) {
-            $documentFactory->setVisibleNames($this->visibleNames);
-        }
-        if ($this->withBom) {
-            $documentFactory->setWithBom($this->withBom);
+            $charset = $this->charset;
+        } else {
+            $charset = Charset::get(Charset::UTF8);
         }
 
-        return $documentFactory->create($this->table);
+        if ($this->delimiter) {
+            $delimiter = $this->delimiter;
+        } else {
+            $delimiter = Delimiter::get(Delimiter::SEMICOLON);
+        }
+
+        if ($this->enclosure) {
+            $enclosure = $this->enclosure;
+        } else {
+            $enclosure = Enclosure::get(Enclosure::DOUBLE_QUOTES);
+        }
+
+        if ($this->visibleNames) {
+            $visibleNames = $this->visibleNames;
+        } else {
+            $visibleNames = new VisibleNames(true);
+        }
+
+        if ($this->withBom) {
+            $withBom = $this->withBom;
+        } else {
+            $withBom = new WithBom(true);
+        }
+
+        return new Document(
+            new CsvConfig($delimiter, $enclosure, $visibleNames),
+            new FileConfig($charset, $this->directoryPath, $this->filename, $withBom),
+            $this->table
+        );
     }
 
     /**

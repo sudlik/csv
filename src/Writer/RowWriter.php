@@ -2,87 +2,39 @@
 
 namespace Csv\Writer;
 
-use Csv\Builder\DocumentBuilder;
+use Csv\Adapter\WriterAdapter;
 use Csv\Builder\DocumentBuilderInterface;
 use Csv\Collection\Row;
-use Csv\Enum\Charset;
+use Csv\Document;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Factory\WriterAdapterFactory;
 use Csv\Table\Table;
 use Csv\Value\CsvConfig;
 use Csv\Value\FileConfig;
 use Csv\Value\Position;
+use Csv\Value\VisibleNames;
 
 /**
  * Class RowWriter
  * @package Csv
  */
-class RowWriter implements RowWriterInterface
+class RowWriter extends Writer implements RowWriterInterface
 {
-    const FIRST_ROW_POSITION = 0;
-
-    /**
-     * @var string
-     */
-    private $bom;
-
-    /**
-     * @var Charset
-     */
-    private $charset;
-
-    /**
-     * @var Delimiter
-     */
+    /** @var Delimiter */
     private $delimiter;
 
-    /**
-     * @var Enclosure
-     */
+    /** @var Enclosure */
     private $enclosure;
 
-    /**
-     * @var Charset
-     */
-    private $utf8;
-
-    /**
-     * @var \Csv\Value\VisibleNames
-     */
+    /** @var VisibleNames */
     private $visibleNames;
-
-    /**
-     * @var \Csv\Value\WithBom
-     */
-    private $withBom;
-
-    /**
-     * @var \Csv\Adapter\WriterAdapter
-     */
-    private $writerAdapter;
-
-    /**
-     * @var WriterAdapterFactory
-     */
-    private $writerAdapterFactory;
-
-    /**
-     * @param WriterAdapterFactory $writerAdapterFactory
-     */
-    public function __construct(WriterAdapterFactory $writerAdapterFactory)
-    {
-        $this->bom = chr(0xef) . chr(0xbb) . chr(0xbf);
-        $this->utf8 = Charset::get(Charset::UTF8);
-        $this->writerAdapterFactory = $writerAdapterFactory;
-    }
 
     /**
      * @param DocumentBuilderInterface $documentBuilder
      */
     public function write(DocumentBuilderInterface $documentBuilder)
     {
-        /** @var \Csv\Document $document */
+        /** @var Document $document */
         $document = $documentBuilder->getDocument();
         $table = $documentBuilder->getTable();
         $rows = $table->getRows();
@@ -156,7 +108,7 @@ class RowWriter implements RowWriterInterface
      * @param $position
      * @param Delimiter $delimiter
      * @param Enclosure $enclosure
-     * @return \Csv\Adapter\WriterAdapter
+     * @return WriterAdapter
      */
     private function writeRow(Row $row, $position, Delimiter $delimiter, Enclosure $enclosure)
     {
@@ -184,7 +136,7 @@ class RowWriter implements RowWriterInterface
      * @param $position
      * @param Delimiter $delimiter
      * @param Enclosure $enclosure
-     * @return \Csv\Adapter\WriterAdapter
+     * @return WriterAdapter
      */
     private function overwriteRow(Row $row, $position, Delimiter $delimiter, Enclosure $enclosure)
     {

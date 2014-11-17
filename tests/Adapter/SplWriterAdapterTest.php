@@ -61,6 +61,8 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider strings
      * @depends createFile
+     * @param $expected
+     * @param $string
      */
     public function writeString($expected, $string)
     {
@@ -95,6 +97,7 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @dataProvider notStrings
      * @depends writeString
      * @expectedException \Csv\Exception\UnexpectedArgumentTypeException
+     * @param $notString
      */
     public function writeStringException($notString)
     {
@@ -117,6 +120,8 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider rows
      * @depends createFile
+     * @param $expected
+     * @param $row
      */
     public function writeRow($expected, $row)
     {
@@ -143,6 +148,10 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider overwrittenRows
      * @depends writeRow
+     * @param $expected
+     * @param $oldRow
+     * @param $newRow
+     * @param $position
      */
     public function overwriteRow($expected, $oldRow, $newRow, $position)
     {
@@ -194,6 +203,9 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider delimiters
      * @depends writeRow
+     * @param $expected
+     * @param $delimiter
+     * @param $row
      */
     public function setDelimiter($expected, $delimiter, $row)
     {
@@ -218,6 +230,8 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider stringsWithWhiteSpace
      * @depends writeRow
+     * @param $expected
+     * @param $row
      */
     public function enclosureStringWithWhiteSpace($expected, $row)
     {
@@ -249,6 +263,9 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      * @test
      * @dataProvider enclosures
      * @depends enclosureStringWithWhiteSpace
+     * @param $expected
+     * @param $enclosure
+     * @param $row
      */
     public function setEnclosure($expected, $enclosure, $row)
     {

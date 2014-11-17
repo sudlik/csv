@@ -2,10 +2,12 @@
 
 namespace Csv\Writer;
 
+use Csv\Builder\DocumentBuilder;
 use Csv\Collection\Row;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
+use Csv\Factory\WriterAdapterFactory;
 use Csv\Table;
 use Csv\Value\CsvConfig;
 use Csv\Value\DirectoryPath;
@@ -30,6 +32,7 @@ class RowWriterTest extends PHPUnit_Framework_TestCase
             ->method('createWithWritePlus')
             ->willReturn($this->getMock('Csv\Adapter\WriterAdapter'));
 
+        /** @var WriterAdapterFactory $writerAdapterFactory */
         $documentWriter = new RowWriter($writerAdapterFactory);
         $dirPath = 'example';
 
@@ -86,6 +89,7 @@ class RowWriterTest extends PHPUnit_Framework_TestCase
             ->method('getDocument')
             ->willReturn($document);
 
+        /** @var DocumentBuilder $documentBuilder */
         $documentWriter->write($documentBuilder);
     }
 }

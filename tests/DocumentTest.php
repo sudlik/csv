@@ -5,6 +5,7 @@ namespace Csv;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
+use Csv\Table\Table;
 use Csv\Value\CsvConfig;
 use Csv\Value\DirectoryPath;
 use Csv\Value\FileConfig;
@@ -22,6 +23,7 @@ class DocumentTest extends PHPUnit_Framework_TestCase
     /** @var Document */
     private $object;
 
+    /** @var Table */
     private $table;
 
     protected function setUp()

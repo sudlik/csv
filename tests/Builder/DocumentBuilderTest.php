@@ -5,7 +5,7 @@ namespace Csv\Builder;
 use Csv\Enum\Charset;
 use Csv\Enum\Delimiter;
 use Csv\Enum\Enclosure;
-use Csv\Factory\FilenameFactory;
+use Csv\Value\Filename;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit_Framework_TestCase;
 
@@ -81,9 +81,7 @@ class DocumentBuilderTest extends PHPUnit_Framework_TestCase
     public function defaultFilename()
     {
         $this->assertEquals(
-            (new FilenameFactory)
-                ->create()
-                ->getValue(),
+            (new Filename('document.csv'))->getValue(),
             (new DocumentBuilder($this->dirPath))
                 ->getDocument()
                 ->getFileConfig()
