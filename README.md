@@ -79,6 +79,9 @@ $documentBuilder
 $documentBuilder->row(['a']);
 ```
 
+## BUGS
+* probably `overwriteRow` is broken
+
 ## TODO
 * add `cell` methods to `DocumentBuilder`
 * pointers for cells and rows for flexible chainable programming
@@ -100,3 +103,4 @@ $documentBuilder->row(['a']);
 * consider use events or AOP instead of callbacks
 * allow custom file extension
 * variable default filename
+* create performance-oriented example
