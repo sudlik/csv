@@ -7,6 +7,7 @@ use Csv\Exception\InvalidFilenameArgumentException;
 /**
  * Class Filename
  * @package Csv
+ * @method static Filename fromNative
  */
 final class Filename extends Value
 {
