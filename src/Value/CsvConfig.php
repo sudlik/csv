@@ -2,88 +2,70 @@
 
 namespace Csv\Value;
 
-use Csv\Enum\Delimiter;
-use Csv\Enum\Enclosure;
+use Csv\Exception\InvalidVisibleNamesValueException;
 use ValueObjects\ValueObjectInterface;
 
-/**
- * Class CsvConfig
- * @package Csv
- */
-final class CsvConfig extends Value
+final class CsvConfig implements ValueObjectInterface
 {
-    /**
-     * @var Delimiter
-     */
+    /** @var Delimiter */
     private $delimiter;
 
-    /**
-     * @var Enclosure
-     */
+    /** @var Enclosure */
     private $enclosure;
 
-    /**
-     * @var VisibleNames
-     */
     private $visibleNames;
 
-    /**
-     * @param Delimiter $delimiter required
-     * @param Enclosure $enclosure required
-     * @param VisibleNames $visibleNames required
-     */
-    public function __construct(Delimiter $delimiter, Enclosure $enclosure, VisibleNames $visibleNames)
+    public function __construct(Delimiter $delimiter, Enclosure $enclosure, $visibleNames)
     {
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
-        $this->visibleNames = $visibleNames;
+
+        if (is_bool($visibleNames)) {
+            $this->visibleNames = $visibleNames;
+        } else {
+            throw new InvalidVisibleNamesValueException;
+        }
     }
 
-    /**
-     * Returns a object taking PHP native value(s) as argument(s).
-     *
-     * @return ValueObjectInterface
-     */
     public static function fromNative()
     {
-        return new self(func_get_arg(0), func_get_arg(1), func_get_arg(2));
+        return new self(
+            Delimiter::fromNative(func_get_arg(0)),
+            Enclosure::fromNative(func_get_arg(1)),
+            func_get_arg(2)
+        );
     }
 
-    /**
-     * Compare two ValueObjectInterface and tells whether they can be considered equal
-     *
-     * @param  self $object
-     * @return bool
-     */
     public function sameValueAs(ValueObjectInterface $object)
     {
         return
-            $this->delimiter === $object->getDelimiter()
-            and $this->enclosure === $object->getEnclosure()
+            $object instanceof self
+            and $this->delimiter->is($object->getDelimiter())
+            and $this->enclosure->is($object->getEnclosure())
             and $this->visibleNames === $object->getVisibleNames();
     }
 
-    /**
-     * @return Delimiter
-     */
     public function getDelimiter()
     {
         return $this->delimiter;
     }
 
-    /**
-     * @return Enclosure
-     */
     public function getEnclosure()
     {
         return $this->enclosure;
     }
 
-    /**
-     * @return VisibleNames
-     */
     public function getVisibleNames()
     {
         return $this->visibleNames;
+    }
+
+    public function __toString()
+    {
+        return 'CsvConfig('
+        . $this->delimiter . ', '
+        . $this->enclosure . ', '
+        . ($this->visibleNames ? 'true' : 'false')
+        . ')';
     }
 }

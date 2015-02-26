@@ -3,7 +3,7 @@
 namespace Csv\Factory;
 
 use Csv\Adapter\SplWriterAdapter;
-use Csv\Enum\OpenFileMode;
+use Csv\Value\OpenFileMode;
 use Csv\Value\DirectoryPath;
 use Csv\Value\Filename;
 

@@ -3,14 +3,17 @@
 namespace Csv\Value;
 
 use Csv\Exception\DirectoryDoesNotExistsException;
+use ValueObjects\ValueObjectInterface;
 
 /**
  * Class DirectoryPath
  * @package Csv
  * @method static DirectoryPath fromNative
  */
-final class DirectoryPath extends Value
+final class DirectoryPath implements ValueObjectInterface
 {
+    private $value;
+
     /**
      * @param $value
      */
@@ -21,5 +24,20 @@ final class DirectoryPath extends Value
         } else {
             throw new DirectoryDoesNotExistsException;
         }
+    }
+
+    public function sameValueAs(ValueObjectInterface $object)
+    {
+        return $object instanceof self and $this->value === $object->getValue();
+    }
+
+    public function __toString()
+    {
+        return 'DirectoryPath(' . $this->value . ')';
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 }

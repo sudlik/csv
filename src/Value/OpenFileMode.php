@@ -1,6 +1,6 @@
 <?php
 
-namespace Csv\Enum;
+namespace Csv\Value;
 
 use ValueObjects\Enum\Enum;
 

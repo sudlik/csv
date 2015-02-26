@@ -3,8 +3,8 @@
 namespace Csv\Adapter;
 
 use Csv\Collection\Row;
-use Csv\Enum\Delimiter;
-use Csv\Enum\Enclosure;
+use Csv\Value\Delimiter;
+use Csv\Value\Enclosure;
 use Csv\Exception\UnexpectedArgumentTypeException;
 use SplFileObject;
 
