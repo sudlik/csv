@@ -22,23 +22,6 @@ interface WriterAdapter
     /**
      * @param Delimiter $delimiter
      * @param Enclosure $enclosure
-     * @param Row $row
-     * @return self
-     */
-    public function writeRow(Delimiter $delimiter, Enclosure $enclosure, Row $row);
-
-    /**
-     * @param Delimiter $delimiter
-     * @param Enclosure $enclosure
-     * @param Row $row
-     * @param int $position
-     * @return self
-     */
-    public function overwriteRow(Delimiter $delimiter, Enclosure $enclosure, Row $row, $position);
-
-    /**
-     * @param Delimiter $delimiter
-     * @param Enclosure $enclosure
      * @param array $array
      * @return self
      */
