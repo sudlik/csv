@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="csv" default="build" basedir=".">
-    <target name="build" depends="prepare,composer,lint,phploc,pdepend,phpmd,phpcs,phpcpd,phpunit,phpdox"/>
+    <target name="build" depends="prepare,composer,lint,phploc,pdepend,phpmd,phpcs,phpcpd,phpunit"/>
     <target name="clean" description="Cleanup build artifacts">
-        <delete dir="${basedir}/build/api"/>
         <delete dir="${basedir}/build/coverage"/>
         <delete dir="${basedir}/build/logs"/>
         <delete dir="${basedir}/build/pdepend"/>
-        <delete dir="${basedir}/build/phpdox"/>
         <delete file="${basedir}/composer.lock"/>
     </target>
     <target name="prepare" depends="clean" description="Prepare for build">
-        <mkdir dir="${basedir}/build/api"/>
         <mkdir dir="${basedir}/build/coverage"/>
         <mkdir dir="${basedir}/build/logs"/>
         <mkdir dir="${basedir}/build/pdepend"/>
-        <mkdir dir="${basedir}/build/phpdox"/>
     </target>
     <target name="composer" description="Install dependencies">
         <exec executable="wget" failonerror="true">
@@ -91,13 +87,6 @@
             <arg value="${basedir}/vendor/bin/phpunit" />
             <arg value="--configuration" />
             <arg path="${basedir}/build/phpunit.xml" />
-        </exec>
-    </target>
-    <target name="phpdox" description="Generate API documentation using phpDox">
-        <exec executable="php">
-            <arg value="${basedir}/vendor/bin/phpdox" />
-            <arg value="--file" />
-            <arg value="${basedir}/build/phpdox.xml" />
         </exec>
     </target>
 </project>

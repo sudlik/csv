@@ -20,7 +20,6 @@
         "phpmd/phpmd": "~2.1",
         "squizlabs/php_codesniffer": "~1.5",
         "sebastian/phpcpd": "~2.0",
-        "theseer/phpdox": "~0.7",
         "johnkary/phpunit-speedtrap": "~1.0@dev",
         "mybuilder/phpunit-accelerator": "~1.0"
     },
