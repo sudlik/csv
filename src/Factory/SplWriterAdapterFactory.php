@@ -3,54 +3,28 @@
 namespace Csv\Factory;
 
 use Csv\Adapter\SplWriterAdapter;
-use Csv\Value\OpenFileMode;
-use Csv\Value\DirectoryPath;
-use Csv\Value\Filename;
+use Csv\Collection\ColumnCollection;
+use Csv\Value\FilePath;
+use Csv\Value\WriterConfig;
 
-/**
- * Class SplWriterAdapterFactory
- * @package Csv
- */
 class SplWriterAdapterFactory implements WriterAdapterFactory
 {
-    /**
-     * @var SplFileObjectFactory
-     */
-    private $splFileObjectFactory;
+    private $splFileFactory;
+    private $validatorFactory;
 
-    public function __construct()
+    public function __construct(SplFileObjectFactory $splFileFactory, ValuesValidatorFactory $validatorFactory)
     {
-        $this->splFileObjectFactory = new SplFileObjectFactory;
+        $this->splFileFactory = $splFileFactory;
+        $this->validatorFactory = $validatorFactory;
     }
 
-    /**
-     * @param DirectoryPath $directoryPath
-     * @param Filename $filename
-     * @return SplWriterAdapter
-     */
-    public function createWithWrite(DirectoryPath $directoryPath, Filename $filename)
+    public function createWithConfigs(WriterConfig $writerConfig, FilePath $filePath, ColumnCollection $columns)
     {
-        return $this->create($directoryPath, $filename, OpenFileMode::get(OpenFileMode::WRITE));
-    }
-
-    /**
-     * @param DirectoryPath $directoryPath
-     * @param Filename $filename
-     * @return SplWriterAdapter
-     */
-    public function createWithWritePlus(DirectoryPath $directoryPath, Filename $filename)
-    {
-        return $this->create($directoryPath, $filename, OpenFileMode::get(OpenFileMode::WRITE_PLUS));
-    }
-
-    /**
-     * @param DirectoryPath $directoryPath
-     * @param Filename $filename
-     * @param OpenFileMode $mode
-     * @return SplWriterAdapter
-     */
-    private function create(DirectoryPath $directoryPath, Filename $filename, OpenFileMode $mode)
-    {
-        return new SplWriterAdapter($this->splFileObjectFactory->create($directoryPath, $filename, $mode));
+        return new SplWriterAdapter(
+            $this->splFileFactory->create($filePath, $writerConfig->getContentConfig()->getWriteMode()),
+            $this->validatorFactory->createWithColumnCollection($columns),
+            $writerConfig,
+            $columns
+        );
     }
 }

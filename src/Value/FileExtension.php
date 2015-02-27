@@ -2,10 +2,10 @@
 
 namespace Csv\Value;
 
-use Csv\Exception\InvalidFilenameException;
+use Csv\Exception\InvalidFileExtensionException;
 use ValueObjects\ValueObjectInterface;
 
-final class Filename implements ValueObjectInterface
+final class FileExtension implements ValueObjectInterface
 {
     /** @var string */
     private $value;
@@ -13,7 +13,7 @@ final class Filename implements ValueObjectInterface
     public function __construct($value)
     {
         if (!preg_match('#^[^[:^print:]/.]+$#', $value)) {
-            throw new InvalidFilenameException;
+            throw new InvalidFileExtensionException;
         }
 
         $this->value = $value;
@@ -21,12 +21,12 @@ final class Filename implements ValueObjectInterface
 
     public function sameValueAs(ValueObjectInterface $object)
     {
-        return $object instanceof self and $this->value === $object->getValue();
+        return $object instanceof self and $this->getValue() === $object->getValue();
     }
 
     public function __toString()
     {
-        return self::class . '(' . $this->value . ')';
+        return self::class . '(' . $this->getValue() . ')';
     }
 
     public function getValue()

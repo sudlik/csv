@@ -2,56 +2,76 @@
 
 namespace Csv\Adapter;
 
-use Csv\Collection\Row;
-use Csv\Value\Delimiter;
-use Csv\Value\Enclosure;
-use Csv\Exception\UnexpectedArgumentTypeException;
+use Csv\Collection\ColumnCollection;
+use Csv\Exception\InvalidValuesException;
+use Csv\Exception\UnimplementedFeatureException;
+use Csv\Validator\ValuesValidator;
+use Csv\Value\Charset;
+use Csv\Value\EnclosurePositions;
+use Csv\Value\EndOfLine;
+use Csv\Value\Escape;
+use Csv\Value\WriterConfig;
 use SplFileObject;
 
-/**
- * @package Csv
- */
 class SplWriterAdapter implements WriterAdapter
 {
-    /**
-     * @var SplFileObject
-     */
     private $splFileObject;
+    private $valuesValidator;
+    private $delimiter;
+    private $enclosure;
 
-    /**
-     * @param SplFileObject $splFileObject
-     */
-    public function __construct(SplFileObject $splFileObject)
-    {
+    public function __construct(
+        SplFileObject $splFileObject,
+        ValuesValidator $valuesValidator,
+        WriterConfig $writerConfig,
+        ColumnCollection $columnCollection
+    ) {
         $this->splFileObject = $splFileObject;
+        $this->valuesValidator = $valuesValidator;
+        $this->delimiter = $writerConfig->getCsvConfig()->getDelimiter()->getValue();
+        $this->enclosure = $writerConfig->getCsvConfig()->getEnclosure()->getCharacter()->getValue();
+
+        if (!$writerConfig->getContentConfig()->getCharset()->is(Charset::UTF_8())) {
+            throw new UnimplementedFeatureException;
+        }
+
+        if (!$writerConfig->getContentConfig()->getEndOfLine()->is(EndOfLine::LINE_FEED)) {
+            throw new UnimplementedFeatureException;
+        }
+
+        if (!$writerConfig->getCsvConfig()->getEnclosure()->getPositions()->is(EnclosurePositions::NECESSARY)) {
+            throw new UnimplementedFeatureException;
+        }
+
+        if (!$writerConfig->getCsvConfig()->getEscape()->is(Escape::BACKSLASH)) {
+            throw new UnimplementedFeatureException;
+        }
+
+        if ($writerConfig->getContentConfig()->hasByteOrderMark()) {
+            $splFileObject->fwrite(chr(0xef) . chr(0xbb) . chr(0xbf));
+            $splFileObject->fflush();
+        }
+
+        if ($columnCollection->isWritable()) {
+            $this->writeArray($columnCollection->getNames());
+        }
     }
 
-    /**
-     * @param string $string
-     * @throws \Csv\Exception\UnexpectedArgumentTypeException if argument is not a string
-     * @return self
-     */
-    public function writeString($string)
+    public function write(array $values)
     {
-        if (is_string($string)) {
-            $this->splFileObject->fwrite($string);
-            $this->splFileObject->fflush();
+        if ($this->valuesValidator->validate($values)) {
+            $this->writeArray($values);
         } else {
-            throw new UnexpectedArgumentTypeException;
+            throw new InvalidValuesException;
         }
 
         return $this;
     }
 
-    /**
-     * @param Delimiter $delimiter
-     * @param Enclosure $enclosure
-     * @param array $array
-     * @return self
-     */
-    public function writeArray(Delimiter $delimiter, Enclosure $enclosure, array $array)
+    private function writeArray(array $values)
     {
-        $this->splFileObject->fputcsv($array, $delimiter->getValue(), $enclosure->getValue());
+        $this->splFileObject->fputcsv($values, $this->delimiter, $this->enclosure);
+
         $this->splFileObject->fflush();
 
         return $this;

@@ -4,6 +4,6 @@ namespace Csv\Exception;
 
 use InvalidArgumentException;
 
-class InvalidFilenameException extends InvalidArgumentException
+class InvalidColumnNameException extends InvalidArgumentException
 {
 }

@@ -2,47 +2,19 @@
 
 namespace Csv\Value;
 
-use Csv\Exception\InvalidVisibleNamesValueException;
 use ValueObjects\ValueObjectInterface;
 
 final class CsvConfig implements ValueObjectInterface
 {
-    /** @var Delimiter */
     private $delimiter;
-
-    /** @var Enclosure */
     private $enclosure;
+    private $escape;
 
-    private $visibleNames;
-
-    public function __construct(Delimiter $delimiter, Enclosure $enclosure, $visibleNames)
+    public function __construct(Delimiter $delimiter, Enclosure $enclosure, Escape $escape)
     {
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
-
-        if (is_bool($visibleNames)) {
-            $this->visibleNames = $visibleNames;
-        } else {
-            throw new InvalidVisibleNamesValueException;
-        }
-    }
-
-    public static function fromNative()
-    {
-        return new self(
-            Delimiter::fromNative(func_get_arg(0)),
-            Enclosure::fromNative(func_get_arg(1)),
-            func_get_arg(2)
-        );
-    }
-
-    public function sameValueAs(ValueObjectInterface $object)
-    {
-        return
-            $object instanceof self
-            and $this->delimiter->is($object->getDelimiter())
-            and $this->enclosure->is($object->getEnclosure())
-            and $this->visibleNames === $object->getVisibleNames();
+        $this->escape = $escape;
     }
 
     public function getDelimiter()
@@ -55,17 +27,22 @@ final class CsvConfig implements ValueObjectInterface
         return $this->enclosure;
     }
 
-    public function getVisibleNames()
+    public function getEscape()
     {
-        return $this->visibleNames;
+        return $this->escape;
     }
 
     public function __toString()
     {
-        return 'CsvConfig('
-        . $this->delimiter . ', '
-        . $this->enclosure . ', '
-        . ($this->visibleNames ? 'true' : 'false')
-        . ')';
+        return self::class . '(' . $this->delimiter . ', ' . $this->enclosure . ', ' . $this->escape . ')';
+    }
+
+    public function sameValueAs(ValueObjectInterface $object)
+    {
+        return
+            $object instanceof self
+            and $this->delimiter->sameValueAs($object->getDelimiter())
+            and $this->enclosure->sameValueAs($object->getEnclosure())
+            and $this->escape->sameValueAs($object->getEscape());
     }
 }

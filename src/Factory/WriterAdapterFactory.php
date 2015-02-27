@@ -2,26 +2,18 @@
 
 namespace Csv\Factory;
 
-use Csv\Value\DirectoryPath;
-use Csv\Value\Filename;
+use Csv\Adapter\WriterAdapter;
+use Csv\Collection\ColumnCollection;
+use Csv\Value\FilePath;
+use Csv\Value\WriterConfig;
 
-/**
- * Interface WriterAdapterFactory
- * @package Csv
- */
 interface WriterAdapterFactory
 {
     /**
-     * @param DirectoryPath $directoryPath
-     * @param Filename $filename
-     * @return \Csv\Adapter\WriterAdapter
+     * @param WriterConfig $writerConfig
+     * @param FilePath $filePath
+     * @param ColumnCollection $columns
+     * @return WriterAdapter
      */
-    public function createWithWrite(DirectoryPath $directoryPath, Filename $filename);
-
-    /**
-     * @param DirectoryPath $directoryPath
-     * @param Filename $filename
-     * @return \Csv\Adapter\WriterAdapter
-     */
-    public function createWithWritePlus(DirectoryPath $directoryPath, Filename $filename);
+    public function createWithConfigs(WriterConfig $writerConfig, FilePath $filePath, ColumnCollection $columns);
 }

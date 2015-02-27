@@ -2,28 +2,25 @@
 
 namespace Csv\Value;
 
-use Csv\Exception\DirectoryDoesNotExistsException;
+use Csv\Exception\DirectoryIsNotWritableException;
+use Csv\Exception\InvalidDirectoryPathException;
 use ValueObjects\ValueObjectInterface;
 
-/**
- * Class DirectoryPath
- * @package Csv
- * @method static DirectoryPath fromNative
- */
 final class DirectoryPath implements ValueObjectInterface
 {
     private $value;
 
-    /**
-     * @param $value
-     */
     public function __construct($value)
     {
-        if (is_string($value) and is_dir($value)) {
-            $this->value = $value;
-        } else {
-            throw new DirectoryDoesNotExistsException;
+        if (!is_dir($value)) {
+            throw new InvalidDirectoryPathException;
         }
+
+        if (!is_writable($value)) {
+            throw new DirectoryIsNotWritableException;
+        }
+
+        $this->value = $value;
     }
 
     public function sameValueAs(ValueObjectInterface $object)
@@ -33,7 +30,7 @@ final class DirectoryPath implements ValueObjectInterface
 
     public function __toString()
     {
-        return 'DirectoryPath(' . $this->value . ')';
+        return self::class . '(' . $this->value . ')';
     }
 
     public function getValue()

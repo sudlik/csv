@@ -13,11 +13,16 @@ use ValueObjects\Enum\Enum;
  * @method static Delimiter POINT()
  * @method static Delimiter SEMICOLON()
  */
-class Delimiter extends Enum
+final class Delimiter extends Enum
 {
     const COLON = ':';
     const COMMA = ',';
     const PIPE = '|';
     const POINT = '.';
     const SEMICOLON = ';';
+
+    public function __toString()
+    {
+        return self::class . '::' . $this->getValue() . '()';
+    }
 }
