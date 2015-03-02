@@ -2,14 +2,14 @@
 
 namespace Csv\Validator;
 
-use Csv\Collection\ColumnCollection;
+use Csv\Collection\NamedWritableColumnCollection;
 
-class ValuesValidator
+class ValuesValidator implements Validator
 {
-    /** @var ColumnCollection */
+    /** @var NamedWritableColumnCollection */
     private $columnCollection;
 
-    public function __construct(ColumnCollection $columnCollection)
+    public function __construct(NamedWritableColumnCollection $columnCollection)
     {
         $this->columnCollection = $columnCollection;
     }

@@ -21,7 +21,8 @@
         "squizlabs/php_codesniffer": "~2.2",
         "sebastian/phpcpd": "~2.0",
         "johnkary/phpunit-speedtrap": "~1.0@dev",
-        "mybuilder/phpunit-accelerator": "~1.1"
+        "mybuilder/phpunit-accelerator": "~1.1",
+        "facebook/xhprof": "master@dev"
     },
     "autoload": {
         "psr-4": {
@@ -30,7 +31,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Csv\\": "tests/"
+            "Csv\\Tests\\": "tests/"
         }
     },
     "scripts": {

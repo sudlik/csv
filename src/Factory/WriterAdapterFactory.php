@@ -3,17 +3,17 @@
 namespace Csv\Factory;
 
 use Csv\Adapter\WriterAdapter;
-use Csv\Collection\ColumnCollection;
+use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Value\FilePath;
 use Csv\Value\WriterConfig;
 
 interface WriterAdapterFactory
 {
     /**
-     * @param WriterConfig $writerConfig
+     * @param WriterConfig $config
      * @param FilePath $filePath
-     * @param ColumnCollection $columns
+     * @param NamedWritableColumnCollection $columns
      * @return WriterAdapter
      */
-    public function createWithConfigs(WriterConfig $writerConfig, FilePath $filePath, ColumnCollection $columns);
+    public function createWithConfigs(WriterConfig $config, FilePath $filePath, NamedWritableColumnCollection $columns);
 }

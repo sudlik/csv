@@ -2,12 +2,12 @@
 
 namespace Csv\Factory;
 
-use Csv\Collection\ColumnCollection;
+use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Validator\ValuesValidator;
 
 class ValuesValidatorFactory
 {
-    public function createWithColumnCollection(ColumnCollection $columnCollection)
+    public function createWithColumnCollection(NamedWritableColumnCollection $columnCollection)
     {
         return new ValuesValidator($columnCollection);
     }

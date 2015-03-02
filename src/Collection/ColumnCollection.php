@@ -6,22 +6,15 @@ use ArrayIterator;
 use Csv\Exception\ColumnAlreadyExistsException;
 use Csv\Exception\ColumnDoesNotExistsException;
 use Csv\Exception\InvalidColumnException;
-use Csv\Column;
+use Csv\Column\Column;
 use Csv\Exception\InvalidWritableException;
-use IteratorAggregate;
 
-class ColumnCollection implements IteratorAggregate
+class ColumnCollection implements NamedWritableColumnCollection
 {
     private $nameIndexedColumns = [];
     private $iterator;
-
-    /** @var bool */
     private $writable;
 
-    /**
-     * @param Column[] $columns
-     * @param bool $writable
-     */
     public function __construct(array $columns, $writable)
     {
         $this->writable = $writable;
@@ -44,7 +37,7 @@ class ColumnCollection implements IteratorAggregate
         }
     }
 
-    public function sameValueAs(ColumnCollection $columnCollection)
+    public function sameValueAs(NamedWritableColumnCollection $columnCollection)
     {
         if ($this->getNames() === $columnCollection->getNames()) {
             /** @var Column $column */
@@ -76,10 +69,6 @@ class ColumnCollection implements IteratorAggregate
         }
     }
 
-    /**
-     * @param string $name
-     * @return bool
-     */
     public function hasColumn($name)
     {
         return isset($this->nameIndexedColumns[$name]);

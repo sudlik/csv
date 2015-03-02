@@ -20,4 +20,9 @@ final class NaturalRange extends NumberRange
     {
         return self::class . '(' . $this->getBegin() . ', ' . $this->getEnd() . ')';
     }
+
+    public static function fromNative()
+    {
+        return new self(new Natural(func_get_arg(0)), new Natural(func_get_arg(1)));
+    }
 }

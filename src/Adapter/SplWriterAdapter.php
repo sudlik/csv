@@ -2,10 +2,10 @@
 
 namespace Csv\Adapter;
 
-use Csv\Collection\ColumnCollection;
+use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Exception\InvalidValuesException;
 use Csv\Exception\UnimplementedFeatureException;
-use Csv\Validator\ValuesValidator;
+use Csv\Validator\Validator;
 use Csv\Value\Charset;
 use Csv\Value\EnclosurePositions;
 use Csv\Value\EndOfLine;
@@ -22,9 +22,9 @@ class SplWriterAdapter implements WriterAdapter
 
     public function __construct(
         SplFileObject $splFileObject,
-        ValuesValidator $valuesValidator,
+        Validator $valuesValidator,
         WriterConfig $writerConfig,
-        ColumnCollection $columnCollection
+        NamedWritableColumnCollection $columnCollection
     ) {
         $this->splFileObject = $splFileObject;
         $this->valuesValidator = $valuesValidator;

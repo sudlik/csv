@@ -3,7 +3,7 @@
 namespace Csv\Factory;
 
 use Csv\Adapter\SplWriterAdapter;
-use Csv\Collection\ColumnCollection;
+use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Value\FilePath;
 use Csv\Value\WriterConfig;
 
@@ -18,12 +18,12 @@ class SplWriterAdapterFactory implements WriterAdapterFactory
         $this->validatorFactory = $validatorFactory;
     }
 
-    public function createWithConfigs(WriterConfig $writerConfig, FilePath $filePath, ColumnCollection $columns)
+    public function createWithConfigs(WriterConfig $config, FilePath $filePath, NamedWritableColumnCollection $columns)
     {
         return new SplWriterAdapter(
-            $this->splFileFactory->create($filePath, $writerConfig->getContentConfig()->getWriteMode()),
+            $this->splFileFactory->create($filePath, $config->getContentConfig()->getWriteMode()),
             $this->validatorFactory->createWithColumnCollection($columns),
-            $writerConfig,
+            $config,
             $columns
         );
     }

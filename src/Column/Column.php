@@ -1,6 +1,6 @@
 <?php
 
-namespace Csv;
+namespace Csv\Column;
 
 use Csv\Assertion\StringRepresentableAssertion;
 use Csv\Exception\InvalidColumnNameException;

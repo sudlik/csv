@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    backupGlobals="true"
-    backupStaticAttributes="false"
-    bootstrap="../tests/bootstrap.php"
-    cacheTokens="false"
-    colors="false"
-    convertErrorsToExceptions="false"
-    convertNoticesToExceptions="false"
-    convertWarningsToExceptions="false"
-    processIsolation="false"
-    stopOnError="false"
-    stopOnFailure="false"
-    stopOnIncomplete="false"
-    stopOnSkipped="false"
-    verbose="true"
->
+        backupGlobals="false"
+        backupStaticAttributes="false"
+        bootstrap="../tests/bootstrap.php"
+        cacheTokens="false"
+        colors="false"
+        convertErrorsToExceptions="false"
+        convertNoticesToExceptions="false"
+        convertWarningsToExceptions="false"
+        processIsolation="false"
+        stopOnError="false"
+        stopOnFailure="false"
+        stopOnIncomplete="false"
+        stopOnSkipped="false"
+        verbose="true"
+        >
     <testsuites>
         <testsuite name="csv">
             <directory phpVersion="5.4.0">../tests</directory>
@@ -26,8 +26,8 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-html" target="coverage"/>
-        <log type="coverage-clover" target="logs/clover.xml"/>
+        <!--<log type="coverage-html" target="coverage"/>
+        <log type="coverage-clover" target="logs/clover.xml"/>-->
         <log type="junit" target="logs/junit.xml" logIncompleteSkipped="false"/>
     </logging>
     <listeners>
