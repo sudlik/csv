@@ -5,9 +5,9 @@ namespace Csv\Factory;
 use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Validator\ValuesValidator;
 
-class ValuesValidatorFactory
+class ValuesValidatorFactory implements ValuesValidatorFromColumnsFactory
 {
-    public function createWithColumnCollection(NamedWritableColumnCollection $columnCollection)
+    public function createFromColumns(NamedWritableColumnCollection $columnCollection)
     {
         return new ValuesValidator($columnCollection);
     }

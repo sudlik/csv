@@ -16,10 +16,10 @@ class StringRepresentableAssertion
 
     public function assert($value)
     {
-        if (is_scalar($value)) {
+        if (is_scalar($value) or is_null($value)) {
             return $this->inRange(strlen($value));
         } elseif (is_object($value) and method_exists($value, '__toString')) {
-            return $this->inRange((string)$value);
+            return $this->inRange(strlen((string)$value));
         } else {
             return false;
         }

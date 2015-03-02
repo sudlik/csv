@@ -15,5 +15,9 @@ interface WriterAdapterFactory
      * @param NamedWritableColumnCollection $columns
      * @return WriterAdapter
      */
-    public function createWithConfigs(WriterConfig $config, FilePath $filePath, NamedWritableColumnCollection $columns);
+    public function createFormConfigPathAndColumns(
+        WriterConfig $config,
+        FilePath $filePath,
+        NamedWritableColumnCollection $columns
+    );
 }

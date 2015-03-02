@@ -64,4 +64,14 @@ final class ContentConfig implements ValueObjectInterface
             and $this->writeMode->sameValueAs($object->getWriteMode())
             and $this->byteOrderMark === $object->hasByteOrderMark();
     }
+
+    public static function fromNative()
+    {
+        return new self(
+            Charset::fromNative(func_get_arg(0)),
+            EndOfLine::fromNative(func_get_arg(1)),
+            WriteMode::fromNative(func_get_arg(2)),
+            func_get_arg(3)
+        );
+    }
 }

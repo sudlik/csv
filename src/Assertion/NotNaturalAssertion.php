@@ -2,7 +2,7 @@
 
 namespace Csv\Assertion;
 
-class NotANaturalAssertion extends NaturalAssertion
+class NotNaturalAssertion extends NaturalAssertion
 {
     public function assert($value)
     {

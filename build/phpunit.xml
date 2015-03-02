@@ -23,11 +23,17 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">../src/Adapter</directory>
+            <directory suffix=".php">../src/Assertion</directory>
+            <directory suffix=".php">../src/Collection</directory>
+            <directory suffix=".php">../src/Column</directory>
+            <directory suffix=".php">../src/Factory</directory>
+            <directory suffix=".php">../src/Validator</directory>
+            <directory suffix=".php">../src/Value</directory>
         </whitelist>
     </filter>
     <logging>
-        <!--<log type="coverage-html" target="coverage"/>
-        <log type="coverage-clover" target="logs/clover.xml"/>-->
+        <log type="coverage-html" target="coverage"/>
+        <log type="coverage-clover" target="logs/clover.xml"/>
         <log type="junit" target="logs/junit.xml" logIncompleteSkipped="false"/>
     </logging>
     <listeners>

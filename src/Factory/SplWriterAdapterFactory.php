@@ -9,20 +9,23 @@ use Csv\Value\WriterConfig;
 
 class SplWriterAdapterFactory implements WriterAdapterFactory
 {
-    private $splFileFactory;
+    private $fileFactory;
     private $validatorFactory;
 
-    public function __construct(SplFileObjectFactory $splFileFactory, ValuesValidatorFactory $validatorFactory)
+    public function __construct(SplFileObjectFromPathAndModeFactory $file, ValuesValidatorFromColumnsFactory $validator)
     {
-        $this->splFileFactory = $splFileFactory;
-        $this->validatorFactory = $validatorFactory;
+        $this->fileFactory = $file;
+        $this->validatorFactory = $validator;
     }
 
-    public function createWithConfigs(WriterConfig $config, FilePath $filePath, NamedWritableColumnCollection $columns)
-    {
+    public function createFormConfigPathAndColumns(
+        WriterConfig $config,
+        FilePath $filePath,
+        NamedWritableColumnCollection $columns
+    ) {
         return new SplWriterAdapter(
-            $this->splFileFactory->create($filePath, $config->getContentConfig()->getWriteMode()),
-            $this->validatorFactory->createWithColumnCollection($columns),
+            $this->fileFactory->createFromPathAndMode($filePath, $config->getContentConfig()->getWriteMode()),
+            $this->validatorFactory->createFromColumns($columns),
             $config,
             $columns
         );
