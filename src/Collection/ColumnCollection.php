@@ -36,14 +36,11 @@ class ColumnCollection implements NamedWritableColumnCollection
         }
     }
 
-    public function sameValueAs(NamedWritableColumnCollection $columnCollection)
+    public function sameValueAs(NamedWritableColumnCollection $columns)
     {
-        if (
-            $this->getNames() === $columnCollection->getNames()
-            and $this->writable === $columnCollection->isWritable()
-        ) {
+        if ($this->getNames() === $columns->getNames() and $this->writable === $columns->isWritable()) {
             /** @var Column $column */
-            foreach ($columnCollection as $column) {
+            foreach ($columns as $column) {
                 if (!is_a($column->getAssertion(), get_class($this->getColumn($column->getName())->getAssertion()))) {
                     return false;
                 }

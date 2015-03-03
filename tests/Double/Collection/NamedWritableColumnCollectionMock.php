@@ -32,10 +32,10 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
     }
 
     /**
-     * @param ColumnCollection $columnCollection
+     * @param ColumnCollection $columns
      * @return bool
      */
-    public function sameValueAs(NamedWritableColumnCollection $columnCollection)
+    public function sameValueAs(NamedWritableColumnCollection $columns)
     {
         return false;
     }

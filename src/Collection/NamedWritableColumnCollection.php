@@ -7,10 +7,10 @@ use IteratorAggregate;
 interface NamedWritableColumnCollection extends IteratorAggregate
 {
     /**
-     * @param ColumnCollection $columnCollection
+     * @param ColumnCollection $columns
      * @return bool
      */
-    public function sameValueAs(NamedWritableColumnCollection $columnCollection);
+    public function sameValueAs(NamedWritableColumnCollection $columns);
 
     /**
      * @param string $name
