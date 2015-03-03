@@ -18,7 +18,6 @@ class ColumnCollection implements NamedWritableColumnCollection
     public function __construct(array $columns, $writable)
     {
         $this->writable = $writable;
-        $this->nameIndexedColumns = $columns;
         $this->iterator = new ArrayIterator($columns);
 
         if (!is_bool(filter_var($writable, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))) {
@@ -32,20 +31,25 @@ class ColumnCollection implements NamedWritableColumnCollection
             } elseif ($this->hasColumn($column->getName())) {
                 throw new ColumnAlreadyExistsException;
             } else {
-                $this->nameIndexedColumns[] = $column;
+                $this->nameIndexedColumns[$column->getName()] = $column;
             }
         }
     }
 
     public function sameValueAs(NamedWritableColumnCollection $columnCollection)
     {
-        if ($this->getNames() === $columnCollection->getNames()) {
+        if (
+            $this->getNames() === $columnCollection->getNames()
+            and $this->writable === $columnCollection->isWritable()
+        ) {
             /** @var Column $column */
             foreach ($columnCollection as $column) {
                 if (!is_a($column->getAssertion(), get_class($this->getColumn($column->getName())->getAssertion()))) {
                     return false;
                 }
             }
+
+            return true;
         }
 
         return false;
@@ -59,6 +63,7 @@ class ColumnCollection implements NamedWritableColumnCollection
     /**
      * @param string $name
      * @return Column
+     * @throws ColumnDoesNotExistsException
      */
     public function getColumn($name)
     {

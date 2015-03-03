@@ -2,13 +2,23 @@
 
 namespace Csv\Tests\Double\Collection;
 
+use ArrayIterator;
 use Csv\Collection\ColumnCollection;
 use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Column\Column;
+use Csv\Exception\ColumnDoesNotExistsException;
 use Traversable;
 
 class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
 {
+    /** @var array */
+    private $data;
+
+    public function __construct($data = [])
+    {
+        $this->data = $data;
+    }
+
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Retrieve an external iterator
@@ -18,6 +28,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
      */
     public function getIterator()
     {
+        return new ArrayIterator([]);
     }
 
     /**
@@ -26,14 +37,21 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
      */
     public function sameValueAs(NamedWritableColumnCollection $columnCollection)
     {
+        return false;
     }
 
     /**
      * @param string $name
      * @return Column
+     * @throws ColumnDoesNotExistsException
      */
     public function getColumn($name)
     {
+        if (isset($this->data[$name])) {
+            return $this->data[$name];
+        } else {
+            throw new ColumnDoesNotExistsException;
+        }
     }
 
     /**
@@ -42,6 +60,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
      */
     public function hasColumn($name)
     {
+        return false;
     }
 
     /**
@@ -49,6 +68,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
      */
     public function getNames()
     {
+        return array_keys($this->data);
     }
 
     /**
@@ -56,6 +76,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
      */
     public function isWritable()
     {
+        return false;
     }
 
     /**
@@ -63,5 +84,6 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
      */
     public function __toString()
     {
+        return '';
     }
 }
