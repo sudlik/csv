@@ -1,8 +1,8 @@
 <?php
 
-namespace Csv\Tests\Unit\Adapter;
+namespace Csv\Tests\Unit\Writer;
 
-use Csv\Adapter\SplWriterAdapter;
+use Csv\Writer\SplValidCsvWriter;
 use Csv\Tests\Double\Collection\NamedWritableColumnCollectionMock;
 use Csv\Tests\Double\Validator\ValidatorMock;
 use Csv\Tests\Fixture\WriterConfigMother;
@@ -11,7 +11,7 @@ use org\bovigo\vfs\vfsStream;
 use PHPUnit_Framework_TestCase;
 use SplFileObject;
 
-class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
+class SplValidCsvWriterTest extends PHPUnit_Framework_TestCase
 {
     private $filePath;
 
@@ -21,10 +21,10 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
     public function it_should_write_file_at_given_path()
     {
         $givenFilePath = $this->createFilePath();
-        $testedSplWriterAdapter = $this->createSplWriterAdapterWithGivenFilePath($givenFilePath);
+        $testedObject = $this->createSplValidCsvWriterWithGivenFilePath($givenFilePath);
         $someContent = [];
 
-        $testedSplWriterAdapter->write($someContent);
+        $testedObject->write($someContent);
 
         $this->assertFileExists($givenFilePath);
     }
@@ -35,34 +35,34 @@ class SplWriterAdapterTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_write_given_content()
     {
-        $testedSplWriterAdapter = $this->createSplWriterAdapter();
+        $testedObject = $this->createSplValidCsvWriter();
         $givenContent = 'test';
 
-        $testedSplWriterAdapter->write([$givenContent]);
+        $testedObject->write([$givenContent]);
 
         $this->assertFileEqualsContent($givenContent);
     }
 
-    private function createSplWriterAdapterWithGivenFilePath($someFilePath)
+    private function createSplValidCsvWriterWithGivenFilePath($someFilePath)
     {
-        return new SplWriterAdapter(
+        return new SplValidCsvWriter(
             new SplFileObject($someFilePath, 'w+'),
             new ValidatorMock,
-            WriterConfigMother::createDefault(),
+            WriterConfigMother::createWithoutBom(),
             new NamedWritableColumnCollectionMock
         );
     }
 
-    private function createSplWriterAdapter($someFilePath = null)
+    private function createSplValidCsvWriter($someFilePath = null)
     {
         if (is_null($someFilePath)) {
             $someFilePath = $this->createFilePath();
         }
 
-        return new SplWriterAdapter(
+        return new SplValidCsvWriter(
             new SplFileObject($someFilePath, 'w+'),
             new ValidatorMock,
-            WriterConfigMother::createDefault(),
+            WriterConfigMother::createWithoutBom(),
             new NamedWritableColumnCollectionMock
         );
     }

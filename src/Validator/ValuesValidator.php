@@ -2,23 +2,32 @@
 
 namespace Csv\Validator;
 
-use Csv\Collection\NamedWritableColumnCollection;
+use Csv\Assertion\StringRepresentableAssertion;
+use Csv\Collection\AssertableColumnCollection;
+use Csv\Column\AssertableColumn;
 
 class ValuesValidator implements Validator
 {
-    /** @var NamedWritableColumnCollection */
-    private $columnCollection;
+    /** @var StringRepresentableAssertion[] */
+    private $assertions = [];
 
-    public function __construct(NamedWritableColumnCollection $columnCollection)
+    private $names;
+
+    public function __construct(AssertableColumnCollection $columnCollection)
     {
-        $this->columnCollection = $columnCollection;
+        $this->names = $columnCollection->getNames();
+
+        /** @var AssertableColumn $column */
+        foreach ($columnCollection as $column) {
+            $this->assertions[$column->getName()] = $column->getAssertion();
+        }
     }
 
     public function validate(array $values)
     {
-        if ($this->columnCollection->getNames() === array_keys($values)) {
+        if ($this->names === array_keys($values)) {
             foreach ($values as $name => $value) {
-                if (!$this->columnCollection->getColumn($name)->getAssertion()->assert($value)) {
+                if (!$this->assertions[$name]->assert($value)) {
                     return false;
                 }
             }

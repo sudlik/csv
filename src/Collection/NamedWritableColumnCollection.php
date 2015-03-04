@@ -1,13 +1,13 @@
 <?php
 namespace Csv\Collection;
 
-use Csv\Column\Column;
+use Csv\Value\Column;
 use IteratorAggregate;
 
 interface NamedWritableColumnCollection extends IteratorAggregate
 {
     /**
-     * @param ColumnCollection $columns
+     * @param NamedWritableColumnCollection $columns
      * @return bool
      */
     public function sameValueAs(NamedWritableColumnCollection $columns);

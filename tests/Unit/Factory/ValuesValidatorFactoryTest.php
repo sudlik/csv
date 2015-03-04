@@ -2,8 +2,8 @@
 
 namespace Csv\Tests\Unit\Factory;
 
-use Csv\Collection\ColumnCollection;
 use Csv\Factory\ValuesValidatorFactory;
+use Csv\Tests\Double\Collection\AssertableColumnCollectionMock;
 use Csv\Validator\ValuesValidator;
 use PHPUnit_Framework_TestCase;
 
@@ -16,7 +16,7 @@ class ValuesValidatorFactoryTest extends PHPUnit_Framework_TestCase
     {
         $splFileObjectFactory = new ValuesValidatorFactory;
 
-        $valuesValidator = $splFileObjectFactory->createFromColumns(new ColumnCollection([], true));
+        $valuesValidator = $splFileObjectFactory->createFromColumns(new AssertableColumnCollectionMock([], true));
 
         $this->assertInstanceOf(ValuesValidator::class, $valuesValidator);
     }

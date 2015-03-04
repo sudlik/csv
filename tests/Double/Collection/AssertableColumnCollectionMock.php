@@ -3,14 +3,12 @@
 namespace Csv\Tests\Double\Collection;
 
 use ArrayIterator;
-use Csv\Collection\ColumnCollection;
+use Csv\Collection\AssertableColumnCollection;
 use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Column\AssertableColumn;
 use Csv\Exception\ColumnDoesNotExistsException;
-use Csv\Value\Column;
-use Traversable;
 
-class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
+class AssertableColumnCollectionMock extends AssertableColumnCollection
 {
     /** @var array */
     private $data;
@@ -20,22 +18,11 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
         $this->data = $data;
     }
 
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Retrieve an external iterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     */
     public function getIterator()
     {
-        return new ArrayIterator([]);
+        return new ArrayIterator($this->data);
     }
 
-    /**
-     * @param ColumnCollection $columns
-     * @return bool
-     */
     public function sameValueAs(NamedWritableColumnCollection $columns)
     {
         return false;
@@ -43,7 +30,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
 
     /**
      * @param string $name
-     * @return Column
+     * @return AssertableColumn
      * @throws ColumnDoesNotExistsException
      */
     public function getColumn($name)

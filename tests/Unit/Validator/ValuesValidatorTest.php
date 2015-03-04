@@ -2,9 +2,9 @@
 
 namespace Csv\Tests\Unit\Validator;
 
-use Csv\Column\Column;
+use Csv\Column\AssertableColumn;
 use Csv\Tests\Double\Assertion\StringRepresentableAssertionMock;
-use Csv\Tests\Double\Collection\NamedWritableColumnCollectionMock;
+use Csv\Tests\Double\Collection\AssertableColumnCollectionMock;
 use Csv\Validator\ValuesValidator;
 use PHPUnit_Framework_TestCase;
 
@@ -17,7 +17,7 @@ class ValuesValidatorTest extends PHPUnit_Framework_TestCase
     {
         $someNames = ['some name', 'another name'];
         $someColumns = $this->createColumnsWithGivenNames($someNames);
-        $testedObject = new ValuesValidator(new NamedWritableColumnCollectionMock($someColumns));
+        $testedObject = new ValuesValidator($someColumns);
 
         $result = $testedObject->validate(array_combine($someNames, $someNames));
 
@@ -31,7 +31,7 @@ class ValuesValidatorTest extends PHPUnit_Framework_TestCase
     {
         $someColumns = $this->createColumnsWithGivenNames(['some name', 'another name']);
         $differentValues = ['different name' => null, 'another different name' => null];
-        $testedObject = new ValuesValidator(new NamedWritableColumnCollectionMock($someColumns));
+        $testedObject = new ValuesValidator($someColumns);
 
         $result = $testedObject->validate($differentValues);
 
@@ -44,9 +44,9 @@ class ValuesValidatorTest extends PHPUnit_Framework_TestCase
 
         $columns = [];
         foreach ($names as $name) {
-            $columns[$name] = new Column($name, $assertion);
+            $columns[$name] = new AssertableColumn($name, $assertion);
         }
 
-        return $columns;
+        return new AssertableColumnCollectionMock($columns);
     }
 }

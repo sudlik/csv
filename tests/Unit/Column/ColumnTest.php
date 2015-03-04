@@ -2,7 +2,7 @@
 
 namespace Csv\Tests\Unit\Column;
 
-use Csv\Column\Column;
+use Csv\Column\AssertableColumn;
 use Csv\Tests\Double\Assertion\StringRepresentableAssertionMock;
 use PHPUnit_Framework_TestCase;
 
@@ -16,7 +16,7 @@ class ColumnTest extends PHPUnit_Framework_TestCase
         $someName = 'some name';
         $someAssertion = new StringRepresentableAssertionMock;
 
-        $result = new Column($someName, $someAssertion);
+        $result = new AssertableColumn($someName, $someAssertion);
 
         $this->assertEquals($someName, $result->getName());
         $this->assertEquals($someAssertion, $result->getAssertion());
@@ -31,6 +31,6 @@ class ColumnTest extends PHPUnit_Framework_TestCase
         $someName = 123;
         $someAssertion = new StringRepresentableAssertionMock;
 
-        new Column($someName, $someAssertion);
+        new AssertableColumn($someName, $someAssertion);
     }
 }

@@ -3,15 +3,16 @@
 namespace Csv\Assertion;
 
 use Csv\Value\NaturalRange;
-use ValueObjects\Number\Natural;
 
 class StringRepresentableAssertion
 {
-    private $range;
+    private $begin;
+    private $end;
 
     public function __construct(NaturalRange $range)
     {
-        $this->range = $range;
+        $this->begin = $range->getBegin()->toNative();
+        $this->end = $range->getEnd()->toNative();
     }
 
     public function assert($value)
@@ -32,6 +33,6 @@ class StringRepresentableAssertion
 
     private function inRange($length)
     {
-        return $this->range->isInRange(new Natural($length));
+        return $this->begin <= $length and $this->end >= $length;
     }
 }

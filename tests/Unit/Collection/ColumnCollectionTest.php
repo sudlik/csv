@@ -3,7 +3,7 @@
 namespace Csv\Tests\Unit\Collection;
 
 use Csv\Collection\ColumnCollection;
-use Csv\Column\Column;
+use Csv\Column\AssertableColumn;
 use Csv\Tests\Double\Assertion\StringRepresentableAssertionMock;
 use PHPUnit_Framework_TestCase;
 
@@ -14,7 +14,7 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_create_collection_with_given_arguments()
     {
-        $someColumns = [new Column('some name', new StringRepresentableAssertionMock())];
+        $someColumns = [new AssertableColumn('some name', new StringRepresentableAssertionMock())];
         $isWritable = true;
 
         $result = new ColumnCollection($someColumns, $isWritable);
@@ -29,7 +29,7 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function it_should_throw_invalid_writable_exception()
     {
-        $someColumns = [new Column('some name', new StringRepresentableAssertionMock())];
+        $someColumns = [new AssertableColumn('some name', new StringRepresentableAssertionMock())];
         $isWritable = 'not boolean value';
 
         new ColumnCollection($someColumns, $isWritable);
@@ -42,8 +42,8 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
     public function it_should_throw_column_already_exists_exception()
     {
         $duplicatedColumns = [
-            new Column('duplicated name', new StringRepresentableAssertionMock()),
-            new Column('duplicated name', new StringRepresentableAssertionMock()),
+            new AssertableColumn('duplicated name', new StringRepresentableAssertionMock()),
+            new AssertableColumn('duplicated name', new StringRepresentableAssertionMock()),
         ];
         $isWritable = true;
 
@@ -58,11 +58,11 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
         $sameName = 'some name';
         $sameWritable = true;
         $someCollection = new ColumnCollection(
-            [new Column($sameName, new StringRepresentableAssertionMock())],
+            [new AssertableColumn($sameName, new StringRepresentableAssertionMock())],
             $sameWritable
         );
         $otherCollection = new ColumnCollection(
-            [new Column($sameName, new StringRepresentableAssertionMock())],
+            [new AssertableColumn($sameName, new StringRepresentableAssertionMock())],
             $sameWritable
         );
 
@@ -79,11 +79,11 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
         $someWritable = true;
         $differentWritable = true;
         $someCollection = new ColumnCollection(
-            [new Column('some name', new StringRepresentableAssertionMock())],
+            [new AssertableColumn('some name', new StringRepresentableAssertionMock())],
             $someWritable
         );
         $differentCollection = new ColumnCollection(
-            [new Column('different name', new StringRepresentableAssertionMock())],
+            [new AssertableColumn('different name', new StringRepresentableAssertionMock())],
             $differentWritable
         );
 

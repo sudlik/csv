@@ -5,8 +5,6 @@ namespace Csv\Value;
 use ValueObjects\Enum\Enum;
 
 /**
- * Class Delimiter
- * @package Csv
  * @method static Delimiter COLON()
  * @method static Delimiter COMMA()
  * @method static Delimiter PIPE()

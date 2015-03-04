@@ -1,8 +1,8 @@
 <?php
 
-namespace Csv\Adapter;
+namespace Csv\Writer;
 
-interface WriterAdapter
+interface Writer
 {
     /**
      * @param array $values

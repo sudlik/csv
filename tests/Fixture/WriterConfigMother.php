@@ -18,13 +18,23 @@ class WriterConfigMother
 {
     public static function createDefault()
     {
+        return self::create(Charset::UTF_8_WITH_BOM());
+    }
+
+    public static function createWithoutBom()
+    {
+        return self::create(Charset::UTF_8_WITHOUT_BOM());
+    }
+
+    private static function create(Charset $charset)
+    {
         return new WriterConfig(
             new CsvConfig(
                 Delimiter::COLON(),
-                new Enclosure(EnclosureCharacter::APOSTROPHE(), EnclosurePositions::NECESSARY()),
+                new Enclosure(EnclosureCharacter::APOSTROPHE(), EnclosurePositions::STANDARD()),
                 Escape::BACKSLASH()
             ),
-            new ContentConfig(Charset::UTF_8(), EndOfLine::LINE_FEED(), WriteMode::OVERWRITE_OR_CREATE(), false)
+            new ContentConfig($charset, EndOfLine::LINE_FEED(), WriteMode::OVERWRITE_OR_CREATE())
         );
     }
 }

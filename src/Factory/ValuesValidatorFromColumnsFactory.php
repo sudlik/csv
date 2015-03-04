@@ -1,9 +1,9 @@
 <?php
 namespace Csv\Factory;
 
-use Csv\Collection\NamedWritableColumnCollection;
+use Csv\Collection\AssertableColumnCollection;
 
 interface ValuesValidatorFromColumnsFactory
 {
-    public function createFromColumns(NamedWritableColumnCollection $columnCollection);
+    public function createFromColumns(AssertableColumnCollection $columnCollection);
 }

@@ -6,14 +6,15 @@ use ArrayIterator;
 use Csv\Exception\ColumnAlreadyExistsException;
 use Csv\Exception\ColumnDoesNotExistsException;
 use Csv\Exception\InvalidColumnException;
-use Csv\Column\Column;
 use Csv\Exception\InvalidWritableException;
+use Csv\Value\Column;
 
 class ColumnCollection implements NamedWritableColumnCollection
 {
     private $nameIndexedColumns = [];
-    private $iterator;
-    private $writable;
+
+    protected $iterator;
+    protected $writable;
 
     public function __construct(array $columns, $writable)
     {
@@ -24,7 +25,6 @@ class ColumnCollection implements NamedWritableColumnCollection
             throw new InvalidWritableException;
         }
 
-        /** @var Column $column */
         foreach ($columns as $column) {
             if (!($column instanceof Column)) {
                 throw new InvalidColumnException;
@@ -38,18 +38,7 @@ class ColumnCollection implements NamedWritableColumnCollection
 
     public function sameValueAs(NamedWritableColumnCollection $columns)
     {
-        if ($this->getNames() === $columns->getNames() and $this->writable === $columns->isWritable()) {
-            /** @var Column $column */
-            foreach ($columns as $column) {
-                if (!is_a($column->getAssertion(), get_class($this->getColumn($column->getName())->getAssertion()))) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        return false;
+        return $this->getNames() === $columns->getNames() and $this->writable === $columns->isWritable();
     }
 
     public function __toString()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Csv\Adapter;
+namespace Csv\Writer;
 
 use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Exception\InvalidValuesException;
@@ -13,9 +13,9 @@ use Csv\Value\Escape;
 use Csv\Value\WriterConfig;
 use SplFileObject;
 
-class SplWriterAdapter implements WriterAdapter
+class SplValidCsvWriter implements Writer
 {
-    private $splFileObject;
+    private $file;
     private $valuesValidator;
     private $delimiter;
     private $enclosure;
@@ -26,20 +26,16 @@ class SplWriterAdapter implements WriterAdapter
         WriterConfig $writerConfig,
         NamedWritableColumnCollection $columnCollection
     ) {
-        $this->splFileObject = $splFileObject;
+        $this->file = $splFileObject;
         $this->valuesValidator = $valuesValidator;
         $this->delimiter = $writerConfig->getCsvConfig()->getDelimiter()->getValue();
         $this->enclosure = $writerConfig->getCsvConfig()->getEnclosure()->getCharacter()->getValue();
-
-        if (!$writerConfig->getContentConfig()->getCharset()->is(Charset::UTF_8())) {
-            throw new UnimplementedFeatureException;
-        }
 
         if (!$writerConfig->getContentConfig()->getEndOfLine()->is(EndOfLine::LINE_FEED)) {
             throw new UnimplementedFeatureException;
         }
 
-        if (!$writerConfig->getCsvConfig()->getEnclosure()->getPositions()->is(EnclosurePositions::NECESSARY)) {
+        if (!$writerConfig->getCsvConfig()->getEnclosure()->getPositions()->is(EnclosurePositions::STANDARD)) {
             throw new UnimplementedFeatureException;
         }
 
@@ -47,33 +43,24 @@ class SplWriterAdapter implements WriterAdapter
             throw new UnimplementedFeatureException;
         }
 
-        if ($writerConfig->getContentConfig()->hasByteOrderMark()) {
+        if ($writerConfig->getContentConfig()->getCharset()->is(Charset::UTF_8_WITH_BOM)) {
             $splFileObject->fwrite(chr(0xef) . chr(0xbb) . chr(0xbf));
-            $splFileObject->fflush();
         }
 
         if ($columnCollection->isWritable()) {
-            $this->writeArray($columnCollection->getNames());
+            $splFileObject->fputcsv($columnCollection->getNames(), $this->delimiter, $this->enclosure);
         }
     }
 
     public function write(array $values)
     {
         if ($this->valuesValidator->validate($values)) {
-            $this->writeArray($values);
+            $this->file->fputcsv($values, $this->delimiter, $this->enclosure);
+            $this->file->fflush();
+
+            return $this;
         } else {
-            throw new InvalidValuesException;
+            throw new InvalidValuesException($values);
         }
-
-        return $this;
-    }
-
-    private function writeArray(array $values)
-    {
-        $this->splFileObject->fputcsv($values, $this->delimiter, $this->enclosure);
-
-        $this->splFileObject->fflush();
-
-        return $this;
     }
 }
