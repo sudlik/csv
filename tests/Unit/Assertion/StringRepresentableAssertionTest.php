@@ -18,6 +18,7 @@ class StringRepresentableAssertionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider stringRepresentableValues
+     * @param $givenValue
      */
     public function it_should_return_true_for_scalar_null_and_object_with_tostring($givenValue)
     {
@@ -43,12 +44,13 @@ class StringRepresentableAssertionTest extends PHPUnit_Framework_TestCase
 
     public function valuesNotRepresentableAsString()
     {
-        return [[array()], [new StdClass]];
+        return [[[]], [new StdClass]];
     }
 
     /**
      * @test
      * @dataProvider valuesNotRepresentableAsString
+     * @param $givenValue
      */
     public function it_should_return_false_for_array_and_object_without_tostring($givenValue)
     {

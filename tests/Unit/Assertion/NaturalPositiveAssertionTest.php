@@ -16,6 +16,7 @@ class NaturalPositiveAssertionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider naturalPositiveValues
+     * @param $givenValue
      */
     public function it_should_return_true_for_natural_positive_numbers($givenValue)
     {
@@ -34,6 +35,7 @@ class NaturalPositiveAssertionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider notPositiveNaturalValues
+     * @param $givenValue
      */
     public function it_should_return_false_for_not_positive_natural_numbers($givenValue)
     {

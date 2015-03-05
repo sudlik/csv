@@ -72,7 +72,7 @@ abstract class PerformanceTestCase extends PHPUnit_Framework_TestCase
     {
         $run = (new XHProfRuns_Default)->save_run(xhprof_disable(), $this->getSource());
 
-        echo "\nhttp://localhost/xhprof/xhprof_html/index.php?run={$run}&source={$this->getSource()}\n";
+        echo "\n http://localhost/xhprof/xhprof_html/index.php?run={$run}&source={$this->getSource()}\n";
 
         unlink($this->filePath->toNative());
     }

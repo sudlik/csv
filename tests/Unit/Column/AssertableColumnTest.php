@@ -6,7 +6,7 @@ use Csv\Column\AssertableColumn;
 use Csv\Tests\Double\Assertion\StringRepresentableAssertionMock;
 use PHPUnit_Framework_TestCase;
 
-class ColumnTest extends PHPUnit_Framework_TestCase
+class AssertableColumnTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -32,5 +32,21 @@ class ColumnTest extends PHPUnit_Framework_TestCase
         $someAssertion = new StringRepresentableAssertionMock;
 
         new AssertableColumn($someName, $someAssertion);
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_recognize_object_as_same()
+    {
+        $someName = 'some name';
+        $someAssertion = new StringRepresentableAssertionMock;
+        $anotherAssertion = new StringRepresentableAssertionMock;
+        $someColumn = new AssertableColumn($someName, $someAssertion);
+        $anotherColumn = new AssertableColumn($someName, $anotherAssertion);
+
+        $result = $someColumn->sameValueAs($anotherColumn);
+
+        $this->assertTrue($result);
     }
 }

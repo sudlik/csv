@@ -3,9 +3,7 @@
 namespace Csv\Tests\Double\Collection;
 
 use ArrayIterator;
-use Csv\Collection\ColumnCollection;
 use Csv\Collection\NamedWritableColumnCollection;
-use Csv\Column\AssertableColumn;
 use Csv\Exception\ColumnDoesNotExistsException;
 use Csv\Value\Column;
 use Traversable;
@@ -33,7 +31,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
     }
 
     /**
-     * @param ColumnCollection $columns
+     * @param NamedWritableColumnCollection $columns
      * @return bool
      */
     public function sameValueAs(NamedWritableColumnCollection $columns)

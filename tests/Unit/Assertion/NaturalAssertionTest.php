@@ -16,6 +16,7 @@ class NaturalAssertionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider naturalValues
+     * @param $givenValue
      */
     public function it_should_return_true_for_natural_numbers($givenValue)
     {
@@ -34,6 +35,7 @@ class NaturalAssertionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider notNaturalValues
+     * @param $givenValue
      */
     public function it_should_return_false_for_not_natural_numbers($givenValue)
     {
