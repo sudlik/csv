@@ -8,9 +8,11 @@ class StringRepresentableAssertion
 {
     private $begin;
     private $end;
+    private $range;
 
     public function __construct(NaturalRange $range)
     {
+        $this->range = $range;
         $this->begin = $range->getBegin()->toNative();
         $this->end = $range->getEnd()->toNative();
     }
@@ -28,7 +30,7 @@ class StringRepresentableAssertion
 
     public function __toString()
     {
-        return (string)self::class;
+        return self::class . '(' . $this->range . ')';
     }
 
     private function inRange($length)
