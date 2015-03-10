@@ -2,16 +2,13 @@
 
 namespace Csv\Tests;
 
+use Csv\Value\Column;
 use Csv\Writer\Writer;
-use Csv\Assertion\StringRepresentableAssertion;
-use Csv\Column\AssertableColumn;
 use Csv\Tests\Fixture\FilePathMother;
 use Csv\Tests\Fixture\WriterConfigMother;
 use Csv\Value\FilePath;
-use Csv\Value\NaturalRange;
 use Csv\Value\WriterConfig;
 use PHPUnit_Framework_TestCase;
-use ValueObjects\Number\Natural;
 use XHProfRuns_Default;
 
 abstract class PerformanceTestCase extends PHPUnit_Framework_TestCase
@@ -47,12 +44,11 @@ abstract class PerformanceTestCase extends PHPUnit_Framework_TestCase
     {
         xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY, self::$XHPROF_OPTS);
 
-        $assertion = new StringRepresentableAssertion(new NaturalRange(new Natural(31), new Natural(32)));
         for ($i = 0; $i < 10; $i++) {
             $name = md5($i);
             $this->values[$name] = $name;
 
-            $this->columns[] = new AssertableColumn($name, $assertion);
+            $this->columns[] = new Column($name);
         }
 
         $this->filePath = FilePathMother::createDefault();
@@ -63,7 +59,7 @@ abstract class PerformanceTestCase extends PHPUnit_Framework_TestCase
     {
         $writer = $this->getWriter();
 
-        for ($i = 0; $i < 100000; $i++) {
+        for ($i = 0; $i < 10000; $i++) {
             $writer->write($this->values);
         }
     }

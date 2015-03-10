@@ -2,12 +2,11 @@
 
 namespace Csv\Tests\Unit\Factory;
 
-use Csv\Tests\Double\Collection\AssertableColumnCollectionMock;
-use Csv\Writer\SplNonValidCsvWriter;
-use Csv\Writer\SplValidCsvWriter;
+use Csv\Tests\Double\Collection\NamedWritableColumnCollectionMock;
+use Csv\Writer\ExtendedSplWriter;
+use Csv\Writer\SplWriter;
 use Csv\Factory\SplWriterFactory;
 use Csv\Tests\Double\Factory\SplFileObjectFromPathAndModeFactoryMock;
-use Csv\Tests\Double\Factory\ValuesValidatorFromColumnsFactoryMock;
 use Csv\Tests\Fixture\FilePathMother;
 use Csv\Tests\Fixture\WriterConfigMother;
 use PHPUnit_Framework_TestCase;
@@ -17,37 +16,31 @@ class SplWriterFactoryTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_SplValidCsvWriter()
+    public function it_should_return_SplWriter()
     {
-        $splFileObjectFactory = new SplWriterFactory(
-            new SplFileObjectFromPathAndModeFactoryMock,
-            new ValuesValidatorFromColumnsFactoryMock
-        );
+        $splFileObjectFactory = new SplWriterFactory(new SplFileObjectFromPathAndModeFactoryMock);
 
-        $valuesValidator = $splFileObjectFactory->createValidCsv(
+        $valuesValidator = $splFileObjectFactory->createNative(
             WriterConfigMother::createDefault(),
             FilePathMother::createDefault(),
-            new AssertableColumnCollectionMock
+            new NamedWritableColumnCollectionMock
         );
 
-        $this->assertInstanceOf(SplValidCsvWriter::class, $valuesValidator);
+        $this->assertInstanceOf(SplWriter::class, $valuesValidator);
     }
     /**
      * @test
      */
     public function it_should_return_SplNonValidCsvWriter()
     {
-        $splFileObjectFactory = new SplWriterFactory(
-            new SplFileObjectFromPathAndModeFactoryMock,
-            new ValuesValidatorFromColumnsFactoryMock
-        );
+        $splFileObjectFactory = new SplWriterFactory(new SplFileObjectFromPathAndModeFactoryMock);
 
-        $valuesValidator = $splFileObjectFactory->createNonValidCsv(
+        $valuesValidator = $splFileObjectFactory->createExtended(
             WriterConfigMother::createDefault(),
             FilePathMother::createDefault(),
-            new AssertableColumnCollectionMock
+            new NamedWritableColumnCollectionMock
         );
 
-        $this->assertInstanceOf(SplNonValidCsvWriter::class, $valuesValidator);
+        $this->assertInstanceOf(ExtendedSplWriter::class, $valuesValidator);
     }
 }

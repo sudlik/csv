@@ -4,22 +4,22 @@ namespace Csv\Value;
 
 use ValueObjects\ValueObjectInterface;
 
-final class Enclosure implements ValueObjectInterface
+final class EnclosureConfig implements ValueObjectInterface
 {
     private $character;
-    private $positions;
+    private $strategy;
 
-    public function __construct(EnclosureCharacter $enclosureChar, EnclosurePositions $enclosurePosition)
+    public function __construct(EnclosureCharacter $character, EnclosureStrategy $strategy)
     {
-        $this->character = $enclosureChar;
-        $this->positions = $enclosurePosition;
+        $this->character = $character;
+        $this->strategy = $strategy;
     }
 
     public static function fromNative()
     {
         return new self(
             EnclosureCharacter::fromNative(func_get_arg(0)),
-            EnclosurePositions::fromNative(func_get_arg(1))
+            EnclosureStrategy::fromNative(func_get_arg(1))
         );
     }
 
@@ -28,12 +28,12 @@ final class Enclosure implements ValueObjectInterface
         return
             $object instanceof self
             and $this->character->is($object->getCharacter())
-            and $this->positions->is($object->getPositions());
+            and $this->strategy->sameValueAs($object->getStrategy());
     }
 
     public function __toString()
     {
-        return self::class . '(' . $this->character . ', ' . $this->positions . ')';
+        return self::class . '(' . $this->character . ', ' . $this->strategy . ')';
     }
 
     public function getCharacter()
@@ -41,8 +41,8 @@ final class Enclosure implements ValueObjectInterface
         return $this->character;
     }
 
-    public function getPositions()
+    public function getStrategy()
     {
-        return $this->positions;
+        return $this->strategy;
     }
 }

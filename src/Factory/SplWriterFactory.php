@@ -2,9 +2,14 @@
 
 namespace Csv\Factory;
 
-use Csv\Writer\SplNonValidCsvWriter;
-use Csv\Writer\SplValidCsvWriter;
-use Csv\Collection\AssertableColumnCollection;
+use Csv\Exception\UnsupportedEnclosureStrategyException;
+use Csv\Value\EnclosureStrategy;
+use Csv\Writer\ExtendedSplWriter;
+use Csv\Writer\SplAllEnclosureStrategyWriter;
+use Csv\Writer\SplStandardEnclosureStrategyWriter;
+use Csv\Writer\SplStandardWithFractionsEnclosureStrategyWriter;
+use Csv\Writer\SplNoneEnclosureStrategyWriter;
+use Csv\Writer\SplWriter;
 use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Value\FilePath;
 use Csv\Value\WriterConfig;
@@ -12,30 +17,42 @@ use Csv\Value\WriterConfig;
 class SplWriterFactory implements WriterFactory
 {
     private $fileFactory;
-    private $validatorFactory;
 
-    public function __construct(SplFileObjectFromPathAndModeFactory $file, ValuesValidatorFromColumnsFactory $validator)
+    public function __construct(SplFileObjectFromPathAndModeFactory $file)
     {
         $this->fileFactory = $file;
-        $this->validatorFactory = $validator;
     }
 
-    public function createValidCsv(WriterConfig $config, FilePath $file, AssertableColumnCollection $columns)
+    public function createNative(WriterConfig $config, FilePath $file, NamedWritableColumnCollection $columns)
     {
-        return new SplValidCsvWriter(
-            $this->fileFactory->createFromPathAndMode($file, $config->getContentConfig()->getWriteMode()),
-            $this->validatorFactory->createFromColumns($columns),
-            $config,
-            $columns
-        );
-    }
-
-    public function createNonValidCsv(WriterConfig $config, FilePath $file, NamedWritableColumnCollection $columns)
-    {
-        return new SplNonValidCsvWriter(
+        return new SplWriter(
             $this->fileFactory->createFromPathAndMode($file, $config->getContentConfig()->getWriteMode()),
             $config,
             $columns
         );
+    }
+
+    public function createExtended(WriterConfig $config, FilePath $file, NamedWritableColumnCollection $columns)
+    {
+        $splFileObject = $this->fileFactory->createFromPathAndMode($file, $config->getContentConfig()->getWriteMode());
+
+        switch ($config->getCsvConfig()->getEnclosure()->getStrategy()->toNative()) {
+            case EnclosureStrategy::STANDARD:
+                $writer = new SplStandardEnclosureStrategyWriter($splFileObject, $config);
+                break;
+            case EnclosureStrategy::STANDARD_WITH_FRACTIONS:
+                $writer = new SplStandardWithFractionsEnclosureStrategyWriter($splFileObject, $config);
+                break;
+            case EnclosureStrategy::ALL:
+                $writer = new SplAllEnclosureStrategyWriter($splFileObject, $config->getCsvConfig());
+                break;
+            case EnclosureStrategy::NONE:
+                $writer = new SplNoneEnclosureStrategyWriter($splFileObject, $config->getCsvConfig()->getDelimiter());
+                break;
+            default:
+                throw new UnsupportedEnclosureStrategyException;
+        }
+
+        return new ExtendedSplWriter($splFileObject, $config, $columns, $writer);
     }
 }

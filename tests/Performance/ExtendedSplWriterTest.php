@@ -2,18 +2,17 @@
 
 namespace Csv\Tests\Performance;
 
-use Csv\Writer\SplValidCsvWriter;
-use Csv\Collection\AssertableColumnCollection;
+use Csv\Writer\ExtendedSplWriter;
+use Csv\Collection\ColumnCollection;
 use Csv\Factory\SplFileObjectFactory;
 use Csv\Factory\SplWriterFactory;
-use Csv\Factory\ValuesValidatorFactory;
 use Csv\Tests\PerformanceTestCase;
 
-class SplValidCsvWriterTest extends PerformanceTestCase
+class ExtendedSplWriterTest extends PerformanceTestCase
 {
     protected function getWriter()
     {
-        return (new SplWriterFactory(new SplFileObjectFactory, new ValuesValidatorFactory))->createValidCsv(
+        return (new SplWriterFactory(new SplFileObjectFactory))->createExtended(
             $this->getWriterConfig(),
             $this->getFilePath(),
             $this->getColumns()
@@ -22,7 +21,7 @@ class SplValidCsvWriterTest extends PerformanceTestCase
 
     protected function getSource()
     {
-        return SplValidCsvWriter::class;
+        return ExtendedSplWriter::class;
     }
 
     /**
@@ -30,6 +29,6 @@ class SplValidCsvWriterTest extends PerformanceTestCase
      */
     public function getColumnCollectionClassName()
     {
-        return AssertableColumnCollection::class;
+        return ColumnCollection::class;
     }
 }

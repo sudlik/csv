@@ -43,7 +43,9 @@ class ColumnCollection implements NamedWritableColumnCollection
 
     public function __toString()
     {
-        return self::class . '(' . implode(', ', $this->nameIndexedColumns) . ')';
+        return self::class . '('
+        . implode(', ', $this->nameIndexedColumns) . ', '
+        . ($this->writable ? 'true' : 'false') . ')';
     }
 
     /**

@@ -2,18 +2,17 @@
 
 namespace Csv\Tests\Performance;
 
-use Csv\Writer\SplNonValidCsvWriter;
+use Csv\Writer\SplWriter;
 use Csv\Collection\ColumnCollection;
 use Csv\Factory\SplFileObjectFactory;
 use Csv\Factory\SplWriterFactory;
-use Csv\Factory\ValuesValidatorFactory;
 use Csv\Tests\PerformanceTestCase;
 
-class SplNonValidCsvWriterTest extends PerformanceTestCase
+class SplWriterTest extends PerformanceTestCase
 {
     protected function getWriter()
     {
-        return (new SplWriterFactory(new SplFileObjectFactory, new ValuesValidatorFactory))->createNonValidCsv(
+        return (new SplWriterFactory(new SplFileObjectFactory))->createNative(
             $this->getWriterConfig(),
             $this->getFilePath(),
             $this->getColumns()
@@ -22,7 +21,7 @@ class SplNonValidCsvWriterTest extends PerformanceTestCase
 
     protected function getSource()
     {
-        return SplNonValidCsvWriter::class;
+        return SplWriter::class;
     }
 
     /**

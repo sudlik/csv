@@ -10,7 +10,7 @@ final class CsvConfig implements ValueObjectInterface
     private $enclosure;
     private $escape;
 
-    public function __construct(Delimiter $delimiter, Enclosure $enclosure, Escape $escape)
+    public function __construct(Delimiter $delimiter, EnclosureConfig $enclosure, Escape $escape)
     {
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
