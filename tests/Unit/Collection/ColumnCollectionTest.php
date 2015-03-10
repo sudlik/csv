@@ -18,8 +18,8 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
 
         $result = new ColumnCollection($someColumns, $isWritable);
 
-        $this->assertEquals($someColumns, $result->getIterator()->getArrayCopy());
-        $this->assertEquals($isWritable, $result->isWritable());
+        self::assertEquals($someColumns, $result->getIterator()->getArrayCopy());
+        self::assertEquals($isWritable, $result->isWritable());
     }
 
     /**
@@ -58,7 +58,7 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
 
         $result = $someCollection->sameValueAs($otherCollection);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     /**
@@ -73,7 +73,7 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
 
         $result = $someCollection->sameValueAs($differentCollection);
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     /**
@@ -89,6 +89,6 @@ class ColumnCollectionTest extends PHPUnit_Framework_TestCase
 
         $result = $testedObject->getColumn($someName);
 
-        $this->assertEquals($someColumn, $result);
+        self::assertEquals($someColumn, $result);
     }
 }

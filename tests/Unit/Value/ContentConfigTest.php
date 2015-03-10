@@ -21,9 +21,9 @@ class ContentConfigTest extends PHPUnit_Framework_TestCase
 
         $result = new ContentConfig($someCharset, $someEndOfLine, $someWriteMode);
 
-        $this->assertEquals($someCharset, $result->getCharset());
-        $this->assertEquals($someEndOfLine, $result->getEndOfLine());
-        $this->assertEquals($someWriteMode, $result->getWriteMode());
+        self::assertEquals($someCharset, $result->getCharset());
+        self::assertEquals($someEndOfLine, $result->getEndOfLine());
+        self::assertEquals($someWriteMode, $result->getWriteMode());
     }
 
     /**
@@ -42,7 +42,7 @@ class ContentConfigTest extends PHPUnit_Framework_TestCase
 
         $result = $testedObject->sameValueAs($sameContentConfig);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
     /**
      * @test
@@ -55,8 +55,8 @@ class ContentConfigTest extends PHPUnit_Framework_TestCase
 
         $result = ContentConfig::fromNative($someCharset, $someEndOfLine, $someWriteMode);
 
-        $this->assertEquals($someCharset, $result->getCharset()->getValue());
-        $this->assertEquals($someEndOfLine, $result->getEndOfLine()->getValue());
-        $this->assertEquals($someWriteMode, $result->getWriteMode()->getValue());
+        self::assertEquals($someCharset, $result->getCharset()->getValue());
+        self::assertEquals($someEndOfLine, $result->getEndOfLine()->getValue());
+        self::assertEquals($someWriteMode, $result->getWriteMode()->getValue());
     }
 }

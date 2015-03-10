@@ -26,7 +26,7 @@ class SplWriterFactoryTest extends PHPUnit_Framework_TestCase
             new NamedWritableColumnCollectionMock
         );
 
-        $this->assertInstanceOf(SplWriter::class, $valuesValidator);
+        self::assertInstanceOf(SplWriter::class, $valuesValidator);
     }
     /**
      * @test
@@ -41,6 +41,6 @@ class SplWriterFactoryTest extends PHPUnit_Framework_TestCase
             new NamedWritableColumnCollectionMock
         );
 
-        $this->assertInstanceOf(ExtendedSplWriter::class, $valuesValidator);
+        self::assertInstanceOf(ExtendedSplWriter::class, $valuesValidator);
     }
 }

@@ -64,7 +64,7 @@ class ColumnCollection implements NamedWritableColumnCollection
 
     public function hasColumn($name)
     {
-        return isset($this->nameIndexedColumns[$name]);
+        return array_key_exists($name, $this->nameIndexedColumns);
     }
 
     public function getNames()

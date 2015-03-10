@@ -16,7 +16,7 @@ class ColumnTest extends PHPUnit_Framework_TestCase
 
         $result = new Column($someName);
 
-        $this->assertEquals($someName, $result->getName());
+        self::assertEquals($someName, $result->getName());
     }
 
     /**
@@ -41,6 +41,6 @@ class ColumnTest extends PHPUnit_Framework_TestCase
 
         $result = $someColumn->sameValueAs($anotherColumn);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 }

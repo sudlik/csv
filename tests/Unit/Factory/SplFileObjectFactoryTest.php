@@ -24,7 +24,7 @@ class SplFileObjectFactoryTest extends PHPUnit_Framework_TestCase
 
         $splFileObject = $splFileObjectFactory->createFromPathAndMode($somePath, $someMode);
 
-        $this->assertInstanceOf(SplFileObject::class, $splFileObject);
-        $this->assertEquals($somePath->toNative(), $splFileObject->getPathname());
+        self::assertInstanceOf(SplFileObject::class, $splFileObject);
+        self::assertEquals($somePath->toNative(), $splFileObject->getPathname());
     }
 }

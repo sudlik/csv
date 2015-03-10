@@ -13,7 +13,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
     /** @var array */
     private $data;
 
-    public function __construct($data = [])
+    public function __construct(array $data = [])
     {
         $this->data = $data;
     }
@@ -46,7 +46,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
      */
     public function getColumn($name)
     {
-        if (isset($this->data[$name])) {
+        if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         } else {
             throw new ColumnDoesNotExistsException;
