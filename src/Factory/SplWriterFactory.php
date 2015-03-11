@@ -2,7 +2,7 @@
 
 namespace Csv\Factory;
 
-use Csv\Exception\UnsupportedEnclosureStrategyException;
+use Csv\Exception\UnimplementedEnclosureStrategyException;
 use Csv\Value\EnclosureStrategy;
 use Csv\Writer\ExtendedSplWriter;
 use Csv\Writer\SplAllEnclosureStrategyWriter;
@@ -35,8 +35,9 @@ class SplWriterFactory implements WriterFactory
     public function createExtended(WriterConfig $config, FilePath $file, NamedWritableColumnCollection $columns)
     {
         $splFileObject = $this->fileFactory->createFromPathAndMode($file, $config->getContentConfig()->getWriteMode());
+        $strategy = $config->getCsvConfig()->getEnclosure()->getStrategy();
 
-        switch ($config->getCsvConfig()->getEnclosure()->getStrategy()->toNative()) {
+        switch ($strategy->toNative()) {
             case EnclosureStrategy::STANDARD:
                 $writer = new SplStandardEnclosureStrategyWriter($splFileObject, $config);
                 break;
@@ -50,7 +51,7 @@ class SplWriterFactory implements WriterFactory
                 $writer = new SplNoneEnclosureStrategyWriter($splFileObject, $config->getCsvConfig()->getDelimiter());
                 break;
             default:
-                throw new UnsupportedEnclosureStrategyException;
+                throw new UnimplementedEnclosureStrategyException($strategy);
         }
 
         return new ExtendedSplWriter($splFileObject, $config, $columns, $writer);

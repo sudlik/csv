@@ -10,12 +10,13 @@ use Traversable;
 
 class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
 {
-    /** @var array */
     private $data;
+    private $writable;
 
-    public function __construct(array $data = [])
+    public function __construct(array $data = [], $writable = false)
     {
         $this->data = $data;
+        $this->writable = $writable;
     }
 
     /**
@@ -49,7 +50,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
         if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         } else {
-            throw new ColumnDoesNotExistsException;
+            throw new ColumnDoesNotExistsException($name, $this);
         }
     }
 
@@ -75,7 +76,7 @@ class NamedWritableColumnCollectionMock implements NamedWritableColumnCollection
      */
     public function isWritable()
     {
-        return false;
+        return $this->writable;
     }
 
     /**

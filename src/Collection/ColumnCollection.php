@@ -22,14 +22,14 @@ class ColumnCollection implements NamedWritableColumnCollection
         $this->iterator = new ArrayIterator($columns);
 
         if (!is_bool(filter_var($writable, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))) {
-            throw new InvalidWritableException;
+            throw new InvalidWritableException($writable);
         }
 
         foreach ($columns as $column) {
             if (!($column instanceof Column)) {
-                throw new InvalidColumnException;
+                throw new InvalidColumnException($column);
             } elseif ($this->hasColumn($column->getName())) {
-                throw new ColumnAlreadyExistsException;
+                throw new ColumnAlreadyExistsException($column, $this);
             } else {
                 $this->nameIndexedColumns[$column->getName()] = $column;
             }
@@ -58,7 +58,7 @@ class ColumnCollection implements NamedWritableColumnCollection
         if ($this->hasColumn($name)) {
             return $this->nameIndexedColumns[$name];
         } else {
-            throw new ColumnDoesNotExistsException;
+            throw new ColumnDoesNotExistsException($name, $this);
         }
     }
 

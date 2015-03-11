@@ -13,11 +13,11 @@ final class DirectoryPath implements ValueObjectInterface
     public function __construct($value)
     {
         if (!is_dir($value)) {
-            throw new InvalidDirectoryPathException;
+            throw new InvalidDirectoryPathException($value);
         }
 
         if (!is_writable($value)) {
-            throw new DirectoryIsNotWritableException;
+            throw new DirectoryIsNotWritableException($value);
         }
 
         $this->value = $value;

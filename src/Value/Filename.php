@@ -13,7 +13,7 @@ final class Filename implements ValueObjectInterface
     public function __construct($value)
     {
         if (!preg_match('#^[^[:^print:]/.]+$#', $value)) {
-            throw new InvalidFilenameException;
+            throw new InvalidFilenameException($value);
         }
 
         $this->value = $value;

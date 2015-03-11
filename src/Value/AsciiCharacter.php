@@ -22,10 +22,10 @@ final class AsciiCharacter implements ValueObjectInterface
         ];
 
         if (!is_int(filter_var($value, FILTER_VALIDATE_INT, $options))) {
-            throw new InvalidAsciiCharacterException;
+            throw new InvalidAsciiCharacterException($value);
         }
 
-        $this->value = $value;
+        $this->value = chr($value);
     }
 
     public function sameValueAs(ValueObjectInterface $object)

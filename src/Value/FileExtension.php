@@ -13,7 +13,7 @@ final class FileExtension implements ValueObjectInterface
     public function __construct($value)
     {
         if (!preg_match('#^[^[:^print:]/.]+$#', $value)) {
-            throw new InvalidFileExtensionException;
+            throw new InvalidFileExtensionException($value);
         }
 
         $this->value = $value;

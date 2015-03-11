@@ -2,7 +2,7 @@
 
 namespace Csv\Value;
 
-use Csv\Exception\InvalidAsciiStringException;
+use Csv\Exception\InvalidAsciiCharacterException;
 use ValueObjects\ValueObjectInterface;
 
 final class AsciiString implements ValueObjectInterface
@@ -21,7 +21,7 @@ final class AsciiString implements ValueObjectInterface
             if ($character instanceof AsciiCharacter) {
                 $this->native .= $character->getValue();
             } else {
-                throw new InvalidAsciiStringException;
+                throw new InvalidAsciiCharacterException($characters);
             }
         }
 
