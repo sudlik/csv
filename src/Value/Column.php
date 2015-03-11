@@ -13,7 +13,7 @@ class Column implements ValueObjectInterface
         if (is_string($name)) {
             $this->name = $name;
         } else {
-            throw new InvalidColumnNameException;
+            throw new InvalidColumnNameException($name);
         }
     }
 

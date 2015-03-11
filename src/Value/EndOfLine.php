@@ -21,22 +21,6 @@ final class EndOfLine extends Enum
 
     public function __toString()
     {
-        return self::class . '::' . $this->getVisible() . '()';
-    }
-
-    private function getVisible()
-    {
-        switch ($this->getValue()) {
-            case self::LINE_FEED:
-                return '\n';
-            case self::CARRIAGE_RETURN:
-                return '\r';
-            case self::CARRIAGE_RETURN_LINE_FEED:
-                return '\r\n';
-            case self::LINE_FEED_CARRIAGE_RETURN:
-                return '\n\r';
-        }
-
-        return '';
+        return self::class . '::' . $this->getName() . '()';
     }
 }

@@ -23,6 +23,6 @@ final class Escape extends Enum
 
     public function __toString()
     {
-        return self::class . '::' . $this->getValue() . '()';
+        return self::class . '::' . $this->getName() . '()';
     }
 }
