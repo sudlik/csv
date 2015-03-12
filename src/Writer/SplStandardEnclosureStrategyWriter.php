@@ -12,6 +12,7 @@ class SplStandardEnclosureStrategyWriter implements EnclosureStrategyWriter
     private $delimiter;
     private $character;
     private $targets;
+    private $escape;
 
     public function __construct(SplFileObject $file, WriterConfig $config)
     {
@@ -55,5 +56,45 @@ class SplStandardEnclosureStrategyWriter implements EnclosureStrategyWriter
 
             $this->file->fflush();
         }
+    }
+
+    /**
+     * @return SplFileObject
+     */
+    protected function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDelimiter()
+    {
+        return $this->delimiter;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCharacter()
+    {
+        return $this->character;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTargets()
+    {
+        return $this->targets;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getEscape()
+    {
+        return $this->escape;
     }
 }
