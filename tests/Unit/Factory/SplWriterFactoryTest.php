@@ -28,6 +28,7 @@ class SplWriterFactoryTest extends PHPUnit_Framework_TestCase
 
         self::assertInstanceOf(SplWriter::class, $valuesValidator);
     }
+
     /**
      * @test
      */

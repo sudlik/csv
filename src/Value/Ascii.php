@@ -33,7 +33,7 @@ final class Ascii implements ValueObjectInterface
 
     public function __construct($ascii)
     {
-        if (!mb_check_encoding($ascii, 'ASCII')) {
+        if ($ascii !== chr(ord($ascii))) {
             throw new InvalidAsciiException($ascii);
         }
 
