@@ -8,20 +8,20 @@ use ValueObjects\ValueObjectInterface;
 final class FileExtension implements ValueObjectInterface
 {
     /** @var string */
-    private $value;
+    private $fileExtension;
 
-    public function __construct($value)
+    public function __construct($fileExtension)
     {
-        if (!preg_match('#^[^[:^print:]/.]+$#', $value)) {
-            throw new InvalidFileExtensionException($value);
+        if (preg_match('#[[:^print:]/.\s]#', $fileExtension)) {
+            throw new InvalidFileExtensionException($fileExtension);
         }
 
-        $this->value = $value;
+        $this->fileExtension = $fileExtension;
     }
 
     public function sameValueAs(ValueObjectInterface $object)
     {
-        return $object instanceof self and $this->getValue() === $object->getValue();
+        return $object instanceof self and $this->fileExtension === $object->getValue();
     }
 
     public function __toString()
@@ -31,6 +31,6 @@ final class FileExtension implements ValueObjectInterface
 
     public function getValue()
     {
-        return $this->value;
+        return $this->fileExtension;
     }
 }

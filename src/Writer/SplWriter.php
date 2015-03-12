@@ -4,7 +4,7 @@ namespace Csv\Writer;
 
 use Csv\Collection\NamedWritableColumnCollection;
 use Csv\Exception\UnimplementedFeatureException;
-use Csv\Value\AsciiString;
+use Csv\Collection\AsciiCollection;
 use Csv\Value\Charset;
 use Csv\Value\EnclosureStrategy;
 use Csv\Value\Escape;
@@ -38,7 +38,7 @@ class SplWriter implements Writer
         }
 
         if ($config->getContentConfig()->getCharset()->is(Charset::UTF_8_WITH_BOM)) {
-            $file->fwrite(AsciiString::bom()->toNative());
+            $file->fwrite(AsciiCollection::bom()->toNative());
         }
 
         if ($columns->isWritable()) {

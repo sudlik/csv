@@ -10,7 +10,7 @@ class ColumnTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_column_wth_given_params()
+    public function it_should_create_object_with_given_value()
     {
         $someName = 'some name';
 
@@ -23,11 +23,11 @@ class ColumnTest extends PHPUnit_Framework_TestCase
      * @test
      * @expectedException \Csv\Exception\InvalidColumnNameException
      */
-    public function it_should_throw_exception_when_name_is_invalid()
+    public function it_should_throw_exception_when_value_is_invalid()
     {
-        $someName = 123;
+        $invalidColumnName = ' ';
 
-        new Column($someName);
+        new Column($invalidColumnName);
     }
 
     /**
@@ -37,10 +37,25 @@ class ColumnTest extends PHPUnit_Framework_TestCase
     {
         $someName = 'some name';
         $someColumn = new Column($someName);
-        $anotherColumn = new Column($someName);
+        $sameColumn = new Column($someName);
 
-        $result = $someColumn->sameValueAs($anotherColumn);
+        $result = $someColumn->sameValueAs($sameColumn);
 
         self::assertTrue($result);
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_recognize_object_as_different()
+    {
+        $someName = 'some name';
+        $differentName = 'different name';
+        $someColumn = new Column($someName);
+        $differentColumn = new Column($differentName);
+
+        $result = $someColumn->sameValueAs($differentColumn);
+
+        self::assertFalse($result);
     }
 }

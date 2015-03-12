@@ -8,7 +8,7 @@ use ValueObjects\ValueObjectInterface;
 
 class UnimplementedFeatureException extends RuntimeException
 {
-    const CODE = 10;
+    const CODE = 12;
 
     public function __construct(ValueObjectInterface $value, Exception $exception = null)
     {

@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class InvalidDirectoryPathException extends InvalidArgumentException
 {
-    const CODE = 6;
+    const CODE = 7;
 
     public function __construct($invalidDirPath, Exception $exception = null)
     {

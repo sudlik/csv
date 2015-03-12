@@ -2,7 +2,7 @@
 
 namespace Csv\Writer;
 
-use Csv\Value\AsciiCharacter;
+use Csv\Value\Ascii;
 use Csv\Value\WriterConfig;
 use SplFileObject;
 
@@ -21,7 +21,7 @@ class SplStandardEnclosureStrategyWriter implements EnclosureStrategyWriter
         $this->escape = $config->getCsvConfig()->getEscape()->getValue();
         $this->character = $config->getCsvConfig()->getEnclosure()->getCharacter()->getValue();
 
-        $this->targets = AsciiCharacter::null()
+        $this->targets = Ascii::null()
             . $this->delimiter
             . $this->escape
             . $this->character

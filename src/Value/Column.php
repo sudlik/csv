@@ -4,20 +4,21 @@ namespace Csv\Value;
 use Csv\Exception\InvalidColumnNameException;
 use ValueObjects\ValueObjectInterface;
 
-class Column implements ValueObjectInterface
+final class Column implements ValueObjectInterface
 {
+    /** @var string */
     private $name;
 
     public function __construct($name)
     {
-        if (is_string($name)) {
-            $this->name = $name;
-        } else {
+        if (preg_match('#^([^[:print:]]|\s)$#', $name)) {
             throw new InvalidColumnNameException($name);
         }
+
+        $this->name = $name;
     }
 
-    final public function getName()
+    public function getName()
     {
         return $this->name;
     }

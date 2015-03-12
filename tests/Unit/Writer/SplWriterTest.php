@@ -4,7 +4,7 @@ namespace Csv\Tests\Unit\Writer;
 
 use Csv\Tests\Double\Collection\NamedWritableColumnCollectionMock;
 use Csv\Tests\Fixture\WriterConfigMother;
-use Csv\Value\AsciiString;
+use Csv\Collection\AsciiCollection;
 use Csv\Value\Charset;
 use Csv\Value\EnclosureStrategy;
 use Csv\Value\EndOfLine;
@@ -96,7 +96,7 @@ class SplWriterTest extends PHPUnit_Framework_TestCase
 
         $testedObject->write([]);
 
-        self::assertEquals(AsciiString::bom()->toNative(), trim(file_get_contents($someFile->getPathname())));
+        self::assertEquals(AsciiCollection::bom()->toNative(), trim(file_get_contents($someFile->getPathname())));
     }
 
     /**

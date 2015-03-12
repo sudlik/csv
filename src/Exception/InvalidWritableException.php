@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class InvalidWritableException extends InvalidArgumentException
 {
-    const CODE = 9;
+    const CODE = 10;
 
     public function __construct($invalidWritable, Exception $exception = null)
     {

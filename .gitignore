@@ -9,4 +9,5 @@
 /build/pdepend
 /build/phpdox
 /phpunit.phar
+/phpunit.xml
 /vendor

@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class InvalidColumnNameException extends InvalidArgumentException
 {
-    const CODE = 5;
+    const CODE = 6;
 
     public function __construct($invalidColumnName, Exception $exception = null)
     {

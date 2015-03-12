@@ -21,29 +21,11 @@ class ContentConfigTest extends PHPUnit_Framework_TestCase
 
         $result = new ContentConfig($someCharset, $someEndOfLine, $someWriteMode);
 
-        self::assertEquals($someCharset, $result->getCharset());
-        self::assertEquals($someEndOfLine, $result->getEndOfLine());
-        self::assertEquals($someWriteMode, $result->getWriteMode());
+        self::assertTrue($someCharset->is($result->getCharset()));
+        self::assertTrue($someEndOfLine->is($result->getEndOfLine()));
+        self::assertTrue($someWriteMode->is($result->getWriteMode()));
     }
 
-    /**
-     * @test
-     */
-    public function it_should_recognize_object_as_same()
-    {
-        $someCharset = Charset::UTF_8_WITH_BOM();
-        $someEndOfLine = EndOfLine::CARRIAGE_RETURN();
-        $someWriteMode = WriteMode::APPEND();
-        $anotherCharset = Charset::UTF_8_WITH_BOM();
-        $anotherEndOfLine = EndOfLine::CARRIAGE_RETURN();
-        $anotherWriteMode = WriteMode::APPEND();
-        $testedObject = new ContentConfig($someCharset, $someEndOfLine, $someWriteMode);
-        $sameContentConfig = new ContentConfig($anotherCharset, $anotherEndOfLine, $anotherWriteMode);
-
-        $result = $testedObject->sameValueAs($sameContentConfig);
-
-        self::assertTrue($result);
-    }
     /**
      * @test
      */
@@ -58,5 +40,40 @@ class ContentConfigTest extends PHPUnit_Framework_TestCase
         self::assertEquals($someCharset, $result->getCharset()->getValue());
         self::assertEquals($someEndOfLine, $result->getEndOfLine()->getValue());
         self::assertEquals($someWriteMode, $result->getWriteMode()->getValue());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_recognize_object_as_same()
+    {
+        $someCharset = Charset::UTF_8_WITH_BOM();
+        $someEndOfLine = EndOfLine::CARRIAGE_RETURN();
+        $someWriteMode = WriteMode::APPEND();
+        $testedObject = new ContentConfig($someCharset, $someEndOfLine, $someWriteMode);
+        $sameContentConfig = new ContentConfig($someCharset, $someEndOfLine, $someWriteMode);
+
+        $result = $testedObject->sameValueAs($sameContentConfig);
+
+        self::assertTrue($result);
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_recognize_object_as_different()
+    {
+        $someCharset = Charset::ISO_8859_2();
+        $someEndOfLine = EndOfLine::NONE();
+        $someWriteMode = WriteMode::APPEND_OR_CREATE();
+        $differentCharset = Charset::UTF_8_WITH_BOM();
+        $differentEndOfLine = EndOfLine::CARRIAGE_RETURN();
+        $differentWriteMode = WriteMode::APPEND();
+        $testedObject = new ContentConfig($someCharset, $someEndOfLine, $someWriteMode);
+        $differentContentConfig = new ContentConfig($differentCharset, $differentEndOfLine, $differentWriteMode);
+
+        $result = $testedObject->sameValueAs($differentContentConfig);
+
+        self::assertFalse($result);
     }
 }

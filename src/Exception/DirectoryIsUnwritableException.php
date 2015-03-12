@@ -5,7 +5,7 @@ namespace Csv\Exception;
 use Exception;
 use InvalidArgumentException;
 
-class DirectoryIsNotWritableException extends InvalidArgumentException
+class DirectoryIsUnwritableException extends InvalidArgumentException
 {
     const CODE = 2;
 

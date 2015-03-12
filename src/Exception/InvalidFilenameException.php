@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class InvalidFilenameException extends InvalidArgumentException
 {
-    const CODE = 8;
+    const CODE = 9;
 
     public function __construct($invalidFilename, Exception $exception = null)
     {
