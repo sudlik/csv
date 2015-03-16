@@ -3,7 +3,7 @@
 namespace Csv\Tests\Unit\Writer;
 
 use Csv\Tests\Double\Collection\NamedWritableColumnCollectionMock;
-use Csv\Tests\Double\Writer\EnclosureStrategyWriterMock;
+use Csv\Tests\Double\Writer\WriterMock;
 use Csv\Tests\Fixture\WriterConfigMother;
 use Csv\Collection\AsciiCollection;
 use Csv\Value\Charset;
@@ -27,7 +27,7 @@ class ExtendedSplWriterTest extends PHPUnit_Framework_TestCase
             new SplFileObject($someFilePath, WriteMode::OVERWRITE_OR_CREATE),
             WriterConfigMother::createDefault(),
             new NamedWritableColumnCollectionMock,
-            new EnclosureStrategyWriterMock
+            new WriterMock
         );
 
         $testedObject->write([]);
@@ -46,32 +46,13 @@ class ExtendedSplWriterTest extends PHPUnit_Framework_TestCase
             $someFile,
             WriterConfigMother::createWithGivenCharset($charset),
             new NamedWritableColumnCollectionMock,
-            new EnclosureStrategyWriterMock
+            new WriterMock
         );
 
         $testedObject->write([]);
 
         self::assertEquals(
             AsciiCollection::bom()->toNative(),
-            trim(file_get_contents($someFile->getPathname()))
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function it_should_write_columns_names()
-    {
-        $someNames = ['firstName' => null, 'secondName' => null];
-        $someColumns = new NamedWritableColumnCollectionMock($someNames, true);
-        $someFile = $this->createFile();
-        $someConfig = WriterConfigMother::createWithoutBom();
-        $testedObject = new ExtendedSplWriter($someFile, $someConfig, $someColumns, new EnclosureStrategyWriterMock);
-
-        $testedObject->write([]);
-
-        self::assertEquals(
-            implode($someConfig->getCsvConfig()->getDelimiter()->getValue(), array_keys($someNames)),
             trim(file_get_contents($someFile->getPathname()))
         );
     }

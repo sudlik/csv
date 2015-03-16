@@ -49,7 +49,6 @@ class SplWriter implements Writer
     public function write(array $values)
     {
         $this->file->fputcsv($values, $this->delimiter, $this->enclosure);
-        $this->file->fflush();
 
         return $this;
     }

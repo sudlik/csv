@@ -5,7 +5,7 @@ namespace Csv\Writer;
 use Csv\Value\CsvConfig;
 use SplFileObject;
 
-class SplAllEnclosureStrategyWriter implements EnclosureStrategyWriter
+class SplAllEnclosureStrategyWriter implements Writer
 {
     private $file;
     private $delimiter;

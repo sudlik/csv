@@ -7,12 +7,19 @@ use ValueObjects\ValueObjectInterface;
 
 final class FileExtension implements ValueObjectInterface
 {
+    const NULL = '';
+
     /** @var string */
     private $fileExtension;
 
+    public static function null()
+    {
+        return new self(self::NULL);
+    }
+
     public function __construct($fileExtension)
     {
-        if (preg_match('#[[:^print:]/.\s]#', $fileExtension)) {
+        if (preg_match('#[[:^print:]/.\s]#', $fileExtension) and $fileExtension !== self::NULL) {
             throw new InvalidFileExtensionException($fileExtension);
         }
 

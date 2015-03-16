@@ -19,7 +19,7 @@ class ExtendedSplWriter implements Writer
         SplFileObject $file,
         WriterConfig $config,
         NamedWritableColumnCollection $columns,
-        EnclosureStrategyWriter $writer
+        Writer $writer
     ) {
         $this->writer = $writer;
         $this->file = $file;
@@ -30,11 +30,7 @@ class ExtendedSplWriter implements Writer
         }
 
         if ($columns->isWritable()) {
-            $file->fputcsv(
-                $columns->getNames(),
-                $config->getCsvConfig()->getDelimiter()->getValue(),
-                $config->getCsvConfig()->getEnclosure()->getCharacter()->getValue()
-            );
+            $this->write($columns->getNames());
         }
     }
 

@@ -2,9 +2,9 @@
 
 namespace Csv\Tests\Double\Writer;
 
-use Csv\Writer\EnclosureStrategyWriter;
+use Csv\Writer\Writer;
 
-class EnclosureStrategyWriterMock implements EnclosureStrategyWriter
+class WriterMock implements Writer
 {
     public function write(array $values)
     {

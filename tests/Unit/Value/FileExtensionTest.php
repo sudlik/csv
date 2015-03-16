@@ -21,6 +21,16 @@ class FileExtensionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function it_should_create_object_with_empty_string()
+    {
+        $result = FileExtension::null();
+
+        self::assertEquals('', $result->getValue());
+    }
+
+    /**
+     * @test
      * @expectedException \Csv\Exception\InvalidFileExtensionException
      */
     public function it_should_throw_exception_when_value_is_invalid()

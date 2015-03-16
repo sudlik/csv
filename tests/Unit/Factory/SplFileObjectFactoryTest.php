@@ -18,7 +18,7 @@ class SplFileObjectFactoryTest extends PHPUnit_Framework_TestCase
     {
         $someDir = 'someDir/';
         vfsStream::setup($someDir);
-        $somePath = FilePath::fromNative(vfsStream::url($someDir), 'someFilename', 'someExt');
+        $somePath = FilePath::fromNative(vfsStream::url($someDir), 'some filename', 'someExt');
         $someMode = WriteMode::APPEND();
         $splFileObjectFactory = new SplFileObjectFactory;
 

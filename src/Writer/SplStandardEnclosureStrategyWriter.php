@@ -6,7 +6,7 @@ use Csv\Value\Ascii;
 use Csv\Value\WriterConfig;
 use SplFileObject;
 
-class SplStandardEnclosureStrategyWriter implements EnclosureStrategyWriter
+class SplStandardEnclosureStrategyWriter implements Writer
 {
     private $file;
     private $delimiter;
@@ -21,7 +21,7 @@ class SplStandardEnclosureStrategyWriter implements EnclosureStrategyWriter
         $this->escape = $config->getCsvConfig()->getEscape()->getValue();
         $this->character = $config->getCsvConfig()->getEnclosure()->getCharacter()->getValue();
 
-        $this->targets = Ascii::null()
+        $this->targets = Ascii::null()->getValue()
             . $this->delimiter
             . $this->escape
             . $this->character
@@ -36,25 +36,25 @@ class SplStandardEnclosureStrategyWriter implements EnclosureStrategyWriter
         $delimiter = $this->delimiter;
         $value = array_shift($values);
 
-        if (strpbrk($value, $targets)) {
-            $this->file->fwrite($character . str_replace($character, $escape . $character, $value) . $character);
-        } else {
-            $this->file->fwrite($value);
-        }
-
-        foreach ($values as $value) {
+        if ($values) {
             if (strpbrk($value, $targets)) {
-                $this->file->fwrite(
-                    $delimiter
-                    . $character
-                    . str_replace($character, $escape . $character, $value)
-                    . $character
-                );
+                $this->file->fwrite($character . str_replace($character, $escape . $character, $value) . $character);
             } else {
                 $this->file->fwrite($value);
             }
 
-            $this->file->fflush();
+            foreach ($values as $value) {
+                if (strpbrk($value, $targets)) {
+                    $this->file->fwrite(
+                        $delimiter
+                        . $character
+                        . str_replace($character, $escape . $character, $value)
+                        . $character
+                    );
+                } else {
+                    $this->file->fwrite($value);
+                }
+            }
         }
     }
 

@@ -4,6 +4,8 @@ namespace Csv\Writer;
 
 class SplStandardWithFractionsEnclosureStrategyWriter extends SplStandardEnclosureStrategyWriter
 {
+    const FRACTION_PATTERN = '#^\d+,\d+$#';
+
     public function write(array $values)
     {
         $character = $this->getCharacter();
@@ -13,14 +15,14 @@ class SplStandardWithFractionsEnclosureStrategyWriter extends SplStandardEnclosu
         $file = $this->getFile();
         $value = array_shift($values);
 
-        if (preg_match('#^\d+,\d+$#', $value) or strpbrk($value, $targets)) {
+        if (preg_match(self::FRACTION_PATTERN, $value) or strpbrk($value, $targets)) {
             $file->fwrite($character . str_replace($character, $escape . $character, $value) . $character);
         } else {
             $file->fwrite($value);
         }
 
         foreach ($values as $value) {
-            if (preg_match('#^\d+,\d+$#', $value) or strpbrk($value, $targets)) {
+            if (preg_match(self::FRACTION_PATTERN, $value) or strpbrk($value, $targets)) {
                 $file->fwrite(
                     $delimiter
                     . $character
@@ -30,8 +32,6 @@ class SplStandardWithFractionsEnclosureStrategyWriter extends SplStandardEnclosu
             } else {
                 $file->fwrite($value);
             }
-
-            $file->fflush();
         }
     }
 }
