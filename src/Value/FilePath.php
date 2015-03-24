@@ -31,6 +31,17 @@ final class FilePath implements ValueObjectInterface
         );
     }
 
+    public static function fromPath($path)
+    {
+        $pathInfo = pathinfo($path);
+
+        return new FilePath(
+            new DirectoryPath($pathInfo['dirname']),
+            new Filename(rtrim($pathInfo['basename'], '.' . $pathInfo['extension'])),
+            new FileExtension($pathInfo['extension'])
+        );
+    }
+
     public function sameValueAs(ValueObjectInterface $object)
     {
         return
@@ -53,6 +64,11 @@ final class FilePath implements ValueObjectInterface
     public function getFileExtension()
     {
         return $this->fileExtension;
+    }
+
+    public function getBasename()
+    {
+        return $this->filename->getValue(). '.' . $this->fileExtension->getValue();
     }
 
     public function toNative()
