@@ -33,6 +33,7 @@ class FilenameTest extends PHPUnit_Framework_TestCase
      * @test
      * @expectedException \Csv\Exception\InvalidFilenameException
      * @dataProvider invalidFilenames
+     * @param $invalidFileName
      */
     public function it_should_throw_exception_when_value_is_invalid($invalidFileName)
     {

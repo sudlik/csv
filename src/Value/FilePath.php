@@ -2,9 +2,7 @@
 
 namespace Csv\Value;
 
-use ValueObjects\ValueObjectInterface;
-
-final class FilePath implements ValueObjectInterface
+final class FilePath
 {
     private $directoryPath;
     private $filename;
@@ -15,11 +13,6 @@ final class FilePath implements ValueObjectInterface
         $this->directoryPath = $directoryPath;
         $this->filename = $filename;
         $this->fileExtension = $fileExtension;
-    }
-
-    public function __toString()
-    {
-        return self::class . '(' . $this->directoryPath . ', ' . $this->filename . ', ' . $this->fileExtension . ')';
     }
 
     public static function fromNative()
@@ -40,15 +33,6 @@ final class FilePath implements ValueObjectInterface
             new Filename(rtrim($pathInfo['basename'], '.' . $pathInfo['extension'])),
             new FileExtension($pathInfo['extension'])
         );
-    }
-
-    public function sameValueAs(ValueObjectInterface $object)
-    {
-        return
-            $object instanceof self
-            and $this->directoryPath->sameValueAs($object->getDirectoryPath())
-            and $this->filename->sameValueAs($object->getFilename())
-            and $this->fileExtension->sameValueAs($object->getFileExtension());
     }
 
     public function getDirectoryPath()

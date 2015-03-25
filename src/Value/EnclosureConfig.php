@@ -2,9 +2,7 @@
 
 namespace Csv\Value;
 
-use ValueObjects\ValueObjectInterface;
-
-final class EnclosureConfig implements ValueObjectInterface
+final class EnclosureConfig
 {
     private $character;
     private $strategy;
@@ -21,19 +19,6 @@ final class EnclosureConfig implements ValueObjectInterface
             EnclosureCharacter::fromNative(func_get_arg(0)),
             EnclosureStrategy::fromNative(func_get_arg(1))
         );
-    }
-
-    public function sameValueAs(ValueObjectInterface $object)
-    {
-        return
-            $object instanceof self
-            and $this->character->is($object->getCharacter())
-            and $this->strategy->sameValueAs($object->getStrategy());
-    }
-
-    public function __toString()
-    {
-        return self::class . '(' . $this->character . ', ' . $this->strategy . ')';
     }
 
     public function getCharacter()

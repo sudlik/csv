@@ -2,9 +2,7 @@
 
 namespace Csv\Value;
 
-use ValueObjects\ValueObjectInterface;
-
-final class CsvConfig implements ValueObjectInterface
+final class CsvConfig
 {
     private $delimiter;
     private $enclosure;
@@ -30,19 +28,5 @@ final class CsvConfig implements ValueObjectInterface
     public function getEscape()
     {
         return $this->escape;
-    }
-
-    public function __toString()
-    {
-        return self::class . '(' . $this->delimiter . ', ' . $this->enclosure . ', ' . $this->escape . ')';
-    }
-
-    public function sameValueAs(ValueObjectInterface $object)
-    {
-        return
-            $object instanceof self
-            and $this->delimiter->sameValueAs($object->getDelimiter())
-            and $this->enclosure->sameValueAs($object->getEnclosure())
-            and $this->escape->sameValueAs($object->getEscape());
     }
 }

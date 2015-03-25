@@ -2,9 +2,7 @@
 
 namespace Csv\Value;
 
-use ValueObjects\ValueObjectInterface;
-
-final class ContentConfig implements ValueObjectInterface
+final class ContentConfig
 {
     private $charset;
     private $endOfLine;
@@ -30,23 +28,6 @@ final class ContentConfig implements ValueObjectInterface
     public function getWriteMode()
     {
         return $this->writeMode;
-    }
-
-    public function __toString()
-    {
-        return self::class . '('
-        . $this->charset . ', '
-        . $this->endOfLine . ', '
-        . $this->writeMode . ')';
-    }
-
-    public function sameValueAs(ValueObjectInterface $object)
-    {
-        return
-            $object instanceof self
-            and $this->charset->sameValueAs($object->getCharset())
-            and $this->endOfLine->sameValueAs($object->getEndOfLine())
-            and $this->writeMode->sameValueAs($object->getWriteMode());
     }
 
     public static function fromNative()

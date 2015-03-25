@@ -2,9 +2,7 @@
 
 namespace Csv\Value;
 
-use ValueObjects\ValueObjectInterface;
-
-final class WriterConfig implements ValueObjectInterface
+final class WriterConfig
 {
     private $csvConfig;
     private $contentConfig;
@@ -23,18 +21,5 @@ final class WriterConfig implements ValueObjectInterface
     public function getContentConfig()
     {
         return $this->contentConfig;
-    }
-
-    public function __toString()
-    {
-        return self::class . '(' . $this->csvConfig . ', ' . $this->contentConfig . ')';
-    }
-
-    public function sameValueAs(ValueObjectInterface $object)
-    {
-        return
-            $object instanceof self
-            and $this->csvConfig->sameValueAs($object->getCsvConfig())
-            and $this->contentConfig->sameValueAs($object->getContentConfig());
     }
 }
