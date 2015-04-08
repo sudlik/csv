@@ -22,10 +22,8 @@ class FilenameTest extends PHPUnit_Framework_TestCase
     public function invalidFilenames()
     {
         return [
-            ['filename with ' . DIRECTORY_SEPARATOR],
-            ['filename with .'],
-            ['filename with unprintable character like ' . chr(0)],
-            ["filename with vertical whitespace \n"],
+            ['filename with null byte: ' . chr(0)],
+            ['filename with backslash: \\'],
         ];
     }
 

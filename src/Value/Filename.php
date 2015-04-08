@@ -12,7 +12,7 @@ final class Filename implements ValueObjectInterface
 
     public function __construct($filename)
     {
-        if (preg_match('#[[:^print:].\v' . DIRECTORY_SEPARATOR . ']#', $filename)) {
+        if (preg_match('#[\x00\\\\]#', $filename)) {
             throw new InvalidFilenameException($filename);
         }
 
