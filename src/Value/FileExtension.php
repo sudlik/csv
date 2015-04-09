@@ -17,7 +17,7 @@ final class FileExtension implements ValueObjectInterface
         return new self(self::NULL);
     }
 
-    public static function csv()
+    public static function standard()
     {
         return new self('csv');
     }

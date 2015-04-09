@@ -7,18 +7,20 @@ final class EnclosureConfig
     private $character;
     private $strategy;
 
+    public static function standard()
+    {
+        return new self(EnclosureCharacter::QUOTATION_MARK(), EnclosureStrategy::STANDARD());
+    }
+
+    public static function withCharacter(EnclosureCharacter $character)
+    {
+        return new self($character, EnclosureStrategy::STANDARD());
+    }
+
     public function __construct(EnclosureCharacter $character, EnclosureStrategy $strategy)
     {
         $this->character = $character;
         $this->strategy = $strategy;
-    }
-
-    public static function fromNative()
-    {
-        return new self(
-            EnclosureCharacter::fromNative(func_get_arg(0)),
-            EnclosureStrategy::fromNative(func_get_arg(1))
-        );
     }
 
     public function getCharacter()

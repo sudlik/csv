@@ -8,6 +8,11 @@ final class ContentConfig
     private $endOfLine;
     private $writeMode;
 
+    public static function standard()
+    {
+        return new self(Charset::UTF_8_WITH_BOM(), EndOfLine::fromNative(PHP_EOL), WriteMode::OVERWRITE_OR_CREATE());
+    }
+
     public function __construct(Charset $charset, EndOfLine $endOfLine, WriteMode $writeMode)
     {
         $this->charset = $charset;
@@ -28,14 +33,5 @@ final class ContentConfig
     public function getWriteMode()
     {
         return $this->writeMode;
-    }
-
-    public static function fromNative()
-    {
-        return new self(
-            Charset::fromNative(func_get_arg(0)),
-            EndOfLine::fromNative(func_get_arg(1)),
-            WriteMode::fromNative(func_get_arg(2))
-        );
     }
 }

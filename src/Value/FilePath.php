@@ -8,13 +8,6 @@ final class FilePath
     private $filename;
     private $fileExtension;
 
-    public function __construct(DirectoryPath $directoryPath, Filename $filename, FileExtension $fileExtension)
-    {
-        $this->directoryPath = $directoryPath;
-        $this->filename = $filename;
-        $this->fileExtension = $fileExtension;
-    }
-
     public static function fromNative()
     {
         return new self(
@@ -28,11 +21,23 @@ final class FilePath
     {
         $pathInfo = pathinfo($path);
 
-        return new FilePath(
+        return new self(
             new DirectoryPath($pathInfo['dirname']),
             new Filename(rtrim($pathInfo['basename'], '.' . $pathInfo['extension'])),
             new FileExtension($pathInfo['extension'])
         );
+    }
+
+    public static function withStandardExtension(DirectoryPath $directoryPath, Filename $filename)
+    {
+        return new self($directoryPath, $filename, FileExtension::standard());
+    }
+
+    public function __construct(DirectoryPath $directoryPath, Filename $filename, FileExtension $fileExtension)
+    {
+        $this->directoryPath = $directoryPath;
+        $this->filename = $filename;
+        $this->fileExtension = $fileExtension;
     }
 
     public function getDirectoryPath()

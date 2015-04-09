@@ -8,6 +8,16 @@ final class CsvConfig
     private $enclosure;
     private $escape;
 
+    public static function standard()
+    {
+        return new self(Delimiter::COMMA(), EnclosureConfig::standard(), Escape::BACKSLASH());
+    }
+
+    public static function withDelimiterAndEnclosure(Delimiter $delimiter, EnclosureCharacter $enclosure)
+    {
+        return new self($delimiter, EnclosureConfig::withCharacter($enclosure), Escape::BACKSLASH());
+    }
+
     public function __construct(Delimiter $delimiter, EnclosureConfig $enclosure, Escape $escape)
     {
         $this->delimiter = $delimiter;

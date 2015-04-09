@@ -18,6 +18,11 @@ class SplWriterFactory implements WriterFactory
 {
     private $fileFactory;
 
+    public static function standard()
+    {
+        new self(new SplFileObjectFactory);
+    }
+
     public function __construct(SplFileObjectFromPathAndModeFactory $file)
     {
         $this->fileFactory = $file;
