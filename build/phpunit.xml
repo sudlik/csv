@@ -17,7 +17,7 @@
         >
     <testsuites>
         <testsuite name="csv">
-            <directory phpVersion="5.4.0">../tests/Unit</directory>
+            <directory phpVersion="5.4.0">../tests</directory>
         </testsuite>
     </testsuites>
     <filter>

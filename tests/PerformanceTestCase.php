@@ -59,7 +59,7 @@ abstract class PerformanceTestCase extends PHPUnit_Framework_TestCase
     {
         $writer = $this->getWriter();
 
-        for ($i = 0; $i < 10000; $i++) {
+        for ($i = 0; $i < 4000; $i++) {
             $writer->write($this->values);
         }
     }
