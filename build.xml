@@ -41,6 +41,8 @@
             <arg value="--count-tests" />
             <arg value="--log-csv" />
             <arg value="build/logs/phploc.csv" />
+            <arg value="--exclude" />
+            <arg value="vendor" />
             <arg path="${basedir}" />
         </exec>
     </target>
