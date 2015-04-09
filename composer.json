@@ -9,10 +9,15 @@
         }
     ],
     "require": {
+        "php": ">=5.5.0",
+        "ext-SPL": "*",
+        "ext-filter": "*",
+        "ext-pcre": "*",
         "smsapi/valueobjects": "master@dev",
         "ngyuki/composer-curl-plugin": "master@dev"
     },
     "require-dev": {
+        "ext-xhprof": "*",
         "mikey179/vfsStream": "1.4.*",
         "phpunit/phpunit": "4.5.*",
         "phploc/phploc": "~2.0",
