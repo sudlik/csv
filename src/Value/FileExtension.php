@@ -17,6 +17,11 @@ final class FileExtension implements ValueObjectInterface
         return new self(self::NULL);
     }
 
+    public static function csv()
+    {
+        return new self('csv');
+    }
+
     public function __construct($fileExtension)
     {
         if (preg_match('#[[:^print:]/.\s]#', $fileExtension) and $fileExtension !== self::NULL) {
